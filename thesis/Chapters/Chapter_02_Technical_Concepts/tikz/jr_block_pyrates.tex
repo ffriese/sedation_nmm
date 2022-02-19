@@ -1,0 +1,145 @@
+\begin{tikzpicture}[
+        pc/.style={draw=cyan!80, fill=cyan!5},
+        ein/.style={draw=green!80, fill=green!5},
+        iin/.style={draw=red!80, fill=red!5},
+        pcLabel/.style={font=\small,text=cyan!80},
+        einLabel/.style={font=\small,text=green!80},
+        iinLabel/.style={font=\small,text=red!80},
+        rectNode/.style={draw=black!80, thick},
+        roundNode/.style={circle, draw=black!80, thick},
+        ]
+
+\pgfdeclarelayer{bg}
+\pgfsetlayers{bg,main}
+        
+ % Nodes
+\node[rectNode] (SigmPC) [] {$Sigm$};
+\node[rectNode] (SigmEIN) [above left=2cm and 1cm of SigmPC.center]{$Sigm$};
+\node[rectNode] (SigmIIN) [below left=2cm and 1cm of SigmPC.center]{$Sigm$};
+\node[rectNode] (PSPPC) [right=1.9cm of SigmEIN.east, fill=white]{$h_e(t)$};
+\node[rectNode] (PSPPCI) [right=1.9cm of SigmIIN.east, fill=white]{$h_e(t)$};
+\node[rectNode] (PSPEIN) [above left= 0.5cm and 2cm of SigmPC.west, fill=white]{$h_e(t)$};
+\node[rectNode] (PSPIIN) [below left= 0.5cm and 2cm of SigmPC.west, fill=white]{$h_i(t)$};
+\node[rectNode, rounded corners=3mm] (ext) [left=2cm of PSPEIN.west, label={[]:Ext.}]{$p(t)$};
+\node (inpIPSP) [left=0.8cm of PSPIIN.west]{};
+\node[roundNode] (c1) [above right=1.2cm and 2.5cm of SigmPC.east]{$C_1$};
+\node[roundNode] (c2) [left=1cm of SigmEIN.west]{$C_2$};
+\node[roundNode] (c3) [below right=1.2cm and 2.5cm of SigmPC.east]{$C_3$};
+\node[roundNode] (c4) [left=1cm of SigmIIN.west]{$C_4$};
+
+% add PC
+\node[roundNode] (addPC) [left=0.8cm of SigmPC.west]{};
+\draw[-, black!80, thick] (addPC.north west) -- (addPC.south east);
+\draw[-, black!80, thick] (addPC.north east) -- (addPC.south west);
+% add Excitatory
+\node[roundNode] (addExc) [left=0.8cm of PSPEIN.west]{};
+\draw[-, black!80, thick] (addExc.north west) -- (addExc.south east);
+\draw[-, black!80, thick] (addExc.north east) -- (addExc.south west);
+
+% add PC -> Sigm PC -> PSP PC
+\draw[-{Stealth[scale=1.5]}] (addPC.east) -- (SigmPC.west)node[coordinate, pos=0.5](measurepoint){};
+\draw[-{Stealth[scale=1.5]}] (SigmPC.east) -| (c1.south);
+\draw[-{Stealth[scale=1.5]}] (SigmPC.east) -| (c3.north);
+
+
+% y0 -> C1 -> Sigm EIN
+\draw[-{Stealth[scale=1.5]}] (c1.north) |- (PSPPC.east);
+\draw[-{Stealth[scale=1.5]}] (PSPPC.west) -- (SigmEIN.east) node[pos=0.4, above=0.1cm, fill=pyratesgreen!15, draw=pyratesgreen, text=pyratesgreen]{\small$PSP_{EIN}$};
+
+% y0 -> C3 -> Sigm IIN
+\draw[-{Stealth[scale=1.5]}] (c3.south) |- (PSPPCI.east);
+\draw[-{Stealth[scale=1.5]}] (PSPPCI.west) -- (SigmIIN.east) node[pos=0.4, below=0.1cm, draw=pyratesdarkred, fill=pyratesdarkred!15, text=pyratesdarkred]{\small$PSP_{IIN}$};
+
+
+% Sigm EIN -> c2 -> add EXC
+\draw[-{Stealth[scale=1.5]}] (SigmEIN.west) -- (c2.east);
+\draw[-{Stealth[scale=1.5]}] (c2.west) -| (addExc.north) node[pos=0.9, right]{\small$+$};
+% external -> add EXC
+\draw[-{Stealth[scale=1.5]}] (ext.east) -- (addExc.west) node[pos=0.9, above]{\small$+$};
+
+% add EXC -> PSP EIN
+\draw[-{Stealth[scale=1.5]}] (addExc.east) -- (PSPEIN.west);
+% PSP EIN -> add PC
+\draw[-{Stealth[scale=1.5]}, fill=none] (PSPEIN.east) -| (addPC.north) node[pos=1, left]{\small$+$} node[pos=0.4, above=0.1cm, draw=pyratespurple, fill=pyratespurple!15, text=pyratespurple]{\small$PSP_{PC_E}$};
+
+% Sigm IIN -> C4 -> PSP IIN
+\draw[-{Stealth[scale=1.5]}] (SigmIIN.west) -- (c4.east);
+\draw[-] (c4.west) -| (inpIPSP.center);
+\draw[-{Stealth[scale=1.5]}] (inpIPSP.center) -- (PSPIIN.west);
+% PSP IIN -> add PC
+\draw[-{Stealth[scale=1.5]}, fill=none] (PSPIIN.east) -| (addPC.south) node[pos=1, left]{\small$-$} node[pos=0.4, below=0.1cm, draw=pyratesorange, fill=pyratesorange!10, text=pyratesorange]{\small$PSP_{PC_I}$};
+
+% electrode
+\draw (measurepoint.north) -- (-0.9,1)node[coordinate,pos=0.9](a){} -- (-0.6,0.9)node[coordinate, pos=0.5](b){} -- cycle;
+\node (signal)[above right=0.05cm and 2.0cm of a]{\small$PSP_{PC}$};
+\draw (b.center) |- (signal.west);
+
+
+\begin{scope}[shift={(PSPPC.south west)}]
+      \begin{axis}[yscale=0.03, xscale=0.16,
+            axis x line=none,
+            axis y line=none,
+            domain=0:140,
+            samples=1001,
+            xticklabels=\empty,
+          ]
+          \addplot [green!80] {0.325*x*e^(-0.1*x)};
+        \end{axis}
+\end{scope}
+
+\begin{scope}[shift={(PSPPCI.south west)}]
+      \begin{axis}[yscale=0.03, xscale=0.16,
+            axis x line=none,
+            axis y line=none,
+            domain=0:140,
+            samples=1001,
+            xticklabels=\empty,
+          ]
+          \addplot [green!80] {0.325*x*e^(-0.1*x)};
+        \end{axis}
+\end{scope}
+
+\begin{scope}[shift={(PSPEIN.south west)}]
+      \begin{axis}[yscale=0.03, xscale=0.16,
+            axis x line=none,
+            axis y line=none,
+            domain=0:140,
+            samples=1001,
+            xticklabels=\empty,
+          ]
+          \addplot [green!80] {0.325*x*e^(-0.1*x)};
+        \end{axis}
+\end{scope}
+
+\begin{scope}[shift={(PSPIIN.south west)}]
+      \begin{axis}[yscale=0.12, xscale=0.16,
+            axis x line=none,
+            axis y line=none,
+            domain=0:140,
+            samples=1001,
+            xticklabels=\empty,
+          ]
+          \addplot [red!80] {1.1*x*e^(-0.05*x)};
+        \end{axis}
+\end{scope}
+
+\begin{pgfonlayer}{bg}
+        
+    \filldraw [fill=cyan!2,draw=cyan!40]
+        ($ (PSPEIN.center) + (-0.4,0.8) $)
+        rectangle ($ (PSPIIN.center) + (3.8,-0.8) $);
+    \node [below=0.2cm of SigmPC, text=cyan]{PC};
+    
+    \filldraw [fill=green!2,draw=green!40]
+        ($ (SigmEIN.north) + (-0.7,0.4) $)
+        rectangle ($ (PSPPC.south) + (0.4,-0.2) $);
+    \node [above=1.4cm of SigmPC, text=green]{EIN};
+    
+    
+    \filldraw [fill=red!2,draw=red!40]
+        ($ (SigmIIN.north) +  (-0.7,0.2) $)
+        rectangle ($ (PSPPCI.south) + (0.4,-0.4) $);
+    \node [below=1.4cm of SigmPC, text=red]{IIN};
+\end{pgfonlayer}
+
+\end{tikzpicture}

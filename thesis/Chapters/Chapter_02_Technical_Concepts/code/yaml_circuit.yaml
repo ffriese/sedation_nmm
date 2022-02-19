@@ -1,0 +1,12 @@
+JansenRitCircuit:
+    base: CircuitTemplate
+    nodes: # list nodes and label them
+        EIN: ExcitatoryInterneurons
+        IIN: InhibitoryInterneurons
+        PC: PyramidalCellPopulation
+    edges: # assign edges between nodes 
+    # [<source>, <target>, <template_or_operators>, <values>]
+    - [PC/PRO/r_out, IIN/RPO_e/r_in, null, {weight: 33.75}]
+    - [PC/PRO/r_out, EIN/RPO_e/r_in, null, {weight: 135.}]
+    - [EIN/PRO/r_out, PC/RPO_e/r_in, null, {weight: 108.}]
+    - [IIN/PRO/r_out, PC/RPO_i/r_in, null, {weight: 33.75}]

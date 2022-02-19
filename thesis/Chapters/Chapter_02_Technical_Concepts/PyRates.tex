@@ -1,0 +1,70 @@
+
+\section{PyRates Framework}
+\incomplete{The whole PyRates section is still very much preliminary}
+The PyRates Framework is a Python software framework, written by Richard Gast and Daniel Rose at the Max-Plank-Institute in Leipzig. It can simulate a wide range of graph-representable neural models, while setting a focus on rate-based population models \parencite{gast_pyratespython_2019}. It wraps computational backends like Numpy and Tensorflow and offers predefined nodes and edges (components that model units like cells or cell populations and the connections between them with mathematical equations) to be used, replaced or extended with custom equations. Furthermore it provides two simple ways to define these components and the derived network configurations: either by YAML-File or within Python code. These configurations are then compiled into optimized executable code with respect to the chosen backend before being executed.
+It comes with pre-configured model-definitions for some of the most frequently used models, e.g. the basic Jansen-Rit Circuit \parencite{jansen_electroencephalogram_1995} and the Montbrio-Model \parencite{montbrio_macroscopic_2015}, as well as some variations thereof. It's ease of use, the fact that it could easily reproduce the characteristics of the basic Jansen-Rit model out of the box, and the open-source character made it a sensible choice for this thesis.
+\subsection{Network Representations}
+
+\subsubsection{YAML Representation}
+
+
+\begin{figure}[H]
+	\inputminted[frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2, bgcolor=LightGray, tabsize=4]
+	{yaml}{Chapters/Chapter_02_Technical_Concepts/code/yaml_synapse.yaml}
+	
+	\caption{Example YAML Synapse}
+\end{figure}
+
+\begin{figure}[H]
+	\inputminted[frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2, bgcolor=LightGray, tabsize=4]
+	{yaml}{Chapters/Chapter_02_Technical_Concepts/code/yaml_circuit.yaml}
+
+	\caption{Example YAML Circuit}
+\end{figure}
+\subsubsection{Python Representation}
+
+\begin{figure}[H]
+	\inputminted[mathescape, frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2, bgcolor=LightGray, tabsize=4]
+	{python3}{Chapters/Chapter_02_Technical_Concepts/code/python_example.py}
+
+	\caption{Python Example for the relevant Operators}
+\end{figure}
+
+\subsection{Implementation of the Jansen-Rit Model}
+PyRates works with population models by compositing multiple operators, like the PSP- (or Rate-To-Potential-) and Sigmoid- (or Potential-To-Rate) Block into nodes. These nodes represent populations that can then be connected via edges (synapses). For example one might combine two PSP-Blocks (for excitatory and inhibitory input respectively) with a Sigmoid Block to create a PC-Node. This node can then receive rate-input to each of it's PSP-Blocks and  produces rate-output from it's Sigmoid-Block. The EIN- and IIN- nodes are functionally identical and just combine an excitatory PSP-Block with a Sigmoid Block. By connecting these Blocks (see Fig. \ref{fig:pyratesJRBlock}) and adding random input to the excitatory PSP-Block of the PC-Node, the simple Jansen-Rit Circuit is already complete.
+\begin{equation}
+	\begin{aligned}
+		\frac{d}{dt}PSP_{EIN} &= PSP_{t_{EIN}} \\
+		\frac{d}{dt}PSP_{t_{EIN}} &= \fcolorbox{pyratesgreen!80}{pyratesgreen!15}{$ \color{pyratesgreen} \frac{H_e}{\tau_e}\cdot C_1 Sigm[PSP_{PC}]  -\frac{2}{\tau_e} \cdot PSP_{t_{EIN}} - \left(\frac{1}{\tau_e}\right)^2 \cdot PSP_{EIN} $}\\
+		\frac{d}{dt}PSP_{IIN} &= PSP_{t_{IIN}} \\
+		\frac{d}{dt}PSP_{t_{IIN}} &= \fcolorbox{pyratesdarkred!80}{pyratesdarkred!15}{$ \color{pyratesdarkred}\frac{H_e}{\tau_e} \cdot C_3 Sigm[PSP_{PC}]  -\frac{2}{\tau_e} \cdot PSP_{t_{IIN}} - \left(\frac{1}{\tau_e}\right)^2 \cdot PSP_{IIN} $}\\
+		\frac{d}{dt}PSP_{PC_E} &= PSP_{t_{PC_E}} \\
+		\frac{d}{dt}PSP_{t_{PC_E}} &= \fcolorbox{pyratespurple!80}{pyratespurple!15}{$ \color{pyratespurple}\frac{H_e}{\tau_e} \cdot (p(t) + C_2 Sigm[PSP_{EIN}])  -\frac{2}{\tau_e} \cdot PSP_{t_{PC_E}} - \left(\frac{1}{\tau_e}\right)^2 \cdot PSP_{PC_E} $}\\
+		\frac{d}{dt}PSP_{PC_I} &= PSP_{t_{PC_I}} \\
+		\frac{d}{dt}PSP_{t_{PC_I}} &= \fcolorbox{pyratesorange!80}{pyratesorange!10}{$ \color{pyratesorange}\frac{H_i}{\tau_i} \cdot C_4 Sigm[PSP_{IIN}])  -\frac{2}{\tau_i} \cdot PSP_{t_{PC_I}} - \left(\frac{1}{\tau_i}\right)^2 \cdot PSP_{PC_I} $}\\
+		PSP_{PC} &= PSP_{PC_E} - PSP_{PC_I}\\
+	\end{aligned}
+\end{equation}    
+
+\begin{figure}[H]
+\input{Chapters/Chapter_02_Technical_Concepts/tikz/jr_block_pyrates}
+\caption{\textbf{Jansen-Rit Block Diagram as implemented in PyRates:} Each population can be clearly identified by one or more afferent PSP-Blocks and a single Sigmoid that calculates the populations output. This approach is more modular and simplifies conceptual understanding while staying mathematically equivalent. However, due to the explicit fourth PSP-Block it gives up the performance boost.
+\quad\todo{possibly the backend-graph-optimization takes care of this? maybe check this later on...} }
+\label{fig:pyratesJRBlock}
+\end{figure}
+
+\subsection{Implementation of the David \& Friston extensions}
+
+
+\begin{figure}[H]
+	\inputminted[mathescape, frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2, bgcolor=LightGray, tabsize=4]
+	{python3}{Chapters/Chapter_02_Technical_Concepts/code/psp_subpop.py}
+	
+	\caption{PSP Block with two Sub-populations in PyRates}
+\end{figure}
+
+\subsection{Simulating GABA-A Sedatives}
+
+\quad\todo{why does the reduction of $C$ represent inhibition of the whole system  - what is the difference between thalamic regulation (natural sleep, etc) and GABA-A-receptor binding substances (sedation)? }
+
+\todo{do we have other ways of simulating sedatives in the system?}

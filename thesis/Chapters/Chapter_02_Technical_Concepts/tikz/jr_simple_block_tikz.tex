@@ -1,0 +1,65 @@
+
+ % Nodes
+\node[rectNode, pc] (SigmPC) [label={[pcLabel]:PC}] {$Sigm$};
+\node[rectNode, pc] (PSPPC) [right=1.8cm of SigmPC.east]{$h_e(t)$};
+\node[rectNode, ein] (SigmEIN) [above=2cm of SigmPC.center, label={[einLabel]:EIN}]{$Sigm$};
+\node[rectNode, iin] (SigmIIN) [below=2cm of SigmPC.center, label={[iinLabel]:IIN}]{$Sigm$};
+\node[rectNode, ein] (PSPEIN) [above left= 0.5cm and 2cm of SigmPC.west]{$h_e(t)$};
+\node[rectNode, iin] (PSPIIN) [below left= 0.5cm and 2cm of SigmPC.west]{$h_i(t)$};
+\node[rectNode, rounded corners=3mm, ein] (ext) [left=2cm of PSPEIN.west, label={[einLabel]:Ext.}]{$p(t)$};
+\node (inpIPSP) [left=0.8cm of PSPIIN.west]{};
+\node (outPPSP) [right=1.2cm of PSPPC.east]{};
+\node[roundNode, ein] (c1) [right=2cm of SigmEIN.east]{$C_1$};
+\node[roundNode, ein] (c2) [left=2cm of SigmEIN.west]{$C_2$};
+\node[roundNode, iin] (c3) [right=2cm of SigmIIN.east]{$C_3$};
+\node[roundNode, iin] (c4) [left=2cm of SigmIIN.west]{$C_4$};
+
+% add PC
+\node[roundNode, pc] (addPC) [left=0.8cm of SigmPC.west]{};
+\draw[-, black!80, thick, pc] (addPC.north west) -- (addPC.south east);
+\draw[-, black!80, thick, pc] (addPC.north east) -- (addPC.south west);
+% add Excitatory
+\node[roundNode, ein] (addExc) [left=0.8cm of PSPEIN.west]{};
+\draw[-, black!80, thick, ein] (addExc.north west) -- (addExc.south east);
+\draw[-, black!80, thick, ein] (addExc.north east) -- (addExc.south west);
+
+% add PC -> Sigm PC -> PSP PC
+\draw[-{Stealth[scale=1.5]}, pc] (addPC.east) -- (SigmPC.west)node[coordinate, pos=0.3](measurepoint){};
+\draw[-{Stealth[scale=1.5]}, pc] (SigmPC.east) -- (PSPPC.west);
+
+% PSP PC -> y0
+\draw[-{Stealth[scale=1.5]}, pc] (PSPPC.east) -- (outPPSP.center) node[pos=0.5, above, pcLabel]{\small$y_0(t)$};
+
+% y0 -> C1 -> Sigm EIN
+\draw[-{Stealth[scale=1.5]}, ein, fill=none] (outPPSP.center) |- (c1.east);
+\draw[-{Stealth[scale=1.5]}, ein] (c1.west) -- (SigmEIN.east);
+
+% y0 -> C3 -> Sigm IIN
+\draw[-{Stealth[scale=1.5]}, iin, fill=none] (outPPSP.center) |- (c3.east);
+\draw[-{Stealth[scale=1.5]}, iin] (c3.west) -- (SigmIIN.east);
+
+
+% Sigm EIN -> c2 -> add EXC
+\draw[-{Stealth[scale=1.5]}, ein] (SigmEIN.west) -- (c2.east);
+\draw[-{Stealth[scale=1.5]}, ein, fill=none] (c2.west) -| (addExc.north) node[pos=0.9, right]{\small$+$};
+% external -> add EXC
+\draw[-{Stealth[scale=1.5]}, ein] (ext.east) -- (addExc.west) node[pos=0.9, above]{\small$+$};
+
+% add EXC -> PSP EIN
+\draw[-{Stealth[scale=1.5]}, ein] (addExc.east) -- (PSPEIN.west);
+% PSP EIN -> add PC
+\draw[-{Stealth[scale=1.5]}, ein, fill=none] (PSPEIN.east) -| (addPC.north) node[pos=1, left]{\small$+$} node[pos=0.4, above, einLabel]{\small$y_1(t)$};
+
+% Sigm IIN -> C4 -> PSP IIN
+\draw[-{Stealth[scale=1.5]}, iin] (SigmIIN.west) -- (c4.east);
+\draw[-, iin, fill=none] (c4.west) -| (inpIPSP.center);
+\draw[-{Stealth[scale=1.5]}, iin] (inpIPSP.center) -- (PSPIIN.west);
+% PSP IIN -> add PC
+\draw[-{Stealth[scale=1.5]}, iin, fill=none] (PSPIIN.east) -| (addPC.south) node[pos=1, left]{\small$-$} node[pos=0.4, below, iinLabel]{\small$y_2(t)$};
+
+% electrode
+\draw (measurepoint.north) -- (-1.1,1)node[coordinate,pos=0.9](a){} -- (-0.8,0.9)node[coordinate, pos=0.5](b){} -- cycle;
+\node (signal)[above right=0.2cm and 2.1cm of a]{\tiny recorded Signal};
+\draw (b.center) |- (signal.west);
+
+
