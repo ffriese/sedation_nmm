@@ -39,13 +39,21 @@ Each of the inter-neuron-populations receives the output of the PC population.
 Additionally, there is external excitatory input to the PC population from other regions of the brain.
 
 The Block Diagram (Fig. \ref{fig:Jansen Rit Simple}) shows the individual modules of the model.
-A population is comprised of two types of blocks:
+A population consists of two types of blocks:
 The \textit{PSP-Block} models the behavior of the synapses and neuronal somata.
 It can be either excitatory or inhibitory and converts the incoming average pre-synaptic pulse density to
-an average post-synaptic membrane potential by convolving it with an impulse response function ($h_e(t)$ and $h_i(t)$,
-for excitation and inhibition respectively).
+an average post-synaptic membrane potential by convolving it with an
+impulse response function ($h_e(t)$ and $h_i(t)$, for excitation and inhibition respectively).
 The second block (sometimes called \textit{Potential-To-Rate-Block} after it's functionality)
-calculates the populations response to this stimulation, transforming the incoming average membrane potential back into an average pulse density of action potentials. It may be roughly viewed as a functional counterpart to the axon hillock by establishing a firing threshold and is usually implemented by a Sigmoid Function ($Sigm$). External input from other regions of the brain is represented by $p(t)$. The Connectivity Constants $C_1$, $C_2$, $C_3$ and $C_4$ are a proportional representation of the average number of synapses between the populations. The signal most closely related to the EEG and therefore the variable of interest, is the summed average membrane potential of the PC population ($y_1(t)-y_2(t)$ in Fig. \ref{fig:Jansen Rit Simple}).
+calculates the populations response to this stimulation, transforming the incoming
+average membrane potential back into an average pulse density of action potentials.
+It may be roughly viewed as a functional counterpart to the axon hillock by establishing a firing threshold
+and is usually implemented by a Sigmoid Function ($Sigm$).
+External input from other regions of the brain is represented by $p(t)$.
+The Connectivity Constants $C_1$, $C_2$, $C_3$ and $C_4$ are a proportional representation of the
+average number of synapses between the populations.
+The signal most closely related to the EEG and therefore the variable of interest,
+is the summed average membrane potential of the PC population ($y_1(t)-y_2(t)$ in Fig.~\ref{fig:Jansen Rit Simple}).
 
 \todo{explain neurophysiology why $EEG \approx y_1-y_2$, or reference back to explanation in EEG section}\\[1em]
 
@@ -123,7 +131,7 @@ The parameter values (Table \ref{table:sigmoid_params}) are empirically determin
 \subsubsection{PSP-Blocks}
 %TODO: mention usages of LTI's in Physics, explain this better in general
 In Physics, Linear Time-Invariant Systems (LTI systems) are oftentimes used to describe the response of electrical circuits to arbitrary input signals. They consist of a kernel function (or impulse-response function), that models the system's response to a single unit-impulse.
-The PSP-Blocks are an LTI system, fully represented by an impulse response function. It describes a PSP relative to the onset of a pulse. Since the PSP differs depending on the type of cell (excitatory or inhibitory) there are two different impulse-response functions. The parameters for the EPSP (Eq. \ref{eq:ExcImpResJansenRit}) and IPSP (Eq. \ref{eq:InhImpResJansenRit}) are given in Table \ref{table:psp_params}. The respective plots are visualized in Fig. \ref{fig:PSPPlot}.
+The PSP-Blocks are an LTI system, fully represented by an impulse response function. It describes a PSP relative to the onset of a pulse. Since the PSP differs depending on the type of cell (excitatory or inhibitory) there are two different impulse-response functions. The parameters for the EPSP (Eq. \ref{eq:ExcImpResJansenRit}) and IPSP (Eq. \ref{eq:InhImpResJansenRit}) are given in Table \ref{tab:psp_params}. The respective plots are visualized in Fig. \ref{fig:PSPPlot}.
 %TODO: explain how the parameters can be tuned to achieve differnt results, and how that relatates to actual neurobiology
 \begin{table}[H]
     \centering
@@ -132,18 +140,18 @@ The PSP-Blocks are an LTI system, fully represented by an impulse response funct
         \multicolumn{2}{|c|}{Parameter} & Default Value & Unit \\
         \hline
         \hline
-        Exc. max. amplitude / $e$          & \(A\) & \(3.25\) & \(mV\) \\
+        Exc\. max\. amplitude / $e$          & \(A\) & \(3.25\) & \(mV\) \\
         \hline
         %TODO: EXPLAIN 'LUMPED'!!!!
-        Lumped repr. of sum of exc. delays & \(a\) & \(100\)  & \(Hz\) \\
+        Lumped repr\. of sum of exc\. delays & \(a\) & \(100\)  & \(Hz\) \\
         \hline
         Inh. max. amplitude / $e$          & \(B\) & \(22\)   & \(mV\) \\
         \hline
-        Lumped repr. of sum of inh. delays & \(b\) & \(50\)   & \(Hz\) \\
+        Lumped repr\. of sum of inh\. delays & \(b\) & \(50\)   & \(Hz\) \\
         \hline
     \end{tabular}
     \caption{Parameters of the PSP Blocks}
-    \label{table:psp_params}
+    \label{tab:psp_params}
 \end{table}
 
 Excitatory impulse response:
@@ -587,35 +595,29 @@ David and Friston further propose an example with two subpopulations for each po
             ylabel = {$h$ ($mV$)},
             legend pos=north east,
             legend style={nodes={scale=0.8, transform shape}},
+            domain = 0:140,
+            samples = 200,
+            smooth,
+            thick,
             ],
-            \addplot[
-                domain = 0:140,
-                samples = 200,
-                smooth,
-                thick,
-                green,
-            ] {(3.01/10.8)*x*e^(-(1/10.8)*x)};\label{plot:line1}
-            \addplot[
-                domain = 0:140,
-                samples = 200,
-                smooth,
-                thick,
-                lime,
-            ] {(7.07/4.6)*x*e^(-(1/4.6)*x)};\label{plot:line2}
-            \addplot[
-                domain = 0:140,
-                samples = 200,
-                smooth,
-                thick,
-                red,
-            ] {(20/22)*x*e^(-(1/22)*x)};\label{plot:line3}
-            \addplot[
-                domain = 0:140,
-                samples = 200,
-                smooth,
-                thick,
-                magenta,
-            ] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:line4}
+            \addplot[green] {(3.01/10.8)*x*e^(-(1/10.8)*x)};\label{plot:line1}
+            \addplot[lime] {(7.07/4.6)*x*e^(-(1/4.6)*x)};\label{plot:line2}
+            \addplot[red] {(20/22)*x*e^(-(1/22)*x)};\label{plot:line3}
+            \addplot[magenta] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:line4}
+
+            \addplot[red, dashed] {(20/22)*x*e^(-(1/22)*x)};\label{plot:line5}
+            \addplot[red, dashed] {(20/24.2)*x*e^(-(1/24.2)*x)};\label{plot:line5.1}
+            \addplot[red, dashed] {(20/26.4)*x*e^(-(1/26.4)*x)};\label{plot:line5.2}
+            \addplot[red, dashed] {(20/28.6)*x*e^(-(1/28.6)*x)};\label{plot:line5.3}
+            \addplot[red, dashed] {(20/30.8)*x*e^(-(1/30.8)*x)};\label{plot:line5.4}
+            \addplot[red, dashed] {(20/33)*x*e^(-(1/33)*x)};\label{plot:line5.5}
+
+            \addplot[magenta, dashed] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:line6.1}
+            \addplot[magenta, dashed] {(151.72/3.19)*x*e^(-(1/3.19)*x)};\label{plot:line6.2}
+            \addplot[magenta, dashed] {(151.72/3.48)*x*e^(-(1/3.48)*x)};\label{plot:line6.3}
+            \addplot[magenta, dashed] {(151.72/3.77)*x*e^(-(1/3.77)*x)};\label{plot:line6.4}
+            \addplot[magenta, dashed] {(151.72/4.06)*x*e^(-(1/4.06)*x)};\label{plot:line6.5}
+            \addplot[magenta, dashed] {(151.72/4.35)*x*e^(-(1/4.35)*x)};\label{plot:line6.6}
             \coordinate (legend) at (axis description cs:0.97,0.97);
         \end{axis}
         \tiny
@@ -626,13 +628,13 @@ David and Friston further propose an example with two subpopulations for each po
         ] at (legend) {
 
             & $\tau$ &    $H$  \\
-            $h_{e_1}(t)$ \ref{plot:line1} & 10.8ms &   3.0mV \\
-            $h_{e_2}(t)$ \ref{plot:line2} &  4.6ms &   7.0mV \\
-            $h_{i_1}(t)$ \ref{plot:line3} & 22.0ms &  20.0mV \\
-            $h_{i_2}(t)$ \ref{plot:line4} &  2.9ms & 151.7mV \\
+            $h_{e_1}(t)$~\ref{plot:line1} & 10.8ms &   3.0mV \\
+            $h_{e_2}(t)$~\ref{plot:line2} &  4.6ms &   7.0mV \\
+            $h_{i_1}(t)$~\ref{plot:line3} & 22.0ms &  20.0mV \\
+            $h_{i_2}(t)$~\ref{plot:line4} &  2.9ms & 151.7mV \\
         };
     \end{tikzpicture}
 
-    \caption{\textbf{Impulse Response Functions:} Note the small \textcolor{green}{EPSP}  (Eq. \ref{eq:ExcImpResJansenRit}) and the large \textcolor{red}{IPSP}  (Eq. \ref{eq:InhImpResJansenRit}) \parencite{jansen_neurophysiologically-based_1993}} \
+    \caption{\textbf{PSP functions for:} } \
     \label{fig:PSPPlotDavidFriston}
 \end{figure}    
