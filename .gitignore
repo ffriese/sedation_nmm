@@ -18,3 +18,4 @@ main-blx.bib
 *.run.xml
 *.synctex.gz
 /thesis/out/
+*/pyrates_build/
