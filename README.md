@@ -1,2 +1,4 @@
-# sedation_nmm
-texfiles and code for masters thesis about sedation in a neural mass model
+Sedation Neural Mass Model
+==========================
+
+LaTeX and Python Source Code for masters thesis about sedation in a neural mass model
