@@ -15,7 +15,10 @@ class Methodology:
 
 if __name__ == '__main__':
     methodology = Methodology()
-    results = methodology.runner.run(3.0)
-    write_results_to_file(results, Path(ROOT_DIR, 'thesis', 'data', 'methodology', 'uncut.csv'))
+    results = methodology.runner.run(7.0)
+    idx, sig = write_results_to_file(results, Path(ROOT_DIR, 'thesis', 'data', 'methodology', 'uncut.csv'),
+                                     downsample=10)
     plt.plot(results)
+    plt.figure()
+    plt.plot(idx, sig)
     plt.show()

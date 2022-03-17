@@ -31,7 +31,7 @@ class ModelRunner:
 
     if PYRATES_NEW_VERSION:
         def run(self, seconds: float, step_size: float = 1e-3, sampling_rate: float = 1000.0,
-                inputs=None):
+                inputs=None, cut=None):
             if inputs is None:
                 inputs = {}
             input_size = (int(np.round(seconds / step_size, decimals=0)), 1)
@@ -40,6 +40,8 @@ class ModelRunner:
                                            **inputs},
                                    sampling_step_size=1.0 / sampling_rate, solver='scipy', method='RK45',
                                    outputs=self.template.outputs, in_place=False)
+            if cut:
+                res = res.loc[cut:]
             self.state_vars = self.circuit
             return self.template.evaluate_result(res, {})
     else:

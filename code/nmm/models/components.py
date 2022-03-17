@@ -47,7 +47,8 @@ class Subpopulation:
         self.w = w
         self._equations = [
             'd/dt * {y} = {z}',
-            f'd/dt * {{z}} = ({{h}}/{{tau}})*{RATE_IN} - (2/{{tau}})*{{z}} - (1/{{tau}})^2 * {{y}}'
+            f'd/dt * {{z}} = ({{h}}/({{tau}}*{{tau_fac}}))*{RATE_IN} - (2/({{tau}}*{{tau_fac}}))*{{z}} - '
+            f'(1/({{tau}}*{{tau_fac}}))^2 * {{y}}'
         ]
         self._variables = {
             'y': VarMan.create_var('variable'),
@@ -55,6 +56,7 @@ class Subpopulation:
             'tau': VarMan.create_var(self.tau),
             'h': VarMan.create_var(self.h),
             'w': VarMan.create_var(self.w),
+            'tau_fac': VarMan.create_var(1.0)
         }
 
     def get_equations(self, replacement_index=None):
