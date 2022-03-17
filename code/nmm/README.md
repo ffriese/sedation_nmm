@@ -1,7 +1,7 @@
 # Python Source Code
 
 ## dependecies
- - PyRates: <https:/github.com/pyrates_neuroscience/PyRates>
+ - PyRates: <https://github.com/pyrates-neuroscience/PyRates>
    - `pip install pyrates`
 
 ## recreating figures
