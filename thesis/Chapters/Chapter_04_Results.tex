@@ -4,13 +4,14 @@
 \section{General features of the simulated data}\label{sec:general-features-of-the-simulated-data}
 
 The NMM is configured to simulate data with a step-size of $1 ms$, yielding a $1000 Hz$ signal.
-In its initial state, the system reacts with high-amplitude oscillations to the `disturbance` of the random input.
+In its initial state, the system reacts with high-amplitude oscillations to the "disturbance" of the random input.
 However, the signal usually stabilizes quickly and exhibits the expected behaviour.
-Thus, the very first second of simulated data is always discarded before further analysis.
+Thus, the first few seconds (stabilization-time varies with parameterization) of simulated data
+are always discarded before further analysis.
 When generating data continuously (without re-initialization of the state-variables),
 this problem only occurs once in the very beginning.
-System parameters can be changed after each simulated section and the signal reacts accordingly.
-Changing parameters abruptly can also result in disturbances and destabilize the signal.
+Changing system parameters abruptly during simulation can also result in disturbances and destabilize the
+signal.
 
 \begin{figure}[H]
     \centering
@@ -28,7 +29,7 @@ Changing parameters abruptly can also result in disturbances and destabilize the
             },
 %               %% X-Axis
             xmin=-0.1,
-            xmax=3,
+            xmax=7,
         }
         \begin{groupplot}
             [
@@ -48,16 +49,20 @@ Changing parameters abruptly can also result in disturbances and destabilize the
             xlabel=$s$,
             ]
             \nextgroupplot[ylabel=$mV$]
-            \addplot [line width=1pt,solid, cyan] table[x=x,y=y ,col sep=comma]{data/methodology/uncut.csv};
+            \addplot [line width=.5pt,solid, cyan] table[x=x,y=y ,col sep=comma]{data/methodology/uncut.csv};
             \legend{\textbf{A} uncut data};
-            \nextgroupplot[xmin=1.0]
-            \addplot [line width=1pt,solid, cyan] table[x=x,y=y ,col sep=comma]{data/methodology/uncut.csv};
+            \nextgroupplot[xmin=3.0]
+            \addplot [line width=.5pt,solid, cyan] table[x=x,y=y ,col sep=comma]{data/methodology/uncut.csv};
             \legend{\textbf{B} cut data};
 
         \end{groupplot}
     \end{tikzpicture}
 
-    \caption{\textbf{Processing of simulated data.}\\ \textbf{A \& B:} removing initial oscillations.}
+    \caption{
+        \textbf{Processing of simulated data.}\\
+        Simple Jansen-Rit Model with $C=135$. \\
+        \textbf{A \& B:} removing initially unstable signal by cutting off the first $3s$ of the data.
+    }
     \label{fig:initial_oscilations}
 \end{figure}
 

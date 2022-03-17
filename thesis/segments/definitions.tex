@@ -1,0 +1,268 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Masters/Doctoral Thesis
+% LaTeX Template
+% Version 2.5 (27/8/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Version 2.x major modifications by:
+% Vel (vel@latextemplates.com)
+%
+% This template is based on a template by:
+% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
+% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+%
+% Template license:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+11pt, % The default document font size, options: 10pt, 11pt, 12pt
+%oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
+english, % ngerman for German
+singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+%draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
+%nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
+%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+%toctotoc, % Uncomment to add the main table of contents to the table of contents
+%parskip, % Uncomment to add space between paragraphs
+%nohyperref, % Uncomment to not load the hyperref package
+headsepline, % Uncomment to get a line under the header
+%chapterinoneline, % Uncomment to place the chapter title next to the number on one line
+%consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
+]{MastersDoctoralThesis} % The class file specifying the document structure
+
+\usepackage{fontawesome5}
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage{mathpazo} % Use the Palatino font by default
+\usepackage[mathscr]{eucal}
+
+\usepackage{microtype}  % somehow make stuff look nicer
+\microtypesetup{nopatch=item} % somehow needed
+
+\usepackage[margin=15pt,font=small,labelfont={bf,sf}]{caption}  % make better caption fonts
+\usepackage{sectsty}        % make section heading sans-serif
+\allsectionsfont{\sffamily} % see above
+
+\usepackage[backend=bibtex,style=ieee,natbib=true,sorting=ynt]{biblatex} % Use the bibtex backend with the authoryear-comp citation style (which resembles APA)
+
+\addbibresource{references.bib} % The filename of the bibliography
+
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography
+% ------------------
+% align equations
+% ------------------
+\usepackage{amsmath}  % align equations
+
+%MATHSYMB
+\usepackage{amssymb}
+
+% ------------------
+% wrap figure in text blocks
+% ------------------
+\usepackage{wrapfig}
+
+% ------------------
+% fancy plots
+% ------------------
+\usepackage{pgfplots}
+\usetikzlibrary{calc, shapes, positioning, arrows.meta, matrix, pgfplots.groupplots}
+\usepgfplotslibrary{fillbetween, external}
+\tikzexternalize
+
+% use `compat' level 1.3 (or higher) to use the advanced placement features for the axis labels
+\pgfplotsset{
+    compat=newest
+}
+% ------------------
+% floating stuff, captions and subcaptions, idk
+% ------------------
+\usepackage{float}
+\usepackage{subcaption}
+
+% ------------------
+% very important lorem ipsum package
+% ------------------
+\usepackage{lipsum}
+
+% ------------------
+% remark environment
+% ------------------
+\usepackage{amsthm}
+\newtheorem*{remark}{Remark}
+
+% ------------------
+% code sections
+% ------------------
+\usepackage{fontspec}
+\setmonofont{JetBrainsMono}[
+Path=./JetbrainsFontFiles/,
+Scale=0.85,
+Extension = .ttf,
+UprightFont=*-Regular,
+BoldFont=*-Bold,
+ItalicFont=*-Italic,
+BoldItalicFont=*-BoldItalic
+]
+
+
+\usepackage{minted}
+
+%\usepackage{xcolor}
+
+\usemintedstyle{manni}
+
+
+%\usepackage{accsupp}    % for ignoring line-numbers while copy pasting
+
+
+\definecolor{LightGray}{gray}{0.95}
+\definecolor{green}{rgb}{0,0.7,0}
+%%
+\definecolor{pyratesdarkred}{HTML}{9f294e}
+\definecolor{pyratesgreen}{HTML}{3d734f}
+\definecolor{pyratesorange}{HTML}{c76d00}
+\definecolor{pyratespurple}{HTML}{473579}
+
+%\usepackage{listings}
+%\definecolor{codegreen}{rgb}{0,0.6,0}
+%\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+%\definecolor{codepurple}{rgb}{0.58,0,0.82}
+%\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+%\lstdefinestyle{mystyle}{
+%	backgroundcolor=\color{backcolour},
+%	commentstyle=\color{codegray},
+%	keywordstyle=\color{magenta},
+%	numberstyle=\tiny\color{codegray}\noncopynumber,
+%	identifierstyle=\color{blue},
+%	stringstyle=\color{codegreen},
+%	basicstyle=\ttfamily\footnotesize,
+%	columns = flexible,
+%	breakatwhitespace=false,
+%	breaklines=true,
+%	captionpos=b,
+%	keepspaces=true,
+%	numbers=left,
+%	numbersep=5pt,
+%	showspaces=false,
+%	showstringspaces=false,
+%	showtabs=false,
+%	tabsize=4
+%}
+%\lstset{style=mystyle,columns=fullflexible}
+%
+%\newcommand{\noncopynumber}[1]{
+%	\BeginAccSupp{method=escape,ActualText={}}
+%	#1
+%	\EndAccSupp{}
+%}
+%\newcommand\YAMLcolonstyle{\color{magenta}\mdseries}
+%\newcommand\YAMLkeystyle{\color{cyan}\bfseries}
+%\newcommand\YAMLvaluestyle{\color{black}\mdseries}
+%
+%\makeatletter
+%
+%% here is a macro expanding to the name of the language
+%% (handy if you decide to change it further down the road)
+%\newcommand\language@yaml{yaml}
+%
+%\expandafter\expandafter\expandafter\lstdefinelanguage
+%\expandafter{\language@yaml}
+%{
+%	%keywords={true,false,null,y,n},
+%	keywordstyle=\color{orange}\bfseries,
+%	identifierstyle=\color{magenta},
+%	basicstyle=\ttfamily\footnotesize\bfseries,      % assuming a key comes first
+%	commentstyle=\color{codegray}\mdseries,
+%	%sensitive=false,
+%	comment=[l]{\#},
+%	%morecomment=[s]{/*}{*/},
+%	%moredelim=[l][\color{orange}]{\&},
+%	%moredelim=[l][\YAMLvaluestyle]{[},
+%	%moredelim=**[il][\YAMLkeystyle{\{}\YAMLvaluestyle]{:},   % switch to value style at :
+%	%moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+%	morestring=[b]',
+%	morestring=[b]",
+%	%literate =    {---}{{\ProcessThreeDashes}}3
+%	%{>}{{\textcolor{red}\textgreater}}1
+%	%{|}{{\textcolor{red}\textbar}}1
+%	%{\ -\ }{{\mdseries\ -\ }}3,
+%}
+%
+%% switch to key style at EOL
+%%\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
+%%\makeatother
+%
+%%\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
+
+
+% ------------------
+% section number depths
+% ------------------
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+
+\geometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=2.5cm, % Inner margin
+	outer=3.8cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+%----------------------------------------------------------------------------------------
+%	THESIS INFORMATION
+%----------------------------------------------------------------------------------------
+
+\thesistitle{Simulating sedation-induced unconsciousness in a Neural-Mass-Model to improve algorithms for state-of-consciousness detection in patients with unresponsive wakefulness syndrome} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+
+
+%%% OLD
+%\supervisor{Dipl. Inform. Andrea \textsc{Finke}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+%\examiner{Dr. Malte \textsc{Schilling}} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
+
+
+\supervisor{Dr. Malte \textsc{Schilling}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
+\examiner{Prof Dr. Helge \textsc{Ritter}} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
+
+
+
+
+\degree{Master of Science} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
+\author{Felix \textsc{Friese}} % Your name, this is used in the title page and abstract, print it elsewhere with \authorname
+\addresses{} % Your address, this is not currently used anywhere in the template, print it elsewhere with \addressname
+
+\subject{Intelligent Systems} % Your subject area, this is not currently used anywhere in the template, print it elsewhere with \subjectname
+\keywords{EEG, NMM, GABA, Anaesthesia, DOC} % Keywords for your thesis, this is not currently used anywhere in the template, print it elsewhere with \keywordnames
+\university{\href{https://uni-bielefeld.de/}{Bielefeld University}} % Your university's name and URL, this is used in the title page and abstract, print it elsewhere with \univname
+\department{\href{https://www.uni-bielefeld.de/technische-fakultaet/}{Faculty of Technology}} % Your department's name and URL, this is used in the title page and abstract, print it elsewhere with \deptname
+\group{\href{https://www.uni-bielefeld.de/(en)/technische-fakultaet/arbeitsgruppen/Neuroinformatik/}{Neuroinformatics Groups}} % Your research group's name and URL, this is used in the title page, print it elsewhere with \groupname
+\faculty{\href{https://www.uni-bielefeld.de/technische-fakultaet/}{Faculty of Technology}} % Your faculty's name and URL, this is used in the title page and abstract, print it elsewhere with \facname
+
+\AtBeginDocument{
+\hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
+\hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
+\hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+}
+
+%\usepackage{scrhack}
+\usepackage{tikz}
+
+
+
+\newcommand\todo[1]{\fcolorbox{orange}{orange!10}{\parbox{\textwidth}{\textit{\textbf{TODO:} #1}}}}
+\newcommand\incomplete[1]{\fcolorbox{orange}{orange!10}{\parbox{\textwidth}{\textbf{Section Incomplete} #1}}\\[1em]}
