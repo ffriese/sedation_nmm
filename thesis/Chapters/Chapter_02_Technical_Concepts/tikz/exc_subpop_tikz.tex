@@ -5,7 +5,8 @@
 	\node[shape=rectangle, draw=black, above right=1cm and 2.5cm of sout.center] (H1) {$h_{e_0}(t)$};
 	\node[shape=rectangle, draw=black, fill=white, below right=0.2cm and 0.2cm of H1.west] (H2) {$h_{e_1}(t)$};
 	\node[shape=rectangle, draw=black, fill=white, below right=2cm and 0.8cm of H2.west] (HN) {$h_{e_N}(t)$};
-	\draw[black!80, dots, dot diameter=4pt, dot spacing=25pt, shorten <=8pt, shorten >=8pt] (H2.south) -- (HN.north);
+	\draw[black!80, linedots, linedot diameter=4pt, linedot spacing=25pt, shorten <=8pt, shorten >=8pt] (H2.south) --
+    (HN.north);
 	\node[shape=rectangle, dotted, draw=black, fill=white, fill opacity=0.7, text opacity=1, below right=0.8cm and 0.4cm of H2.west] (Hen) {$h_{e_n}(t)$};
 	
 	
