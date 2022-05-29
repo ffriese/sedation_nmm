@@ -4,10 +4,6 @@ import sys
 from inspect import FrameInfo
 from pathlib import Path
 
-import numpy as np
-import scipy.signal
-from pandas import DataFrame
-
 
 def get_project_root_dir() -> Path:
     """
@@ -59,19 +55,3 @@ def get_project_root_dir() -> Path:
 
 
 ROOT_DIR = get_project_root_dir()
-
-
-def write_results_to_file(results: DataFrame, path: Path, downsample: int = 1):
-
-    if downsample != 1:
-        downsample = int(downsample)
-        signal = scipy.signal.resample(results, int(len(results)/downsample))
-        index = np.array([i for idx, i in enumerate(results.index) if idx % downsample == 0])
-    else:
-        signal = np.array(results)
-        index = np.array(results.index)
-    with open(path, 'w') as file:
-        file.write('x,y\n')
-        for idx, x in enumerate(index):
-            file.write(f'{x},{float(signal[idx])}\n')
-    return index, signal

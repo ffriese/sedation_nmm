@@ -31,12 +31,14 @@ class ModelRunner:
 
     if PYRATES_NEW_VERSION:
         def run(self, seconds: float, step_size: float = 1e-3, sampling_rate: float = 1000.0,
-                inputs=None, cut=None):
+                inputs=None, cut=None, input_noise=None):
+            if input_noise is None:
+                input_noise = InputFunction.normal
             if inputs is None:
                 inputs = {}
             input_size = (int(np.round(seconds / step_size, decimals=0)), 1)
             res = self.circuit.run(simulation_time=seconds, step_size=step_size,
-                                   inputs={self.template.input_str: InputFunction.normal()(input_size),
+                                   inputs={self.template.input_str: input_noise()(input_size),
                                            **inputs},
                                    sampling_step_size=1.0 / sampling_rate, solver='scipy', method='RK45',
                                    outputs=self.template.outputs, in_place=False)

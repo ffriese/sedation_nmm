@@ -1,0 +1,26 @@
+import os
+from pathlib import Path
+
+import numpy as np
+import scipy.signal
+from pandas import DataFrame
+
+
+def write_results_to_file(results: DataFrame, path: Path, down_sample_factor: int = 1):
+
+    if down_sample_factor != 1:
+        down_sample_factor = int(down_sample_factor)
+        signal = scipy.signal.resample(results, int(len(results)/down_sample_factor))
+        index = np.array([i for idx, i in enumerate(results.index) if idx % down_sample_factor == 0])
+    else:
+        signal = np.array(results)
+        index = np.array(results.index)
+    write_signal_to_file(index, signal, path)
+    return index, signal
+
+
+def write_signal_to_file(index, signal, path: Path):
+    with open(path, 'w') as file:
+        file.write('x,y\n')
+        for idx, x in enumerate(index):
+            file.write(f'{x},{float(signal[idx])}\n')
