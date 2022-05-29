@@ -1,8 +1,164 @@
 \chapter{Introduction}\label{ch:introduction}
-\todo{go more into detail about the motivation and the challenges of developing stable signal processing algorithms
-for use cases with little (labeled) data}
+
+%\section{Initial Motivation}\label{sec:initial-motivation}
+%Patients in the Minimally Conscious State can be in more or less conscious states and follow a circadian rhythm,
+%with little or no external signs thereof.
+%\todo{improve first sentence, cite papers to support it}
+%\todo{cite papers with sleep-wake cycle in MCS \cite{cologan_sleep_2013}}
+%\todo{cite papers with awareness in MCS}
+%
+%Lately there have been developments to establish communication channels with these patients by means of BCI-Systems.
+%\todo{cite papers with communication in MCS}
+%
+%To successfully start BCI communication-sessions,
+%it is necessary to determine the patients current state of awareness.
+%While there are reliable methods to determine consciousness/awareness/wakefulness with healthy subjects,
+%\todo{cite papers for EEG sleep/wake detection}
+%
+%The fact that signals recorded from DoC-patients are structurally different from unimpaired subjects,
+%as well as the general difficulty to diagnose an unresponsive patients current state,
+%pose a hard challenge.
+
+%Riganello et al. (2021) ''Disorders of Consciousness (DOC) are a spectrum of pathologies affecting one’s ability to
+%interact with the external world.
+%It can be either due to a traumatic cause [1,2],
+%nontraumatic cause [3,4], or a combination of both [5] and gives rise to
+%ethically challenging questions [6–8], including the end-of-life decisions.
+%For clinical purposes, consciousness is commonly defined by wakefulness (i.e.,
+%the presence of spontaneous periods of opening the eyes) and awareness (i.e.,
+%the ability for a subject to respond to the internal/external stimuli in an integrated way).
+%Two possible conditions of patients with DOC are Unresponsive
+%Wakefulness Syndrome/Vegetative State (UWS/VS) [9] and Minimally Conscious State (MCS) [10].
+%The first is characterized by a spontaneous opening of the eyes and no sign of
+%consciousness but reflexive responses to external stimuli [11,12]; the second condition
+%exhibits minimal but discernible signs of non-reflex behaviours which occur
+%reproducibly (yet inconsistently) as a response to visual, auditory, tactile, or noxious stimuli.''
+
+%
+%- systems for comm with wachkoma
+%- problem detecting awareness (VS WAKEFULNESS!)
+%- sleep/wake cylces in mcs and vs
+\begin{comment}
+\section{Motivation}\label{sec:motivation}
+
+%\todo{PK-NMM, COALIA, MENON, LUPPI ->}
+%
+%NMMs have lately been used to simulate oscillating behavior in anesthesia~\cite{liang_pharmacokinetics-neural_2015,
+%    luppi_paths_2021} as
+%well as sleep and wake conditions~\cite{bensaid_coalia_2019}.
+%Creating and validating realistic models greatly helps the understanding of
+%the underlying processes.
+
+Simulating the effects of sedative drugs on the human brain could help
+improve our understanding of the complex dynamics of loss and recovery of consciousness.
+There are several types of computational models that aim to simulate parts of the brain on different levels of detail.
+While models that operate on single-neuron level should in theory be able to reproduce very
+realistic brain activity, their scope is oftentimes confined to small areas of the brain. % (computational limits,
+Other types of models focus on higher level structures and their interactions, while still being able to reproduce
+characteristic higher-level dynamics.
+In this thesis we are aiming to reproduce brain-activity in the form of an EEG-like signal,
+which, due to the recording method alone, contains only information about higher-level dynamics.
+Thus, the model of choice is the widely used Neural-Mass-Model.
+
+The general neuro-chemical [?] effects of the anaesthetic drugs propofol in regard to synaptic receptors are
+already well understood and provide a solid starting-point for simulation.
+
+Building on the efforts of Liang et al.~\cite{liang_pharmacokinetics-neural_2015},
+who create a model that correlates propofol infusion and resulting effect-site concentration
+as well as the NMM proposed by David-Friston ~\cite{david_neural_2003}, a model to simulate a
+
+
+\todo{BASE EVERYTHING ON PKK-NMM}
+first step -> analyse dynamics of system
+
+second step -> correlate to real anaesthesia
+
+\end{comment}
+
+\section{Motivation Deutsch}\label{sec:motivation-deutsch}
+Die hochkomplexen Prozesse der Änderung von Bewusstseinszuständen im menschlichen Gehirn sind nach wie vor kaum
+verstanden.
+Die Definition und Feststellung von Bewusstseinszuständen beruht in der Praxis weiterhin stark auf Verhaltensbasierten
+Beobachtungen (e.g. Reiz-Reaktions Tests) \textcolor{blue}{[hier möglicherweise Glasgow Coma Scale erwähnen]}.
+Insbesondere bei Menschen die unter traumatischen Hirnschädigungen leiden,
+ist diese Herangehensweise jedoch unzureichend, da die Gründe für ausbleibende externe Reaktionen vielseitig sein
+können.
+Daher werden zunehmend Messungen der Hirnaktivität durch Neuroimaging (fMRT, EEG, \dots) herangezogen um
+Bewusstseinszustände
+zu bestimmen und zu erforschen, sowie bestimmte Zustandsgrenzen neu zu definieren.
+Dabei gibt es bereits beeindruckende Erfolge,
+wie beispielsweise eine basale Kommunkation über BCI-Systeme mit Trauma-Patienten die über keinerlei äußerlich
+erkennbare Regung als aufmerksam zu erkennen gewesen wären.
+Die genauen Mechanismen hinter Zustandsänderungen sowie klare objektive Grenzen zwischen Zuständen sind aber
+immer noch der Gegenstand von Grundlagenforschung.
+Ein Ansatz um Stück für Stück bessere Einsicht in diese Prozesse zu erlangen, ist die Computer-Simulation von
+kontrollierten Zustandsveränderungen, beispielsweise einer Anästhesie, um ein Verständnis für die Veränderung
+von Dynamiken der Gehirnaktivtät und deren Auswirkungen zu entwickeln.
+Das Betäubungsmittel Propofol wird in der Medizin verwendet um im kontrollierten Rahmen einen völligen
+Bewusstseinsverlust zur Durchführung von Operationen herbeizuführen.
+Der neurochemische Wirkmechanismus von Propofol auf synaptische Rezeptoren ist bereits gut
+erforscht und bietet eine solide Grundlage für die Erforschung von Sedationsprozessen.
+Diese Arbeit beschäftigt sich mit der Möglichkeit diese Wirkmechanismen auf Computermodelle von Neuronenpopulationen
+im Gehirn anzuwenden und das entstehende Verhalten des Systems zu analysieren sowie Vergleiche zu den
+bisherigen neurologischen Erkenntnissen im Bereich Anästhesie zu ziehen.
+Ein gängiges Messverfahren um Anästhesie zu beobachten ist das EEG, das insbesondere wegen seines non-invasiven,
+portablen und relativ kostengünstigen Einsatzes Verwendung findet.
+Als Modell zur Simulation von EEG-ähnlichen Signalen bieten sich sogenannte Neural-Mass-Models (NMMs) an,
+die sich auf die Modellierung der Dynamiken von größeren Neuronenpopulationen fokussieren.
+
+%
+%\section{Technical Motivation}\label{sec:technical-motivation}
+%
+%When developing applications that work with live EEG signals and use complex processing steps
+%and/or application states,
+%it is oftentimes tedious to ensure the application's correct function during development.
+%This is due to multiple factors, including potential issues with the recording hardware and the
+%complexity of the signal itself.
+%Problems that could be caused by faulty implementations as well as the recording setup (producing poor
+%signals) are especially hard to pinpoint.
+%Long setup times for repeated testing sessions with real subjects further complicate resolving
+%any arising issues.
+%Therefore, it is very useful to quickly test the implementations with simulated data,
+%which can be configured to have specific properties that are relevant to the application, ensuring
+%correct function at least under `ideal' conditions.
+%While this obviously does not cover the broad variety of issues that will occur in practise,
+%it is immensely useful to prevent simple implementation errors and test data-flow and state progression.
+%
+%Naive approaches to generating EEG-like signals, such as mixing different sinoids and adding gaussian noise,
+%work well for testing basic processing steps like artifact- and noise removal,
+%bandpass-filtering and signal segmentation.
+%However, more sophisticated algorithms, that combine high-level signal features into their reasoning
+%and are oftentimes shaped to realistic data, cannot be reliably tested this way.
+%
+%Even more complications arise, when realistic data for the system's intended use-case is not easily available
+%at development time.
+%The System mentioned above \todo{actually mention the system} aims to detect the state of consciousness of patients
+%with DOC, in order to select appropriate moments for communication.
+%Unfortunately, the EEG signals of DOC-patients have fundamentally different characteristics compared to the signals
+%recorded from healthy subjects.
+%While it is relatively easy to record segments of EEG data from healthy subjects in different states of consciousness
+%and label them accordingly, correctly labeled data for patients with DOC is practically unavailable for a number of
+%reasons: The obvious challenge of determining the current state of consciousness for a person
+%\todo{finish sentence...}
 
 \section{Related Work}\label{sec:related-work}
+There have been many efforts to simulate different states of consciousness with NMMs. A particularly sophisticated
+example is Bensaid et al.'s COALIA Framework~\cite{bensaid_coalia_2019}, which is able to produce realistic
+resting-state EEG-like signals for sleep and wakefulness, by using the output of over 60 interconnected NMMs and
+applying a transformation onto scalp electrodes using a realistic head-model with tissue conductivities.
+Liang et al.~\cite{liang_pharmacokinetics-neural_2015} focussed on relating propofol-induction to effect-site
+concentration, which is an important parameter in any model for anaesthesia-simulation.
 
-\todo{Menon~\cite{menon_computational_2012}, Liang et al.~\cite{liang_pharmacokinetics-neural_2015},
-    COALIA~\cite{bensaid_coalia_2019}, \dots}
+\section{Collection of Quotes}
+
+'Although our understanding of the actions of propofol at the molecular level is quite extensive,
+we do not entirely understand how these molecular effects translate into alterations in cellular,
+synaptic and neural network function, and in turn cause unconsciousness [88].
+This knowledge gap is, at least in part, the result of a lack of a generally accepted theory of consciousness.
+In recent years, cognitive neuroscience has seen a resurgence of interest in this topic,
+with attempts to integrate anaesthesia and sleep research in order to address this deficiency.
+This resurgence has revealed several brain areas that play a crucial role in generation of consciousness,
+and which are extensively influenced by hypnotic drugs.'
+\cite{sahinovic_clinical_2018}\\[1em]
+
+

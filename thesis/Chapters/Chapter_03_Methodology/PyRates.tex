@@ -58,18 +58,22 @@ PyRates works with population models by compositing multiple operators, like the
 		\frac{d}{dt}PSP_{t_{PC_E}} &= \fcolorbox{pyratespurple!80}{pyratespurple!15}{$ \color{pyratespurple}\frac{H_e}{\tau_e} \cdot (p(t) + C_2 Sigm[PSP_{EIN}])  -\frac{2}{\tau_e} \cdot PSP_{t_{PC_E}} - \left(\frac{1}{\tau_e}\right)^2 \cdot PSP_{PC_E} $}\\
 		\frac{d}{dt}PSP_{PC_I} &= PSP_{t_{PC_I}} \\
 		\frac{d}{dt}PSP_{t_{PC_I}} &= \fcolorbox{pyratesorange!80}{pyratesorange!10}{$ \color{pyratesorange}\frac{H_i}{\tau_i} \cdot C_4 Sigm[PSP_{IIN}])  -\frac{2}{\tau_i} \cdot PSP_{t_{PC_I}} - \left(\frac{1}{\tau_i}\right)^2 \cdot PSP_{PC_I} $}\\
-		PSP_{PC} &= PSP_{PC_E} - PSP_{PC_I}\\
+		PSP_{PC} &= PSP_{PC_E} - PSP_{PC_I}
 	\end{aligned}\label{eq:equation}
 \end{equation}    
 
 \begin{figure}[H]
 \input{Chapters/Chapter_02_Technical_Concepts/tikz/jr_block_pyrates}
-\caption{\textbf{Jansen-Rit Block Diagram as implemented in PyRates:} Each population can be clearly identified by one or more afferent PSP-Blocks and a single Sigmoid that calculates the populations output. This approach is more modular and simplifies conceptual understanding while staying mathematically equivalent. However, due to the explicit fourth PSP-Block it gives up the performance boost.
-\quad\todo{possibly the backend-graph-optimization takes care of this? maybe check this later on...} }
+\caption{\textbf{Jansen-Rit Block Diagram as implemented in PyRates:} Each population can be
+clearly identified by one or more afferent PSP-Blocks and a
+single Sigmoid that calculates the populations output.
+This approach is more modular and simplifies conceptual understanding while staying mathematically equivalent.
+However, due to the explicit fourth PSP-Block it gives up the performance boost.
+\quad\todo{possibly the backend-graph-optimization takes care of this?\\
+maybe check this later on...} }
 \label{fig:pyratesJRBlock}
 \end{figure}
 
-\subsection{Implementation of the David \& Friston extensions}\label{subsec:impl-of-df-extensions}
 
 
 \begin{figure}[H]
@@ -86,54 +90,3 @@ PyRates works with population models by compositing multiple operators, like the
 
 \todo{do we have other ways of simulating sedatives in the system?}
 
-\begin{figure}[H]
-    \centering
-    \pgfplotsset{compat = newest}
-    \begin{tikzpicture}
-        \begin{axis}
-            [
-            xmin = -1, xmax = 140,
-            ymin = 0, ymax = 30.1,
-            xlabel = {$t$ ($ms$)},
-            ylabel = {$h$ ($mV$)},
-            legend pos=north east,
-            legend style={nodes={scale=0.8, transform shape}},
-            domain = 0:140,
-            samples = 200,
-            smooth,
-            thick,
-            ],
-            \addplot[red] {(20/22)*x*e^(-(1/22)*x)};\label{plot:psp3}
-            \addplot[magenta] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:psp4}
-
-            \addplot[red, dashed] {(20/22)*x*e^(-(1/22)*x)};\label{plot:psp5}
-            \addplot[red, dashed] {(20/24.2)*x*e^(-(1/24.2)*x)};\label{plot:psp5.1}
-            \addplot[red, dashed] {(20/26.4)*x*e^(-(1/26.4)*x)};\label{plot:psp5.2}
-            \addplot[red, dashed] {(20/28.6)*x*e^(-(1/28.6)*x)};\label{plot:psp5.3}
-            \addplot[red, dashed] {(20/30.8)*x*e^(-(1/30.8)*x)};\label{plot:psp5.4}
-            \addplot[red, dashed] {(20/33)*x*e^(-(1/33)*x)};\label{plot:psp5.5}
-
-            \addplot[magenta, dashed] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:psp6.1}
-            \addplot[magenta, dashed] {(151.72/3.19)*x*e^(-(1/3.19)*x)};\label{plot:psp6.2}
-            \addplot[magenta, dashed] {(151.72/3.48)*x*e^(-(1/3.48)*x)};\label{plot:psp6.3}
-            \addplot[magenta, dashed] {(151.72/3.77)*x*e^(-(1/3.77)*x)};\label{plot:psp6.4}
-            \addplot[magenta, dashed] {(151.72/4.06)*x*e^(-(1/4.06)*x)};\label{plot:psp6.5}
-            \addplot[magenta, dashed] {(151.72/4.35)*x*e^(-(1/4.35)*x)};\label{plot:psp6.6}
-            \coordinate (legend) at (axis description cs:0.97,0.97);
-        \end{axis}
-        \tiny
-        \matrix [
-            draw,
-            matrix of nodes,
-            anchor=north east,
-        ] at (legend) {
-
-            & $\tau$ &    $H$  \\
-            $h_{i_1}(t)$~\ref{plot:psp3} & 22.0ms &  20.0mV \\
-            $h_{i_2}(t)$~\ref{plot:psp4} &  2.9ms & 151.7mV \\
-        };
-    \end{tikzpicture}
-
-    \caption{\textbf{PSP functions for:} } \
-    \label{fig:PSPInhibLongPlot}
-\end{figure}

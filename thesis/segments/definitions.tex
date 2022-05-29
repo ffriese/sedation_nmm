@@ -53,6 +53,7 @@ headsepline, % Uncomment to get a line under the header
 \RequirePackage[backend=bibtex,style=ieee,natbib=true,sorting=ynt]{biblatex} % Use the bibtex backend with the authoryear-comp citation style (which resembles APA)
 \addbibresource{references.bib} % The filename of the bibliography
 
+\RequirePackage{comment}  % comment out sections
 % ------------------
 % align equations
 % ------------------
@@ -156,8 +157,8 @@ BoldItalicFont=*-BoldItalic
 %----------------------------------------------------------------------------------------
 
 % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
-\thesistitle{Simulating sedation-induced unconsciousness in a Neural-Mass-Model to improve algorithms for
-state-of-consciousness detection in patients with unresponsive wakefulness syndrome}
+\thesistitle{Simulating sedation-induced unconsciousness in a Neural-Mass-Model}
+%to improve algorithms for state-of-consciousness detection in patients in the Minimally Conscious State
 
 % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \supervisor{Dr. Malte \textsc{Schilling}}
@@ -189,10 +190,23 @@ state-of-consciousness detection in patients with unresponsive wakefulness syndr
 \hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
 }
 
+\DeclareSIUnit{\molar}{M}
+
 %\usepackage{scrhack}
 \RequirePackage{tikz}
 
+\RequirePackage{linegoal}
 
 
-\newcommand\todo[1]{\fcolorbox{orange}{orange!10}{\parbox{0.9\linewidth}{\textit{\textbf{TODO:} #1}}}}
-\newcommand\incomplete[1]{\fcolorbox{orange}{orange!10}{\parbox{0.9\linewidth}{\textbf{Section Incomplete} #1}}\\[1em]}
+\newcommand\todo[1]{\\
+\fcolorbox{orange}{orange!10}{\parbox{\linegoal}{
+    \fcolorbox{black}{yellow!70}{\small\faIcon{tasks}~ \texttt{Todo}}
+    \hspace{4pt} \texttt{#1}}}\\
+}
+
+\newcommand\incomplete[1]{\\
+\fcolorbox{red}{red!10}{\parbox{\linegoal}{
+    \fcolorbox{black}{orange!70}{
+        \small\faIcon{exclamation-triangle}~\texttt{Section Incomplete}
+    }
+\texttt{#1}}}\\[1em]}
