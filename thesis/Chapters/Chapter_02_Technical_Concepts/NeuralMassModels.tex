@@ -253,7 +253,7 @@ incoming impulse density $x(t)$ with the impulse response function $h(t)$ (Eq.~\
 % REMARK: CONVOLUTION
 %%%%
 % \begin{figure}
-\begin{wrapfigure}[19]{r}{0.5\textwidth}
+\begin{wrapfigure}[22]{r}{0.5\textwidth}
     \centering
     \includegraphics[width=0.30\textwidth]{Figures/convolution/wikipedia-citation-needed}
     \caption{\textbf{Convolution:} The area enclosed by $f(\tau)$ and $g(t-\tau)$ is the value of $(f\ast g)(t)$.\\
@@ -618,6 +618,11 @@ accordingly ($H_e=\frac{0.0325mVs}{\tau_e}$, $H_i=\frac{0.44mVs}{\tau_i}$).
     The indices used above in the formulation for the Simple Jansen-Rit Model (and the Block Diagram) should not
     be confused with these.
     However, $e$ and $i$ as indices still denote excitatory and inhibitory populations respectively.}} \\[2em]
+\begin{figure}[H]
+    \input{Chapters/Chapter_02_Technical_Concepts/tikz/exc_subpop_tikz}
+    \caption{Example of subpopulations ($h_{e_0}(t), \dots, h_{e_N}(t)$) forming an excitatory population $h_e(t)$}
+    \label{fig:exc_subpops}
+\end{figure}
 By introducing subpopulations, we split up the general impulse response function $h(t)$ in $N$ individual
 sub-functions:
 \[h_n(t) = \frac{H_n}{\tau_n}te^{-\frac{1}{\tau_n}}\] \\[1em]
@@ -645,6 +650,11 @@ which produces the following differential equations for a single PSP Block:
         y(t)         &= w_{1}y_1 + \dots + w_{N}y_N\\
     \end{aligned}\label{eq:davidfriston_subpops}
 \end{equation}
+
+
+%\subsection{möglicherweise auch vorangegangene Paper (Lopez da Silva '76, ...) zur Erklärung heranziehen}
+
+
 David and Friston further propose an example with two subpopulations for each population with
 the following parameters: $\tau_{e_1}=10.8ms$, $\tau_{i_1}=22ms$, $\tau_{e_2}=4.6ms$, $\tau_{i_2}=2.9ms$.
 While the kinetics for the first subpopulation were still close
@@ -654,25 +664,13 @@ the second population's parameters were chosen to produce gamma activity.
 \todo{put the values in a table}
 
 \begin{figure}[H]
-    \input{Chapters/Chapter_02_Technical_Concepts/tikz/exc_subpop_tikz}
-    \caption{Example of subpopulations ($h_{e_0}(t), \dots, h_{e_N}(t)$) forming an excitatory population $h_e(t)$}
-    \label{fig:exc_subpops}
-\end{figure}
-%\subsection{möglicherweise auch vorangegangene Paper (Lopez da Silva '76, ...) zur Erklärung heranziehen}
-%
-%\subsection{ Was sind die Erweiterungen von (David and Friston 2003)?}
-%\subsection{An welcher Stelle können wir in dem Modell Sedation modellieren?}
-
-\subsection{New PSP Functions}\label{subsec:new-psp-functions}
-
-\begin{figure}[H]
     \centering
     \pgfplotsset{compat = newest}
     \begin{tikzpicture}
         \begin{axis}
             [
             xmin = -1, xmax = 140,
-            ymin = 0, ymax = 15.1,
+            ymin = 0, ymax = 55.1,
             xlabel = {$t$ ($ms$)},
             ylabel = {$h$ ($mV$)},
             legend pos=north east,

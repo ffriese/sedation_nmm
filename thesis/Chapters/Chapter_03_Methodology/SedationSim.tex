@@ -1,0 +1,66 @@
+\section{Simulating the effects of propofol}\label{sec:simulating-the-effects-of-propofol}
+
+
+\section{Implementing decay-time modulation}\label{sec:implementing-decay-time-modulation}
+
+To simulate the effects of propofol on the GABA\textsubscript{A}  receptors,
+the IPSP (inhibitory response function $h_i$) time-constant $\tau_i$ is increased by a factor
+$\lambda$~\cite{hutt_effects_2010}:
+
+
+\[ h_i(t)=\frac{H_i}{\lambda \cdot \tau_i}te^{-\frac{1}{\lambda \cdot \tau_i}} \]
+The effect of increasing $\lambda$ for $h_{i_1}$ and $h_{i_2}$ is visualized in Fig.~\ref{fig:PSPInhibLongPlot}.
+
+
+\begin{figure}[H]
+    \centering
+    \pgfplotsset{compat = newest}
+    \begin{tikzpicture}
+        \begin{axis}
+            [
+            xmin = -1, xmax = 280,
+            ymin = 0, ymax = 58.1,
+            xlabel = {$t$ ($ms$)},
+            ylabel = {$h$ ($mV$)},
+            legend pos=north east,
+            legend style={nodes={scale=0.8, transform shape}},
+            domain = 0:280,
+            samples = 200,
+            smooth,
+            thick,
+            ],
+            \addplot[red] {(20/22)*x*e^(-(1/22)*x)};\label{plot:psp3}
+            \addplot[orange] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:psp4}
+            \addplot[red, dash dot] {(20/44)*x*e^(-(1/44)*x)};\label{plot:psp5.10}
+            \addplot[red, dashed] {(20/66)*x*e^(-(1/66)*x)};\label{plot:psp5.15}
+
+            \addplot[orange, dotted]{(151.72/5.8)*x*e^(-(1/5.8)*x)};\label{plot:psp6.10}
+            \addplot[orange, dashed] {(151.72/8.7)*x*e^(-(1/8.7)*x)};\label{plot:psp6.15}
+            \coordinate (legend) at (axis description cs:0.97,0.97);
+        \end{axis}
+        \tiny
+        \matrix [
+            draw,
+            matrix of nodes,
+            anchor=north east,
+        ] at (legend) {
+
+            & $\tau$ &    $H$  \\
+            $h_{i_1}(t)$~\ref{plot:psp3} & 22.0ms &  20.0mV \\
+            $h_{i_1}(t)$~\ref{plot:psp5.10} & 44.0ms &  20.0mV \\
+            $h_{i_1}(t)$~\ref{plot:psp5.15} & 66.0ms &  20.0mV \\
+            $h_{i_2}(t)$~\ref{plot:psp4} &  2.9ms & 151.7mV \\
+            $h_{i_2}(t)$~\ref{plot:psp6.10} &  5.8ms & 151.7mV \\
+            $h_{i_2}(t)$~\ref{plot:psp6.15} &  8.7ms & 151.7mV \\
+        };
+    \end{tikzpicture}
+
+    \caption{\textbf{Inhibitory PSP functions with varying $\lambda$:} \\
+        The duration of the effect increases while the amplitude stays
+        constant, effectively increasing the charge transfer. ($\lambda$ in [1.0 (no drug-effect, solid lines),
+        2.0 (dotted), 3.0 (dashed)])
+    }
+    \label{fig:PSPInhibLongPlot}
+\end{figure}
+Varying $\lambda$ between $1$ ($\SI{0}{\micro\molar}$) and $3.0$ ($\sim\SI{30}{\micro\molar}$) appears to be a
+sensible choice for the clinically relevant range, given Fig.~\ref{fig:lambda_fit}.

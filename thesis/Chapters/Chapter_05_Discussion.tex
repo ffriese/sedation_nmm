@@ -1,14 +1,27 @@
 \chapter{Discussion}
 
-\section{Comparison with real EEG Data during Propofol-Sedation}
+While the NMM used for simulation is a very rough abstraction of cortical dynamics,
+multiple parallels to effects observed during GA can be drawn:
 
-\begin{figure}[H]
-\includegraphics[width=15cm]{Figures/purdon2.png}
-\caption{\textbf{Real EEG Data \cite{purdon_electroencephalogram_2013}:} Traveling Peak and general shift of Spectral Power from above 20 to the 10Hz Range during sedation. Also note the power increase in the very slow frequencies.}
-\end{figure}
+\begin{enumerate}
 
-\quad\todo{compare to Purdon \cite{purdon_electroencephalogram_2013}, Lee \cite{lee_classification_2017}}
+    \item Two, distinguishable \textbf{stable states} can be observed.
+    The frequency changes bear strong similarities to the switch to unconsciousness in GA
+    \cite{purdon_electroencephalogram_2013, ni_mhuircheartaigh_slow_wave_2013}.
+    \item Induction and Emergence are asymmetrical (\textbf{hysteresis}).
+    The system predicts that the state-change `LOC` occurs at higher concentrations than `ROC`.
+
+    \item During state transitions, there is a strong \textbf{biphasic effect}.
+    The system predicts that the frequency range below $\SI{25}{\hertz}$ receives a temporary amplitude boost during
+    the phase transitions, which disappears while the parameter changes continue in the same direction.
+    \item In the `unconscious` state, frequency distribution stabilizes independent of further increasing decay-time
+    (\textbf{slow-wave-activity saturation}?~\cite{ni_mhuircheartaigh_slow_wave_2013}).
+
+\end{enumerate}
+
+\todo{elaborate on all of the above...}
+\todo{draw parallels to~\cite{hutt_progress_2011}, which discusses mainly the same effects,
+    although with a different NMM (or `mean-field-model`)...}
 
 \section{Outlook}
-
-\quad\todo{how this could be extended towards our goal (include thalamus like in COALIA, find ways to simulate TBI-induced DOC more specifically, create combination of conditions and states of awareness in the same model, ...)}
+\todo{How could the model be extended}

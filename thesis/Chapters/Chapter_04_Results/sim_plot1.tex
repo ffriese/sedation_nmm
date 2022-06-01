@@ -1,0 +1,74 @@
+\begin{tikzpicture}
+\pgfplotsset{
+        %% Axis
+            scale only axis,
+            width=0.9\linewidth,
+            height=3cm,
+            every axis/.append style={
+                line width=1pt,
+                tick style={line width=0.8pt},
+                %   grid style={dashed, black!20},
+                %  grid=major,
+            },
+%               %% X-Axis
+            xmin=0.899, xmax=65.0,% xmax=38.899,
+        }
+        \begin{groupplot} [
+                group style={
+                    group size=1 by 3,
+                    vertical sep=2mm,
+                    xlabels at=edge bottom,
+                    xticklabels at=edge bottom,
+                },
+                yticklabel style={
+                    /pgf/number format/fixed,
+                    /pgf/number format/precision=2
+                },
+                legend style={nodes={scale=0.8, transform shape}, thin},
+                legend image post style={scale=0},
+                xlabel=$t(s)$
+            ]
+            \nextgroupplot[ylabel style={align=center}, ylabel=\begin{tiny}decay-time factor\end{tiny}\\ $\lambda$,
+                           ymin=1, ymax=3.1, grid style={dashed,black!20}, grid=major]
+            \addplot [line width=.5pt,solid, cyan]
+            table[x=x,y=y ,col sep=comma]{data/full_sedation_sim/linear_factors.csv};
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:0,1.85) -- ([yshift=0.0cm]axis cs:13.6,1.85) ;
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:0,2.05) -- ([yshift=0.0cm]axis cs:16.8,2.05) node[near end,
+                        above,font=\tiny]{LOC};
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:16.8,1) -- ([yshift=0.0cm]axis cs:16.8,2.05);
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:13.6,1) -- ([yshift=0.0cm]axis cs:13.6,1.85);
+
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:65.0,1.48) -- ([yshift=0.0cm]axis cs:57.5,1.48) ;
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:65.0,1.95) -- ([yshift=0.0cm]axis cs:51.5,1.95) node[near
+                       end,above,font=\tiny]{ROC};
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:51.5,1) -- ([yshift=0.0cm]axis cs:51.5,1.95);
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:57.5,1) -- ([yshift=0.0cm]axis cs:57.5,1.48);
+            \legend{\textbf{A)} propofol concentration};
+
+            \nextgroupplot[ylabel=$mV$]
+            \addplot [line width=.5pt,solid, cyan]
+            table[x=x,y=y ,col sep=comma]{data/full_sedation_sim/linear.csv};
+
+            \legend{\textbf{B)} signal};
+
+            \nextgroupplot[ymin=0, ymax=40,
+                            ylabel=$Hz$,
+                            height=5cm
+            ]
+              \addplot graphics [includegraphics cmd=\pgfimage,
+        xmin=0.0,%xmin=0.899,
+        xmax=65.0,% xmax=38.899,
+        ymin=0, ymax=40]
+            {data/full_sedation_sim/linear-img0.png};
+            \legend{\textbf{C)} spectrogram};
+
+        \end{groupplot}
+     \begin{groupplot} [group style={group size=1 by 3,vertical sep=2mm}]
+            \nextgroupplot[axis y line=right, ymin=1, ymax=3.1, ylabel=$\sim c_e (\SI{}{\micro\molar})$,
+            yticklabels ={0,5,10,20,30}, ytick={1,1.81,2.164,2.558,2.8},
+            axis x line=none]
+            \nextgroupplot[axis y line=none, axis x line=none]
+            \nextgroupplot[axis y line=none, ymin=0, ymax=40,height=5cm,axis x line=none]
+        \end{groupplot}
+
+\end{tikzpicture}
