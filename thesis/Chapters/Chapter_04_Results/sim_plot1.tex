@@ -11,7 +11,7 @@
                 %  grid=major,
             },
 %               %% X-Axis
-            xmin=0.899, xmax=65.0,% xmax=38.899,
+            xmin=1.0, xmax=66.0,% xmax=38.899,
         }
         \begin{groupplot} [
                 group style={
@@ -30,8 +30,11 @@
             ]
             \nextgroupplot[ylabel style={align=center}, ylabel=\begin{tiny}decay-time factor\end{tiny}\\ $\lambda$,
                            ymin=1, ymax=3.1, grid style={dashed,black!20}, grid=major]
-            \addplot [line width=.5pt,solid, cyan]
-            table[x=x,y=y ,col sep=comma]{data/full_sedation_sim/linear_factors.csv};
+            \addplot [name path=factors,line width=.5pt,solid, cyan]
+            table[x=x, y=y ,col sep=comma, each nth point=100]{data/full_sedation_sim/\simRunName _factors.csv};
+
+            \legend{\textbf{A)} propofol concentration};
+        \iftoggle{drawLocRoc}{
                 \draw [red, dotted] ([xshift=0.0cm]axis cs:0,1.85) -- ([yshift=0.0cm]axis cs:13.6,1.85) ;
                 \draw [red, dotted] ([xshift=0.0cm]axis cs:0,2.05) -- ([yshift=0.0cm]axis cs:16.8,2.05) node[near end,
                         above,font=\tiny]{LOC};
@@ -43,11 +46,36 @@
                        end,above,font=\tiny]{ROC};
                 \draw [green, dotted] ([xshift=0.0cm]axis cs:51.5,1) -- ([yshift=0.0cm]axis cs:51.5,1.95);
                 \draw [green, dotted] ([xshift=0.0cm]axis cs:57.5,1) -- ([yshift=0.0cm]axis cs:57.5,1.48);
-            \legend{\textbf{A)} propofol concentration};
+
+%                \path[name path=xaxis] (axis cs:35,0) -- (axis cs:45,0);
+%                %\path[name path=yaxis] (axis cs:0,0) -- (axis cs:0,3);
+%                \addplot [
+%                    thick,
+%                    color=blue,
+%                    fill=blue,
+%                    fill opacity=0.05,
+%                    domain=35.0:45.0
+%                ]
+%                fill between[
+%                    of=factors and xaxis,
+%                    soft clip={domain=0.0:45.0},
+%                ];
+%                \addplot [
+%                    thick,
+%                    color=blue,
+%                    fill=blue,
+%                    fill opacity=0.05
+%                ]
+%                fill between[
+%                    of=factors and yaxis,
+%                    soft clip={domain=35:45},
+%                ];
+        }
 
             \nextgroupplot[ylabel=$mV$]
             \addplot [line width=.5pt,solid, cyan]
-            table[x=x,y=y ,col sep=comma]{data/full_sedation_sim/linear.csv};
+            table[x=x, y=y ,col sep=comma, each nth point=2]
+            {data/full_sedation_sim/\simRunName .csv};
 
             \legend{\textbf{B)} signal};
 
@@ -56,10 +84,10 @@
                             height=5cm
             ]
               \addplot graphics [includegraphics cmd=\pgfimage,
-        xmin=0.0,%xmin=0.899,
-        xmax=65.0,% xmax=38.899,
+        xmin=1.0,%xmin=0.899,
+        xmax=66.0,% xmax=38.899,
         ymin=0, ymax=40]
-            {data/full_sedation_sim/linear-img0.png};
+            {data/full_sedation_sim/\simRunName -img0.png};
             \legend{\textbf{C)} spectrogram};
 
         \end{groupplot}

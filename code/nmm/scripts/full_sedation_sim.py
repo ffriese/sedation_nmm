@@ -12,8 +12,8 @@ from runner.model_runner import ModelRunner, InputFunction
 
 
 class SedationSim:
-    def __init__(self):
-        self.model = ModelBuilder.build_david_friston_default()
+    def __init__(self, model_builder=ModelBuilder.build_david_friston_default):
+        self.model = model_builder()
         self.runner = ModelRunner(self.model)
 
     def gen_factors(self, sim_time_secs, initial_cutoff, start=1.0, middle=1.7, step=0.01):
@@ -50,16 +50,41 @@ class SedationSim:
         """
         return np.exp(0.063 * micro_molars)
 
+    def plot_histogram(self, data, run_name, freq_Hz = 1000, NFFT=2048, backend='Qt5Agg',
+                       vmin=None, vmax=None):
+        matplotlib.use(backend)
+        if backend == 'pgf':
+            matplotlib.rcParams.update(
+                {
+                    # Adjust to your LaTex-Engine
+                    "pgf.texsystem": "pdflatex",
+                    "font.family": "serif",
+                    "text.usetex": True,
+                    "pgf.rcfonts": False,
+                    "axes.unicode_minus": False,
+                }
+            )
+
+        import pylab
+        plt.specgram(data, NFFT=NFFT, noverlap=NFFT - int(0.25 * freq_Hz), Fs=freq_Hz, scale='dB',
+                     # vmin=-111, vmax=-81,  # highlights stable states
+                     # vmin=-100, vmax=-42,  # highlights unstable states
+                     cmap=pylab.cm.nipy_spectral, interpolation='bicubic')
+        plt.axis(ymin=0, ymax=40)
+
+        if backend == 'pgf':
+            plt.savefig(Path(ROOT_DIR, 'thesis', 'data', 'full_sedation_sim', f'{run_name}.pgf'))
+
 
 if __name__ == '__main__':
-    sedation = SedationSim()
+    sedation = SedationSim(model_builder=ModelBuilder.build_jansen_rit_default)
 
     seconds = 65
     cut = 1.0
     f_ser = sedation.gen_factors(seconds, cut, start=1.0,
                                  middle=3.0)
 
-    run_name = 'linear'
+    run_name = 'jr_simple'
 
     inputs = {
         'PC/RPO_i/tau_fac_0': f_ser,
@@ -90,46 +115,34 @@ if __name__ == '__main__':
     plt.plot(factor_timeline[half:], sig[half:])
     plt.show()
 
-    import pylab
 
-    fs_Hz = 1000
-    NFFT = 2048
 
     import tikzplotlib
 
-    matplotlib.use("pgf")
-    matplotlib.rcParams.update(
-        {
-            # Adjust to your LaTex-Engine
-            "pgf.texsystem": "pdflatex",
-            "font.family": "serif",
-            "text.usetex": True,
-            "pgf.rcfonts": False,
-            "axes.unicode_minus": False,
-        }
-    )
+    # plt.figure(figsize=(14, 8), dpi=300)
+    # plt.specgram(results, NFFT=NFFT, noverlap=NFFT - int(0.25 * fs_Hz), Fs=fs_Hz, scale='dB',
+    #              #vmin=-111, vmax=-81,
+    #              cmap=pylab.cm.nipy_spectral, interpolation='bicubic')
+    # plt.axis(ymin=0, ymax=40)
+    sedation.plot_histogram(results, run_name, backend='pgf')
+    sedation.plot_histogram(results, run_name)
 
-    plt.figure(figsize=(14, 8), dpi=300)
-    plt.specgram(results, NFFT=NFFT, noverlap=NFFT - int(0.25 * fs_Hz), Fs=fs_Hz, scale='dB',
-                 vmin=-111, vmax=-81,
-                 cmap=pylab.cm.nipy_spectral, interpolation='bicubic')
-    plt.axis(ymin=0, ymax=40)
-
-    plt.xlabel("$x_1$")  # Latex commands can be used
-    plt.ylabel("$x_2$")
-    # Insert width and height from \printsizes
-    # A factor can be used to create some whitespace
-    factor = 0.9
-    plt.gcf().set_size_inches(3.43745 * factor, 3.07343 * factor)
-    # Fixes cropped labels
-    plt.tight_layout()
-    # Save as pgf
-    plt.savefig(Path(ROOT_DIR, 'thesis', 'data', 'full_sedation_sim', f'{run_name}.pgf'))
+    #
+    # plt.xlabel("$x_1$")  # Latex commands can be used
+    # plt.ylabel("$x_2$")
+    # # Insert width and height from \printsizes
+    # # A factor can be used to create some whitespace
+    # factor = 0.9
+    # plt.gcf().set_size_inches(3.43745 * factor, 3.07343 * factor)
+    # # Fixes cropped labels
+    # plt.tight_layout()
+    # # Save as pgf
+    # plt.savefig(Path(ROOT_DIR, 'thesis', 'data', 'full_sedation_sim', f'{run_name}.pgf'))
 
     # tikzplotlib.save(Path(ROOT_DIR, 'thesis', 'data', 'full_sedation_sim', f'{run_name}.tex'))
     #
     # plt.savefig(Path(ROOT_DIR, 'thesis', 'data', 'full_sedation_sim', f'____{run_name}.png'), format='png',
     #             bbox_inches='tight', pad_inches=0)
 
-    matplotlib.use("Qt5Agg")
+    #matplotlib.use("Qt5Agg")
     plt.show()

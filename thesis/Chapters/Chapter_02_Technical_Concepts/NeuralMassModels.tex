@@ -84,7 +84,7 @@ large to justify the assertion that all neurons receive roughly the same stimula
 This must be modeled by a monotonically increasing function.
 The Potential-To-Rate Block represents this process with a Sigmoid.
 After multiple iterations by Zetterberg~\cite{zetterberg_performance_1978},
-Lopes da Silva~\cite{lopes_da_silva_models_1976} and others,
+Lopes da Silva~\cite{lopes_da_silva_models_1976} and others~\cite{van_rotterdam_model_1982},
 Jansen and Rit~\cite{jansen_neurophysiologically-based_1993,
     jansen_electroencephalogram_1995} landed on the following equation:
 \begin{align}
@@ -166,14 +166,14 @@ The respective plots are visualized in Fig.~\ref{fig:PSPPlot}.
         \multicolumn{2}{|c|}{Parameter} & Default Value & Unit \\
         \hline
         \hline
-        Exc\. max\. amplitude / $e$          & \(A\) & \(3.25\) & \(mV\) \\
+        Exc. max. amplitude / $e$          & \(A\) & \(3.25\) & \(mV\) \\
         \hline
         %TODO: EXPLAIN 'LUMPED'!!!!
-        Lumped repr\. of sum of exc\. delays & \(a\) & \(100\)  & \(Hz\) \\
+        Lumped repr. of sum of exc. delays & \(a\) & \(100\)  & \(Hz\) \\
         \hline
-        Inh.\ max.\ amplitude / $e$          & \(B\) & \(22\)   & \(mV\) \\
+        Inh. max. amplitude / $e$          & \(B\) & \(22\)   & \(mV\) \\
         \hline
-        Lumped repr\. of sum of inh\. delays & \(b\) & \(50\)   & \(Hz\) \\
+        Lumped repr. of sum of inh. delays & \(b\) & \(50\)   & \(Hz\) \\
         \hline
     \end{tabular}
     \caption{Parameters of the PSP Blocks}
@@ -248,14 +248,14 @@ increasing the effect of an inhibitory neuron about 10-fold.
 
 \todo{maybe go more into detail about the reasons for stronger inhibition}\\[2em]
 The output of the Linear System defined by the PSP-Blocks is calculated by a convolution (denoted by $\ast$) of the
-incoming impulse density $x(t)$ with the impulse response function $h(t)$ (Eq.~\ref{eq:convolution}).
+incoming impulse density $x(t)$ with the impulse response function $h(t)$ (Eq.~\ref{eq:convolution}).\\
 %%%%
 % REMARK: CONVOLUTION
 %%%%
 % \begin{figure}
-\begin{wrapfigure}[22]{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.30\textwidth]{Figures/convolution/wikipedia-citation-needed}
+    \includegraphics[width=0.45\textwidth]{Figures/convolution/wikipedia-citation-needed}
     \caption{\textbf{Convolution:} The area enclosed by $f(\tau)$ and $g(t-\tau)$ is the value of $(f\ast g)(t)$.\\
     \hrulefill \\
     \textit{By Cmglee - Own work, CC BY-SA 3.0  \url{https://commons.wikimedia.org/w/index.php?curid=20206883}}}
@@ -263,7 +263,6 @@ incoming impulse density $x(t)$ with the impulse response function $h(t)$ (Eq.~\
     \label{fig:Convolution}
 \end{wrapfigure}
 % \end{figure}
-
 %\begin{minipage}{0.6\textwidth}
 \begin{remark}[Convolution]
     The convolution of two functions $f(t)$ and $g(t)$ is defined as the integral of their product after one function
