@@ -43,7 +43,9 @@ Improved techniques like the fMRI and the EEG allow for non-invasive observation
 used extensively to study the dynamics of the brain during sleep and loss and return of consciousness
 \textcolor{blue}{[citation needed]}.
 Some phenomena, like predictable changes in signal-frequencies and some critical brain regions involved in
-consciousness-modulation have been identified and are well documented \textcolor{blue}{[citation needed]}.
+consciousness-modulation, e.g.\ to induce sleep, have been identified and are well documented
+\textcolor{blue}{[citation
+needed]}.
 Techniques to measure levels of consciousness via neuroimaging have been proposed~\cite{sigl_introduction_1994,
     casali_theoretically_2013} and used in practise~\cite{mathur_bispectral_2022}.
 However, exact mechanisms behind state-changes are still object of fundamental research.
@@ -95,28 +97,57 @@ Many efforts in the field are based on the JR NMM, e.g.~\cite{wendling_relevance
 
 
 Neural-Mass models have been widely used to simulate the properties of different states of consciousness.
-Cona et al.~\cite{cona_thalamo-cortical_2014} adapted the JR NMM to simulate effects
+Cona et al.~\cite{cona_thalamo-cortical_2014} adapted multiple interconnected JR NMM modules to simulate effects
 of different stages of sleep.
 Their model accounts for thalamo-cortical modulation of cortico-cortical connectivity as an important mechanism to
 influence these transitions.
-Bensaid et al.'s COALIA Framework~\cite{bensaid_coalia_2019},
-makes use of a similar structure, while using over 60 interconnected NMM-modules and applying a
+Another sophisticated example is Bensaid et al.'s COALIA Framework~\cite{wendling_epileptic_2002, bensaid_coalia_2019},
+which makes use of a similar connectivity structure, while using over 60 interconnected NMM-modules and applying a
 transformation onto scalp electrodes using a realistic head-model with tissue conductivities.
+The resulting system is able to simulate the influence of Transcranial Magnetic Stimulation (TMS) during either
+a waking or sleeping state.
 
 % steyn_ross_sleep_2005
-As we are looking to simulate propofol-induced unconsciousness, similar approaches bear special consideration:
+However, since we are looking to simulate propofol-induced unconsciousness, other approaches bear special
+consideration:
 To simulate phenomena specific to general anaesthesia,
-Steyn-Ross et al.~\cite{steyn_ross_modelling_2004, hutt_progress_2011} developed a model based
+Steyn-Ross et al.~\cite{steyn_ross_modelling_2004, hutt_progress_2011} developed a neural field model based
 on Liley et al.'s continuum model~\cite{liley_continuum_1999}.
-\todo{short explanation of continuous cortical field theories CFT, the difference to `normal' NMMs}
+Neural field models are similar to neural mass models,
+but also take into account the continuity of the cortex and the spatial distribution of
+neurons~\cite{glomb_computational_2022}, adding complexity to the model.
 
-This work aims to use a non-CFT approach based on the JR model and evaluate if it is able to reproduce the
-behavior observed in Steyn-Ross et al.'s CFT model ~\cite{hutt_progress_2011}.
+
+\section{Goal}\label{sec:goal}
+The JR model has its greatest advantages in its simplicity (even including extensions) and serves as 'Occam's Razor'
+for many applications in the field~\cite{kuhlmann_neural_2016}.
+As its fundamental structures have proven to be a working local basis for sophisticated approaches as the COALIA
+framework,
+it appears desirable to evaluate its ability to simulate the effects of anaesthesia and serve as a simple tool to
+further consciousness research in that area.
+This work aims to reproduce the behavior observed in Steyn-Ross et al.'s neural field model ~\cite{hutt_progress_2011}
+using a neural mass approach based on the JR model,
+thus helping to investigate the prerequisites for the emergence of the phenomena in brain-dynamics typical to
+anaesthesia - specifically the existence of propofol hysteresis and a biphasic effect as reported by
+~\cite{hutt_progress_2011}.
 While the basic JR model is able to produce rich patterns of dynamic behavior~\cite{spiegler_bifurcation_2010},
 large regions of its parameter-space generate sinusoidal signals with a single pronounced frequency,
 which might limit its ability to reproduce the expected phenomena (as noted by~\cite{kuhlmann_neural_2016}).
 Therefore, the subpopulation-extension proposed by David \& Friston~\cite{david_neural_2003} is also employed to
 produce a more realistic baseline frequency spectrum.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %\cite{luppi_paths_2021}}
 %
