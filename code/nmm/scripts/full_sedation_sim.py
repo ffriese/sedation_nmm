@@ -77,18 +77,18 @@ class SedationSim:
 
 
 if __name__ == '__main__':
-    sedation = SedationSim(model_builder=ModelBuilder.build_jansen_rit_default)
+    sedation = SedationSim(model_builder=ModelBuilder.build_david_friston_default)
 
     seconds = 65
     cut = 1.0
     f_ser = sedation.gen_factors(seconds, cut, start=1.0,
                                  middle=3.0)
 
-    run_name = 'jr_simple'
+    run_name = 'df_only_slow'
 
     inputs = {
         'PC/RPO_i/tau_fac_0': f_ser,
-        'PC/RPO_i/tau_fac_1': f_ser,
+        #'PC/RPO_i/tau_fac_1': f_ser,
     }
     t = time.time()
     plt.plot(f_ser)

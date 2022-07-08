@@ -1,0 +1,62 @@
+\begin{tikzpicture}
+	\node(sout){};
+	\node[shape=rectangle, draw=black, left=0.3cm of sout.center] (SigmPC) {$x(t)$};
+	
+	\node[shape=rectangle, draw=black, above right=1cm and 2.5cm of sout.center] (H1) {$h_{e_0}(t)$};
+	\node[shape=rectangle, draw=black, fill=white, below right=0.2cm and 0.2cm of H1.west] (H2) {$h_{e_1}(t)$};
+	\node[shape=rectangle, draw=black, fill=white, below right=2cm and 0.8cm of H2.west] (HN) {$h_{e_N}(t)$};
+	\draw[black!80, linedots, linedot diameter=4pt, linedot spacing=25pt, shorten <=8pt, shorten >=8pt] (H2.south) --
+    (HN.north);
+	\node[shape=rectangle, dotted, draw=black, fill=white, fill opacity=0.7, text opacity=1, below right=0.8cm and 0.4cm of H2.west] (Hen) {$h_{e_n}(t)$};
+	
+	
+	\node[left=0.3cm of H1.west](x1){};
+	\node[left=0.45cm of H2.west](x2){};
+	\node[left=0.85cm of Hen.west](xen){};
+	\node[left=1.3cm of HN.west](xN){};
+	
+	\node[shape=circle, draw=black, right=2cm of H1] (w1) {\small$w_0$};
+	\node[shape=circle, draw=black,fill=white, right=2cm of H2] (w2) {\small$w_1$};
+	\node[shape=circle, dotted, draw=black, right=2cm of Hen] (wen) {\small$w_n$};
+	\node[shape=circle, draw=black, right=2cm of HN] (wN) {\small$w_N$};
+	
+	
+	\node[right=1.1cm of w1.east](y1){};
+	\node[right=0.9cm of w2.east](y2){};
+	\node[right=0.5cm of wen.east](yen){};
+	\node[right=0.001cm of wN.east](yN){};
+	
+	\node[shape=rectangle, draw=black, right=10cm of sout.center] (pout){$y(t)$};
+	
+	
+	\draw[-] (SigmPC.east) -- (sout.center);
+	
+	\draw[-] (sout.center) .. controls +(3:1.2) and +(10:-1.5) .. (x1.center);
+	\draw[-] (sout.center) .. controls +(3:1.2) and +(10:-1.5) .. (x2.center);
+	\draw[-, dotted] (sout.center) .. controls +(3:1.2) and +(10:-1.5) .. (xen.center);
+	\draw[-] (sout.center) .. controls +(3:1.2) and +(10:-1.5) .. (xN.center);
+	
+	
+	\draw[->] (x1.center) |- (H1.west);
+	\draw[->] (x2.center) |- (H2.west);
+	\draw[->, dotted] (xen.center) |- (Hen.west);
+	\draw[->] (xN.center) |- (HN.west);
+	
+	\draw[->] (H1.east) -- (w1.west) node [above, midway]{\tiny$y_0(t)$};
+	\draw[->] (H2.east) -- (w2.west)node [above, midway]{\tiny$y_1(t)$};
+	\draw[->, dotted] (Hen.east) -- (wen.west)node [above, midway]{\tiny$y_n(t)$};
+	\draw[->] (HN.east) -- (wN.west)node [above, midway]{\tiny$y_N(t)$};
+	
+	
+	
+	\draw[-] (w1.east) |- (y1.center);
+	\draw[-] (w2.east) |- (y2.center);
+	\draw[-, dotted] (wen.east) |- (yen.center);
+	\draw[-] (wN.east) |- (yN.center);
+	
+	\draw[->, very thin] (y1.center) .. controls +(3:1.2) and +(10:-1.5) .. (pout.west);
+	\draw[->, very thin] (y2.center) .. controls +(3:1.2) and +(10:-1.5) .. (pout.west);
+	\draw[->, dotted, thin] (yen.center) .. controls +(3:1.2) and +(10:-1.5) .. (pout.west);
+	\draw[->, very thin] (yN.center) .. controls +(3:1.2) and +(10:-1.5) .. (pout.west);
+	
+\end{tikzpicture}

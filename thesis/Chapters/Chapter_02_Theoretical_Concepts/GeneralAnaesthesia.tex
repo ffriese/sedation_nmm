@@ -1,6 +1,7 @@
 \section{General Anaesthesia}\label{sec:general-anaesthesia}
-
-\subsection{Basics}
+\incomplete{this section is currently just a collection of information. it needs transitions between subsections and
+improvements to the text}
+\subsubsection{Basics}
 General Anaesthesia is usually employed in surgical contexts to keep patients from experiencing the pain of the
 operation.
 Sedative drugs are carefully administered to the patient by trained practitioners to induce loss of consciousness,
@@ -8,7 +9,7 @@ without causing permanent damage to the brain or other parts of the body
 
 
 
-\subsection{Units for propofol concentration}
+\subsubsection{Units for propofol concentration}
 Some papers~\cite{iwakiri_individual_2005} cite propofol concentrations in $\SI{}{\frac{\micro\gram}{\milli\litre}}$,
 while others~\cite{kitamura_effects_2003, mcdougall_propofol_2008} use $\SI{}{\micro\molar}$ (micromolar =
 $\SI{}{\frac{\micro\mol}{\litre}}$).
@@ -21,7 +22,7 @@ and only mention values in $\SI{}{\frac{\micro\gram}{\milli\litre}}$ where they 
 but then provide the converted value as well.
 
 
-\subsection{Realistic propofol concentrations during general anaesthesia (GA)}\label{subsec:realistic-prop-conc-during-ga}
+\subsubsection{Realistic propofol concentrations during general anaesthesia (GA)}\label{subsec:realistic-prop-conc-during-ga}
 
 During GA, effect-site concentrations ($c_{e}$, concentration near the synaptic receptors) of propofol may easily range
 up to
@@ -40,13 +41,15 @@ as direct measurement is impractical for obvious reasons.
 Since our model will work with $c_{e}$ directly, we will disregard this for now - however, it should be kept in mind.
 
 
-\subsection{Effects of propofol on the IPSP}
+\subsubsection{Effects of propofol on the IPSP}
 
 Research on the effect of propofol on the IPSC (Inhibitory Post-Synaptic Current) and EPSC
 has shown that propofol strongly affects the IPSP decay time \cite{kitamura_effects_2003, mcdougall_propofol_2008}.
 The EPSP and the amplitude of the IPSP are unaffected by propofol.
 Effect-site concentrations at clinically relevant levels increase the IPSP decay time
 significantly (e.g.\ around $\SI{10}{\micro\molar}$ the decay time roughly doubles)~\cite{kitamura_effects_2003}.
+
+\incomplete{the `manual fit' needs to be replaced with something `more scientific'}
 
 Using the data-points from~\cite{kitamura_effects_2003}
 and assuming a very rough manual logarithmic fit (see Fig.~\ref{fig:lambda_fit}),
@@ -58,6 +61,8 @@ effect-site concentration in $\SI{}{\micro\molar}$.
 As there unfortunately were only a few data-points (and none above $\SI{10}{\micro\molar}$,
 leaving a large part of the relevant parameter space empty),
 a computational model-fit might have over-valued those points.
+\todo{mention that there ARE points over 10 uM~ \cite{mcdougall_propofol_2008},
+    which may not be directly comparable. generally check~\cite{hutt_progress_2011} and others for their sources}
 A visually fitted logarithmic function (assuming eventual effect saturation) seemed like a sensible choice
 for this use-case.
 However, since inter-subject variations are substantial in any case,
@@ -107,12 +112,13 @@ the exact values do not matter as much as the order of magnitude.
     \end{tikzpicture}
 
     \caption{very rough manual logarithmic fit of decay-time factor to measured values
-    from~\cite{kitamura_effects_2003}.}
+    from~\cite{kitamura_effects_2003}(x) and~\cite{mcdougall_propofol_2008}(o).}
     \label{fig:lambda_fit}
 \end{figure}
 
-\subsection{Hysteresis of propofol}
-If the state of a system depends not only on its parameters, but also the systems history,
+\subsubsection{Hysteresis of propofol}
+
+If the state of a system depends not only on its parameters, but also the system's history,
 this dependency is called hysteresis.
 The human body often reacts differently to the same concentration of a drug,
 depending on whether the concentration is rising or decaying.
@@ -127,7 +133,7 @@ misgauging the actual effect-site concentration,
 there is a growing body of research that supports the notion that the observed effect is independent of
 pharmacokinetic interference~\cite{hutt_progress_2011, su_hysteresis_2020}.
 % Therories of reasons: - re-initiation more complex than shutdown, phase-transitions
-
+\todo{possibly delete the following exemplary graphic:}
 \begin{figure}[H]
     \centering
     \pgfplotsset{compat = newest}
@@ -158,6 +164,6 @@ pharmacokinetic interference~\cite{hutt_progress_2011, su_hysteresis_2020}.
         \end{axis}
     \end{tikzpicture}
 
-    \caption{Example of counter-clockwise drug hysteresis}
+    \caption{Hypothetical example of counter-clockwise drug hysteresis}
     \label{fig:hystersis_in_general}
 \end{figure}

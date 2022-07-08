@@ -133,7 +133,7 @@ BoldItalicFont=*-BoldItalic
 % ------------------
 % section number depths
 % ------------------
-\setcounter{tocdepth}{3}
+\setcounter{tocdepth}{2}
 \setcounter{secnumdepth}{3}
 
 \allsectionsfont{\sffamily}
@@ -201,6 +201,13 @@ BoldItalicFont=*-BoldItalic
 \newcommand\todo[1]{\\
 \fcolorbox{orange}{orange!10}{\parbox{\linegoal}{
     \fcolorbox{black}{yellow!70}{\small\faIcon{tasks}~ \texttt{Todo}}
+    \hspace{4pt} \texttt{#1}}}~\\
+}
+
+
+\newcommand\question[1]{\\
+\fcolorbox{yellow}{yellow!10}{\parbox{\linegoal}{
+    \fcolorbox{black}{yellow!70}{\small\faIcon{question}~ \texttt{Question}}
     \hspace{4pt} \texttt{#1}}}~\\
 }
 

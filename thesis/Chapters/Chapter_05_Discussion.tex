@@ -1,27 +1,54 @@
 \chapter{Discussion}
+\incomplete{i'm not happy with this section yet...}
+%% goal / hypotheses
+The general goal of this thesis was to validate whether the basic single-column Jansen-Rit model would be able to
+reproduce the main phenomena observed in~\cite{hutt_progress_2011}.
+That is a biphasic effect and a pronounced drug-hysteresis.
+Given it's limited ability to output realistic frequency distributions,
+and the hypothesis that this would hinder those efforts,
+the extension of the David-Friston model which overcomes these limitations was also employed to reach this goal.
 
-While the NMM used for simulation is a very rough abstraction of cortical dynamics,
-multiple parallels to effects observed during GA can be drawn:
+%% results
+Interestingly, even the basic single-column JR Model produces a strong bi-phasic response and a minor hysteresis effect
+can be observed, as the transitions in to and out of the `unstable' state are not perfectly `symmetrical' when raising
+versus decreasing the simulated propofol effect.
+The biphasic effect occurs very quickly after increasing the IPSP duration, which may in part be due to the default
+parameters lying close to a region that produces what David and Friston call `hypersignals`.
+The resulting spectrogram does not have many attributes of a realistic EEG signal during anaesthesia,
+as was to be expected due to the aforementioned limitations.
+Generally, the results do suggest that the basic JR model has intrinsic properties that produce the same general
+effects that Steyn-Ross et al.\ reported in their neural field model~\cite{hutt_progress_2011}.
 
-\begin{enumerate}
+% context of results (Steyn-Ross, Purdon, ...)
 
-    \item Two, distinguishable \textbf{stable states} can be observed.
-    The frequency changes bear strong similarities to the switch to unconsciousness in GA
-    \cite{purdon_electroencephalogram_2013, ni_mhuircheartaigh_slow_wave_2013}.
-    \item Induction and Emergence are asymmetrical (\textbf{hysteresis}).
-    The system predicts that the state-change `LOC` occurs at higher concentrations than `ROC`.
 
-    \item During state transitions, there is a strong \textbf{biphasic effect}.
-    The system predicts that the frequency range below $\SI{25}{\hertz}$ receives a temporary amplitude boost during
-    the phase transitions, which disappears while the parameter changes continue in the same direction.
-    \item In the `unconscious` state, frequency distribution stabilizes independent of further increasing decay-time
-    (\textbf{slow-wave-activity saturation}?~\cite{ni_mhuircheartaigh_slow_wave_2013}).
+% comparison to other approaches (COALIA / Kuhlmann)
 
-\end{enumerate}
+Kuhlmann et al.'s efforts to use the basic JR model for depth-of-anaesthesia tracking did produce encouraging results,
+even though they concluded that the model might be too simple for their approach.
+They experimented with a slight modification of adding self-inhibition to the IIN population without notable success.
+It would be interesting to validate this method with the subpopulation extension used in this thesis,
+as is appears to be able to model a rich palette of realistic signal states and frequency distributions.
 
-\todo{elaborate on all of the above...}
-\todo{draw parallels to~\cite{hutt_progress_2011}, which discusses mainly the same effects,
-    although with a different NMM (or `mean-field-model`)...}
+
+% LIMITS OF THE MODEL!!!!
+While the results of the system are promising, it must always be kept in mind that the spatial abstractions of a
+population model are not the only simplification in the system used in this thesis.
+Many key-concepts and parameters of the model are strictly rooted in neuro-biological evidence,
+but there has also been parameter tuning to match desired outputs (e.g.\ the choice of weights for the subpopulations
+in~\cite{david_neural_2003} was ultimatively motivated by the resulting frequency-spectra).
+The resulting weights do lie well within the plausible ranges [citation-needed],
+but should not be considered given.
+Additionally, studying the generated signal of a single macro-column cannot be used to make dependable
+general statements about processes as complex as the loss and emergence of consciousness.
+
+Some of these concerns can be addressed by WHOLE BRAIN NMM MODELS,
+which consist of many of these columns, ideally spatially realistically interconnected and with propagation delays
+between regions that are further apart.
+
+
+
 
 \section{Outlook}
-\todo{How could the model be extended}
+\todo{How could the model be extended: e.g. more realism by incorporation into a whole-brain system like COALIA, ...}
+\todo{Possible further Applications: Depth-Of-Anaesthesia-Tracking ~\cite{kuhlmann_neural_2016}, ...}

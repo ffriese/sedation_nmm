@@ -1,66 +1,80 @@
-\section{Simulating the effects of propofol}\label{sec:simulating-the-effects-of-propofol}
+%! suppress = EscapeUnderscore
 
+\section{Data Analysis}\label{sec:data-analysis}
+\todo{explain features of the raw data, postprocessing steps}
 
-\section{Implementing decay-time modulation}\label{sec:implementing-decay-time-modulation}
-
-To simulate the effects of propofol on the GABA\textsubscript{A}  receptors,
-the IPSP (inhibitory response function $h_i$) time-constant $\tau_i$ is increased by a factor
-$\lambda$~\cite{hutt_effects_2010}:
-
-
-\[ h_i(t)=\frac{H_i}{\lambda \cdot \tau_i}te^{-\frac{1}{\lambda \cdot \tau_i}} \]
-The effect of increasing $\lambda$ for $h_{i_1}$ and $h_{i_2}$ is visualized in Fig.~\ref{fig:PSPInhibLongPlot}.
+%\section{General features of the simulated data}\label{sec:general-features-of-the-simulated-data}
+%
+%The NMM is configured to simulate data with a step-size of $1 ms$, yielding a $1000 Hz$ signal.
+%In its initial state, the system reacts with high-amplitude oscillations to the "disturbance" of the random input.
+%However, the signal usually stabilizes quickly and exhibits the expected behaviour.
+%Thus, the first few seconds (stabilization-time varies with parameterization) of simulated data
+%are always discarded before further analysis.
+%When generating data continuously (without re-initialization of the state-variables),
+%this problem only occurs once in the very beginning.
+%Changing system parameters abruptly during simulation can also result in disturbances and destabilize the
+%signal.
 
 
 \begin{figure}[H]
     \centering
-    \pgfplotsset{compat = newest}
     \begin{tikzpicture}
-        \begin{axis}
-            [
-            xmin = -1, xmax = 280,
-            ymin = 0, ymax = 58.1,
-            xlabel = {$t$ ($ms$)},
-            ylabel = {$h$ ($mV$)},
-            legend pos=north east,
-            legend style={nodes={scale=0.8, transform shape}},
-            domain = 0:280,
-            samples = 200,
-            smooth,
-            thick,
-            ],
-            \addplot[red] {(20/22)*x*e^(-(1/22)*x)};\label{plot:psp3}
-            \addplot[orange] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:psp4}
-            \addplot[red, dash dot] {(20/44)*x*e^(-(1/44)*x)};\label{plot:psp5.10}
-            \addplot[red, dashed] {(20/66)*x*e^(-(1/66)*x)};\label{plot:psp5.15}
+        \pgfplotsset{
+        %% Axis
+            scale only axis,
+            width=0.4\linewidth,
+            height=4cm,
+            every axis/.append style={
+                line width=1pt,
+                tick style={line width=0.8pt},
+                %   grid style={dashed, black!20},
+                %  grid=major,
+            },
+%               %% X-Axis
+            xmin=-0.1,
+            xmax=7,
+        }
+        \begin{groupplot} [
+                group style={
+                    group size=2 by 2,
+                    vertical sep=12mm,
+                    horizontal sep=12mm,
+                },
+                yticklabel style={
+                    /pgf/number format/fixed,
+                    /pgf/number format/precision=2
+                },
+                legend style={nodes={scale=0.8, transform shape}, thin},
+                legend image post style={scale=0},
+            ]
+            \nextgroupplot[ylabel=$mV$, xlabel=$s$]
+            \addplot [line width=.5pt,solid, cyan]
+            table[x=x,y=y ,col sep=comma]{data/methodology/uncut.csv};
+            \legend{\textbf{A)} uncut data};
 
-            \addplot[orange, dotted]{(151.72/5.8)*x*e^(-(1/5.8)*x)};\label{plot:psp6.10}
-            \addplot[orange, dashed] {(151.72/8.7)*x*e^(-(1/8.7)*x)};\label{plot:psp6.15}
-            \coordinate (legend) at (axis description cs:0.97,0.97);
-        \end{axis}
-        \tiny
-        \matrix [
-            draw,
-            matrix of nodes,
-            anchor=north east,
-        ] at (legend) {
+            \nextgroupplot[xmin=3.0, xlabel=$s$]
+            \addplot [line width=.5pt,solid, cyan]
+            table[x=x,y=y ,col sep=comma]{data/methodology/uncut.csv};
+            \legend{\textbf{B)} cut data};
 
-            & $\tau$ &    $H$  \\
-            $h_{i_1}(t)$~\ref{plot:psp3} & 22.0ms &  20.0mV \\
-            $h_{i_1}(t)$~\ref{plot:psp5.10} & 44.0ms &  20.0mV \\
-            $h_{i_1}(t)$~\ref{plot:psp5.15} & 66.0ms &  20.0mV \\
-            $h_{i_2}(t)$~\ref{plot:psp4} &  2.9ms & 151.7mV \\
-            $h_{i_2}(t)$~\ref{plot:psp6.10} &  5.8ms & 151.7mV \\
-            $h_{i_2}(t)$~\ref{plot:psp6.15} &  8.7ms & 151.7mV \\
-        };
+            \nextgroupplot[xmax=30.0, ylabel=$dB$, xlabel=$Hz$]
+            \addplot [line width=.5pt,solid, cyan]
+            table[x=x,y=y ,col sep=comma]{data/methodology/psd_welch_jr.csv};
+            \legend{\textbf{C)} J-R PSD};
+
+            \nextgroupplot[xmax=30.0, xlabel=$Hz$]
+            \addplot [line width=.5pt,solid, cyan]
+            table[x=x,y=y ,col sep=comma]{data/methodology/psd_welch_df.csv};
+            \legend{\textbf{D)} D\&F PSD};
+
+        \end{groupplot}
     \end{tikzpicture}
 
-    \caption{\textbf{Inhibitory PSP functions with varying $\lambda$:} \\
-        The duration of the effect increases while the amplitude stays
-        constant, effectively increasing the charge transfer. ($\lambda$ in [1.0 (no drug-effect, solid lines),
-        2.0 (dotted), 3.0 (dashed)])
+    \caption{
+        \textbf{Processing of simulated data.} \\
+        \textbf{A) \& B):} removing initially unstable signal by cutting off the first $3s$ of the
+        data (generated by Simple Jansen-Rit Model with $C=135$.). \\
+        \textbf{C) \& D):} Power Spectral Density of Jansen-Rit and David \& Friston Model (Welch's Method)
     }
-    \label{fig:PSPInhibLongPlot}
+    \label{fig:initial_oscilations}
 \end{figure}
-Varying $\lambda$ between $1$ ($\SI{0}{\micro\molar}$) and $3.0$ ($\sim\SI{30}{\micro\molar}$) appears to be a
-sensible choice for the clinically relevant range, given Fig.~\ref{fig:lambda_fit}.

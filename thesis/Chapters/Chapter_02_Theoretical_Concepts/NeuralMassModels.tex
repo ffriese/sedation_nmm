@@ -15,9 +15,8 @@
 
 
 \section{Neural Mass Models}\label{sec:neural-mass-models}
-\todo{slightly deeper introduction (we already have this in the EEG section) to NMMs in general}
 
-\subsection{The Jansen-Rit Model}\label{subsec:the-jansen-rit-model}
+\subsection{The Basic Jansen-Rit Model}\label{subsec:the-jansen-rit-model}
 
 The widely used Jansen-Rit Model~\cite{jansen_neurophysiologically-based_1993, jansen_electroencephalogram_1995},
 is based on earlier models by Wilson \& Cowan~\cite{wilson_excitatory_1972},
@@ -28,7 +27,7 @@ each modeling a population of neurons with distinct characteristics.
 
 The basic schema of the model is visualized in Fig.~\ref{fig:Jansen Rit Flowchart}, showing the connections
 \begin{wrapfigure}{r}{0.5\textwidth}
-    \input{Chapters/Chapter_02_Technical_Concepts/tikz/jr_basic_schema_tikz}
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_basic_schema_tikz}
     \caption{\textbf{Basic Schema of the Jansen-Rit Model:} Three populations of neurons}
     \label{fig:Jansen Rit Flowchart}
 \end{wrapfigure}
@@ -55,11 +54,11 @@ average number of synapses between the populations.
 The signal most closely related to the EEG and therefore the variable of interest,
 is the summed average membrane potential of the PC population ($y_1(t)-y_2(t)$ in Fig.~\ref{fig:Jansen Rit Simple}).
 
-\todo{explain neurophysiology why $EEG \approx y_1-y_2$, or reference back to explanation in EEG section}\\[1em]
+%\todo{explain neurophysiology why $EEG \approx y_1-y_2$, or reference back to explanation in EEG section}\\[1em]
 
 \begin{figure}[H]
     \centering
-    \input{Chapters/Chapter_02_Technical_Concepts/tikz/jr_simple_block_bw_tikz}
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_simple_block_bw_tikz}
     \caption{\textbf{Simple Block Diagram after~\parencite{jansen_electroencephalogram_1995}:}
     It's structure might be somewhat confusing when trying to visualize the biological analogy,
         where each population would have individual afferent PSP-Blocks.
@@ -447,7 +446,7 @@ both the EIN and IIN population, while $y_1(t)$ is the EPSP and $y_2(t)$ the IPS
 
 \begin{figure}[H]
     \centering
-    \input{Chapters/Chapter_02_Technical_Concepts/tikz/jr_simple_block_colored_tikz}
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_simple_block_colored_tikz}
     \caption{Colored Block diagram, visualizing the components of (Eq. \ref{eq:jr_nmm_system})}
     \label{fig:JRBlockColored}
 \end{figure}
@@ -572,12 +571,12 @@ The simulated data from $y_1-y_2$ while varying $C$ looks like this:
 
 \pagebreak
 
-\subsection{The David and Friston Model}\label{subsec:the-david-and-friston-model}
+\subsection{The Sub-Population-Extension by David and Friston}\label{subsec:the-david-and-friston-model}
 \incomplete{the whole David-Friston-Section is still very much preliminary}
 
 While the Jansen-Rit model succeeds in generating realistic alpha activity,
 real EEG Signals contain much richer spectra~\parencite{steriade_impact_2001}.
-David and Fristion~\cite{david_neural_2003} proposed a modification to the Jansen-Rit model,
+David and Friston~\cite{david_neural_2003} proposed a modification to the Jansen-Rit model,
 that could produce a more realistic frequency spectrum by introducing sub-populations to the model.
 They can be tuned individually to produce oscillations in different frequencies.
 
@@ -618,7 +617,7 @@ accordingly ($H_e=\frac{0.0325mVs}{\tau_e}$, $H_i=\frac{0.44mVs}{\tau_i}$).
     be confused with these.
     However, $e$ and $i$ as indices still denote excitatory and inhibitory populations respectively.}} \\[2em]
 \begin{figure}[H]
-    \input{Chapters/Chapter_02_Technical_Concepts/tikz/exc_subpop_tikz}
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/exc_subpop_tikz}
     \caption{Example of subpopulations ($h_{e_0}(t), \dots, h_{e_N}(t)$) forming an excitatory population $h_e(t)$}
     \label{fig:exc_subpops}
 \end{figure}

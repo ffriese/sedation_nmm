@@ -62,6 +62,8 @@ during general anaesthesia.
 Propofol's neuro-chemical mode of action and its specific effects on synaptic receptors are well understood,
 which lays a solid foundation to study the brain-dynamics associated with loss of consciousness.
 
+\todo{clarify/establish what exactly we simulate (``behavior'' is unspecific)}
+
 A promising approach to further our insights step by step, is to simulate controlled state-changes
 (such as anaesthesia) in computer-models to develop an understanding of the dynamics of brain-activity and its
 effects on consciousness. %% controlled induction/loss of consciousness to directly test hypothesis experimentally
@@ -73,6 +75,7 @@ of neurons and have proven to replicate multiple abstract phenomena of brain-dyn
 column.
 The simplifications they provide allow efficient real-time simulation of signals,
 while preserving many important characteristics of EEG or MEG signals.
+\todo{WHY EEG & NMM? What are the alternatives?}
 
 \todo{improve explanation of NMMs}
 
@@ -82,7 +85,7 @@ While the abstract nature of NMMs, along with its limitations must always be
 considered~\cite{deschle_validity_2021},
 the results of simulated experiments can provide valuable research indications.
 
-
+\todo{start section `contribution of this thesis:` to lead into the following}
 One of the most commonly used models in the area of neural population models is the
 Jansen-Rit~\cite{jansen_electroencephalogram_1995} (JR) NMM,
 which is based on efforts by Wilson \& Cowan~\cite{wilson_excitatory_1972},
@@ -96,7 +99,8 @@ Many efforts in the field are based on the JR NMM, e.g.~\cite{wendling_relevance
 
 
 
-Neural-Mass models have been widely used to simulate the properties of different states of consciousness.
+Neural-Mass models have been widely used to simulate the properties \todo{maybe specify} of different states of
+consciousness.
 Cona et al.~\cite{cona_thalamo-cortical_2014} adapted multiple interconnected JR NMM modules to simulate effects
 of different stages of sleep.
 Their model accounts for thalamo-cortical modulation of cortico-cortical connectivity as an important mechanism to
@@ -118,7 +122,7 @@ but also take into account the continuity of the cortex and the spatial distribu
 neurons~\cite{glomb_computational_2022}, adding complexity to the model.
 
 
-\section{Goal}\label{sec:goal}
+%\section{Goal}\label{sec:goal}
 The JR model has its greatest advantages in its simplicity (even including extensions) and serves as 'Occam's Razor'
 for many applications in the field~\cite{kuhlmann_neural_2016}.
 As its fundamental structures have proven to be a working local basis for sophisticated approaches as the COALIA
@@ -128,24 +132,15 @@ further consciousness research in that area.
 This work aims to reproduce the behavior observed in Steyn-Ross et al.'s neural field model ~\cite{hutt_progress_2011}
 using a neural mass approach based on the JR model,
 thus helping to investigate the prerequisites for the emergence of the phenomena in brain-dynamics typical to
-anaesthesia - specifically the existence of propofol hysteresis and a biphasic effect as reported by
-~\cite{hutt_progress_2011}.
+anaesthesia
+
+\textcolor{gray}{- specifically the existence of propofol hysteresis and a biphasic effect as reported by
+~\cite{hutt_progress_2011}.} \question{should the `hypotheses' (gray) be mentioned in this form here?}
 While the basic JR model is able to produce rich patterns of dynamic behavior~\cite{spiegler_bifurcation_2010},
 large regions of its parameter-space generate sinusoidal signals with a single pronounced frequency,
 which might limit its ability to reproduce the expected phenomena (as noted by~\cite{kuhlmann_neural_2016}).
 Therefore, the subpopulation-extension proposed by David \& Friston~\cite{david_neural_2003} is also employed to
 produce a more realistic baseline frequency spectrum.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
