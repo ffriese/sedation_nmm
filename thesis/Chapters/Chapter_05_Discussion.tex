@@ -1,30 +1,46 @@
 \chapter{Discussion}
 \incomplete{i'm not happy with this section yet...}
+\todo{-general structure:\\
+-common goals of steyn-ross and this thesis:\\
+--- capture anaesthetic effect with simple(?) model
+-steyn-ross as "landmark" effects\\
+-own contribution:\\
+--- given the steyn ross model -> to what extend can simpler models capture this\\
+--- first candidate: JR\\
+----- biphasic \& minimal hysteresis\\
+----- limits: ...(maybe kuhlmann reference)\\
+--- this motivated next tier of model-sophistication: DF\\
+----- ...}
 %% goal / hypotheses
+\todo{improvement idea: `the general question was, whether there are simpler models than the Steyn-Ross model, that
+can reproduce these effects...`}
 The general goal of this thesis was to validate whether the basic single-column Jansen-Rit model would be able to
 reproduce the main phenomena observed in~\cite{hutt_progress_2011}.
-That is a biphasic effect and a pronounced drug-hysteresis.
+That is a biphasic effect and a clear drug-hysteresis.
 Given it's limited ability to output realistic frequency distributions,
 and the hypothesis that this would hinder those efforts,
 the extension of the David-Friston model which overcomes these limitations was also employed to reach this goal.
 
 %% results
-Interestingly, even the basic single-column JR Model produces a strong bi-phasic response and a minor hysteresis effect
-can be observed, as the transitions in to and out of the `unstable' state are not perfectly `symmetrical' when raising
-versus decreasing the simulated propofol effect.
+Interestingly, even the basic single-column JR Model produces a strong biphasic response and a minor hysteresis effect
+can be observed, as the transitions in and out of the `unstable' state are not perfectly `symmetrical' when
+increasing or decreasing the simulated propofol effect.
 The biphasic effect occurs very quickly after increasing the IPSP duration, which may in part be due to the default
 parameters lying close to a region that produces what David and Friston call `hypersignals`.
 The resulting spectrogram does not have many attributes of a realistic EEG signal during anaesthesia,
 as was to be expected due to the aforementioned limitations.
 Generally, the results do suggest that the basic JR model has intrinsic properties that produce the same general
 effects that Steyn-Ross et al.\ reported in their neural field model~\cite{hutt_progress_2011}.
-
 % context of results (Steyn-Ross, Purdon, ...)
-
-
+\todo{describe spectral features}
+\todo{describe difference between spectral features of LOC and ROC}
+\todo{draw comparision to real EEG spectra during anaesthesia \cite{purdon_electroencephalogram_2013}}
 % comparison to other approaches (COALIA / Kuhlmann)
-
-Kuhlmann et al.'s efforts to use the basic JR model for depth-of-anaesthesia tracking did produce encouraging results,
+\todo{reference COALIA}
+\todo{better lead into kuhlmann: something like `similar motivation with different angle`}
+\todo{describe kuhlmann paper in more detail}
+Kuhlmann et al.'s~\cite{kuhlmann_neural_2016} efforts to use the basic JR model for depth-of-anaesthesia tracking did
+produce encouraging results,
 even though they concluded that the model might be too simple for their approach.
 They experimented with a slight modification of adding self-inhibition to the IIN population without notable success.
 It would be interesting to validate this method with the subpopulation extension used in this thesis,
@@ -36,19 +52,40 @@ While the results of the system are promising, it must always be kept in mind th
 population model are not the only simplification in the system used in this thesis.
 Many key-concepts and parameters of the model are strictly rooted in neuro-biological evidence,
 but there has also been parameter tuning to match desired outputs (e.g.\ the choice of weights for the subpopulations
-in~\cite{david_neural_2003} was ultimatively motivated by the resulting frequency-spectra).
+in~\cite{david_neural_2003} was ultimately motivated by the resulting frequency-spectra).
 The resulting weights do lie well within the plausible ranges [citation-needed],
-but should not be considered given.
+but should not be considered a given.
+\todo{soften this harsh criticism...}
 Additionally, studying the generated signal of a single macro-column cannot be used to make dependable
 general statements about processes as complex as the loss and emergence of consciousness.
-
-Some of these concerns can be addressed by WHOLE BRAIN NMM MODELS,
+\todo{... the breakdown of stabilty in small columns is however a good indication for the loss of necessary
+conditions for consciousness in the system as a whole}
+\todo{maybe something like "despite severe limits [...], it is remarkable that the simple model can [...]"}
+Some of these concerns can be addressed by "whole-brain" network-models,
 which consist of many of these columns, ideally spatially realistically interconnected and with propagation delays
 between regions that are further apart.
 
 
-
-
 \section{Outlook}
+\incomplete{i'm not happy with this section yet...}
+%Modeling the mechanisms related to consciousness remains a challenging task
+\todo{possible extension: modeling further dynamic effects of anaesthesia? (which exactly?)}
 \todo{How could the model be extended: e.g. more realism by incorporation into a whole-brain system like COALIA, ...}
-\todo{Possible further Applications: Depth-Of-Anaesthesia-Tracking ~\cite{kuhlmann_neural_2016}, ...}
+\todo{Possible practical applications: Depth-Of-Anaesthesia-Tracking ~\cite{kuhlmann_neural_2016}, ...}
+
+The development of models that aim to simulate anaesthesia is not only valuable for consciousness research.
+An application like the Depth-Of-Anaesthesia-Tracking that Kuhlmann et al.~\cite{kuhlmann_neural_2016} proposed,
+could estimate multiple clinically relevant physiological variables like the PSP amplitude and rate constant
+\todo{rephrase}.
+When matured, such a system could have advantages that would set it apart from current methods,
+which rely on algorithmic evaluation of extracted EEG features.
+In practice, anaesthetic agents like propofol are often administered in combination with analgesic (pain-reducing)
+agents (e.g.\ remifentanil).
+This substantially lowers the concentration requirements for the anaesthetic agent to achieve the same level of
+sedative effect,
+while also helping to increase the quality of anaesthesia, stabilizing the blood pressure and improving recovery
+[citation needed].
+\todo{note that current methods might not be able to correctly work with or disentangle the actions and interactions
+of multiple drugs }
+Being able to model and estimate physiological variables during general anaesthesia
+could be a valuable tool for clinical practice.
