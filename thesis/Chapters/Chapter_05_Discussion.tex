@@ -1,59 +1,68 @@
 \chapter{Discussion}
-\incomplete{i'm not happy with this section yet...}
-\todo{-general structure:\\
--common goals of steyn-ross and this thesis:\\
---- capture anaesthetic effect with simple(?) model
--steyn-ross as "landmark" effects\\
--own contribution:\\
---- given the steyn ross model -> to what extend can simpler models capture this\\
---- first candidate: JR\\
------ biphasic \& minimal hysteresis\\
------ limits: ...(maybe kuhlmann reference)\\
---- this motivated next tier of model-sophistication: DF\\
------ ...}
-%% goal / hypotheses
-\todo{improvement idea: `the general question was, whether there are simpler models than the Steyn-Ross model, that
-can reproduce these effects...`}
-The general goal of this thesis was to validate whether the basic single-column Jansen-Rit model would be able to
-reproduce the main phenomena observed in~\cite{hutt_progress_2011}.
-That is a biphasic effect and a clear drug-hysteresis.
-Given it's limited ability to output realistic frequency distributions,
-and the hypothesis that this would hinder those efforts,
-the extension of the David-Friston model which overcomes these limitations was also employed to reach this goal.
-
-%% results
-Interestingly, even the basic single-column JR Model produces a strong biphasic response and a minor hysteresis effect
-can be observed, as the transitions in and out of the `unstable' state are not perfectly `symmetrical' when
-increasing or decreasing the simulated propofol effect.
+%\todo{-general structure:\\
+%-common goals of steyn-ross and this thesis:\\
+%--- capture anaesthetic effect with simple(?) model
+%-steyn-ross as "landmark" effects\\
+%-own contribution:\\
+%--- given the steyn ross model -> to what extend can simpler models capture this\\
+%--- first candidate: JR\\
+%----- biphasic \& minimal hysteresis\\
+%----- limits: ...(maybe kuhlmann reference)\\
+%--- this motivated next tier of model-sophistication: DF\\
+%----- ...}
+The shared objective of Steyn-Ross et al. and this thesis,
+is to further understanding of the loss and emergence of consciousness,
+by capturing anaesthetic effects in an abstract model of brain activity.
+Steyn-Ross at al.\ were able to show,
+that their model produces hysteresis and a biphasic effect~\cite{hutt_progress_2011}.
+The general question of this thesis was,
+whether there are simpler models,
+that are able to reproduce these phenomena.
+The first and arguably most obvious candidate for this was the widely used Jansen-Rit Model,
+which is well known for a wide range of dynamics, despite its simplicity.
+Generally, the results do suggest that the basic JR model has intrinsic properties that produce
+effects similar to those reported in the neural field model~\cite{hutt_progress_2011}:
+the default configuration of the famous 1995 model~\cite{jansen_electroencephalogram_1995}
+produces a strong biphasic response (see Fig.~\ref{fig:sedation_sim_jr}),
+when increasing the inhibitory decay-time constant.
+Also a minor hysteresis can be observed, as the transitions in and out of the `unstable' state are not perfectly
+`symmetrical'. \todo{quantify}
 The biphasic effect occurs very quickly after increasing the IPSP duration, which may in part be due to the default
-parameters lying close to a region that produces what David and Friston call `hypersignals`.
-The resulting spectrogram does not have many attributes of a realistic EEG signal during anaesthesia,
-as was to be expected due to the aforementioned limitations.
-Generally, the results do suggest that the basic JR model has intrinsic properties that produce the same general
-effects that Steyn-Ross et al.\ reported in their neural field model~\cite{hutt_progress_2011}.
-% context of results (Steyn-Ross, Purdon, ...)
+parameters lying close to a region that produces what David and Friston call `hypersignals`\cite{david_neural_2003}.
+
+\todo{maybe mention kuhlmann here, their criticism of JR limits}
+
+Given the basic model's inability to output realistic frequency distributions or a pronounced hysteresis,
+this motivated the next tier of model sophistication, namely the extension of David \&
+Friston\cite{david_neural_2003}.
+Their contribution of splitting the populations into subpopulations with different PSP properties,
+enables the model to produce signals with much richer frequency distributions.
+Indeed, the spectra generated during simulated sedation sessions with the default David-Friston model
+(see Fig .\ref{fig:sedation_sim_df}) bear similarities to those observed in
+real EEG recordings during general anaesthesia~\cite{purdon_electroencephalogram_2013}.
+
+
 \todo{describe spectral features}
 \todo{describe difference between spectral features of LOC and ROC}
-\todo{draw comparision to real EEG spectra during anaesthesia \cite{purdon_electroencephalogram_2013}}
+\todo{draw comparison to real EEG spectra during anaesthesia~\cite{purdon_electroencephalogram_2013}}
 % comparison to other approaches (COALIA / Kuhlmann)
-\todo{reference COALIA}
-\todo{better lead into kuhlmann: something like `similar motivation with different angle`}
-\todo{describe kuhlmann paper in more detail}
-Kuhlmann et al.'s~\cite{kuhlmann_neural_2016} efforts to use the basic JR model for depth-of-anaesthesia tracking did
-produce encouraging results,
-even though they concluded that the model might be too simple for their approach.
-They experimented with a slight modification of adding self-inhibition to the IIN population without notable success.
-It would be interesting to validate this method with the subpopulation extension used in this thesis,
-as is appears to be able to model a rich palette of realistic signal states and frequency distributions.
 
+\subsection{draft: argumentation}
+The fact that relatively simple computational models can predict the general frequency dynamics occurring during the
+drug-induced loss of consciousness,
+invites the speculation that effects such as hysteresis and the biphasic effect observed in real EEG recordings can at
+least in part be attributed to universally inherent brain-mechanics on population level.
 
+While the effects observed during these simulations provide little to no specific information about the factors
+involved in the emergence of consciousness,
+they suggest that abstract population dynamics might play a crucial role in modulating the necessary preconditions.
 % LIMITS OF THE MODEL!!!!
 While the results of the system are promising, it must always be kept in mind that the spatial abstractions of a
 population model are not the only simplification in the system used in this thesis.
 Many key-concepts and parameters of the model are strictly rooted in neuro-biological evidence,
 but there has also been parameter tuning to match desired outputs (e.g.\ the choice of weights for the subpopulations
 in~\cite{david_neural_2003} was ultimately motivated by the resulting frequency-spectra).
-The resulting weights do lie well within the plausible ranges [citation-needed],
+The chosen weights do lie well within the plausible ranges [citation-needed],
 but should not be considered a given.
 \todo{soften this harsh criticism...}
 Additionally, studying the generated signal of a single macro-column cannot be used to make dependable
@@ -65,6 +74,16 @@ Some of these concerns can be addressed by "whole-brain" network-models,
 which consist of many of these columns, ideally spatially realistically interconnected and with propagation delays
 between regions that are further apart.
 
+\subsection{draft: kuhlmann/coalia}
+\todo{reference COALIA}
+\todo{better lead into kuhlmann: something like `similar motivation with different angle`}
+\todo{describe kuhlmann paper in more detail}
+Kuhlmann et al.'s~\cite{kuhlmann_neural_2016} efforts to use the basic JR model for depth-of-anaesthesia tracking did
+produce encouraging results,
+even though they concluded that the model might be too simple for their approach.
+They experimented with a slight modification of adding self-inhibition to the IIN population without notable success.
+It would be interesting to validate this method with the subpopulation extension used in this thesis,
+as is appears to be able to model a rich palette of realistic signal states and frequency distributions.
 
 \section{Outlook}
 \incomplete{i'm not happy with this section yet...}

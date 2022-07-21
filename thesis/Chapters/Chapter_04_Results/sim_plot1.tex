@@ -1,6 +1,8 @@
 \begin{tikzpicture}
 \pgfplotsset{
         %% Axis
+            every x tick label/.append style={font=\tiny, yshift=0.5ex},
+            every y tick label/.append style={font=\tiny, xshift=0.5ex},
             scale only axis,
             width=0.9\linewidth,
             height=3cm,
@@ -29,23 +31,25 @@
                 xlabel=$t(s)$
             ]
             \nextgroupplot[ylabel style={align=center}, ylabel=\begin{tiny}decay-time factor\end{tiny}\\ $\lambda$,
-                           ymin=1, ymax=3.1, grid style={dashed,black!20}, grid=major]
+                           ymin=0.6, ymax=3.1, grid style={dashed,black!20}, grid=major]
             \addplot [name path=factors,line width=.5pt,solid, cyan]
             table[x=x, y=y ,col sep=comma, each nth point=100]{data/full_sedation_sim/\simRunName _factors.csv};
 
             \legend{\textbf{A)} propofol concentration};
         \iftoggle{drawLocRoc}{
-                \draw [red, dotted] ([xshift=0.0cm]axis cs:0,1.85) -- ([yshift=0.0cm]axis cs:13.6,1.85) ;
-                \draw [red, dotted] ([xshift=0.0cm]axis cs:0,2.05) -- ([yshift=0.0cm]axis cs:16.8,2.05) node[near end,
-                        above,font=\tiny]{LOC};
-                \draw [red, dotted] ([xshift=0.0cm]axis cs:16.8,1) -- ([yshift=0.0cm]axis cs:16.8,2.05);
-                \draw [red, dotted] ([xshift=0.0cm]axis cs:13.6,1) -- ([yshift=0.0cm]axis cs:13.6,1.85);
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:0,\locStart) -- ([yshift=0.0cm]axis cs:\locST,\locStart) ;
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:0,\locEnd) -- ([yshift=0.0cm]axis cs:\locET,\locEnd)
+            node[near
+            end, above,font=\tiny]{LOC $\approx [\locStart,\locEnd]$};
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:\locET,0) -- ([yshift=0.0cm]axis cs:\locET,\locEnd);
+                \draw [red, dotted] ([xshift=0.0cm]axis cs:\locST,0) -- ([yshift=0.0cm]axis cs:\locST,\locStart);
 
-                \draw [green, dotted] ([xshift=0.0cm]axis cs:65.0,1.48) -- ([yshift=0.0cm]axis cs:57.5,1.48) ;
-                \draw [green, dotted] ([xshift=0.0cm]axis cs:65.0,1.95) -- ([yshift=0.0cm]axis cs:51.5,1.95) node[near
-                       end,above,font=\tiny]{ROC};
-                \draw [green, dotted] ([xshift=0.0cm]axis cs:51.5,1) -- ([yshift=0.0cm]axis cs:51.5,1.95);
-                \draw [green, dotted] ([xshift=0.0cm]axis cs:57.5,1) -- ([yshift=0.0cm]axis cs:57.5,1.48);
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:66.0,\rocEnd) -- ([yshift=0.0cm]axis cs:\rocET,\rocEnd) ;
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:66.0,\rocStart) -- ([yshift=0.0cm]axis cs:\rocST,\rocStart)
+            node[near
+                       end,above,font=\tiny]{ROC $\approx [\rocStart,\rocEnd]$};
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:\rocST,0) -- ([yshift=0.0cm]axis cs:\rocST,\rocStart);
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:\rocET,0) -- ([yshift=0.0cm]axis cs:\rocET,\rocEnd);
 
 %                \path[name path=xaxis] (axis cs:35,0) -- (axis cs:45,0);
 %                %\path[name path=yaxis] (axis cs:0,0) -- (axis cs:0,3);
@@ -92,11 +96,18 @@
 
         \end{groupplot}
      \begin{groupplot} [group style={group size=1 by 3,vertical sep=2mm}]
-            \nextgroupplot[axis y line=right, ymin=1, ymax=3.1, ylabel=$\sim c_e (\SI{}{\micro\molar})$,
+            \nextgroupplot[axis y line=right, axis line style={-}, ymin=0.6, ymax=3.1, ylabel=$\sim c_e
+            (\SI{}{\micro\molar})$,
             yticklabels ={0,5,10,20,30}, ytick={1,1.81,2.164,2.558,2.8},
             axis x line=none]
             \nextgroupplot[axis y line=none, axis x line=none]
-            \nextgroupplot[axis y line=none, ymin=0, ymax=40,height=5cm,axis x line=none]
+            \nextgroupplot[axis y line=right, axis line style={-}, xshift=0.5cm, ymin=0, ymax=40,
+                ylabel=$dB$,
+                yticklabels ={-110,-85,-40}, ytick={0, 20, 40},
+                height=5cm,axis x line=none]
         \end{groupplot}
 
+              \node [above right] at (12.8cm, -8.53cm) {
+            \includegraphics[width=0.35cm, height=5cm]
+            {data/full_sedation_sim/\simRunName -img1.png}};
 \end{tikzpicture}
