@@ -25,85 +25,93 @@ effects similar to those reported in the neural field model~\cite{hutt_progress_
 the default configuration of the famous 1995 model~\cite{jansen_electroencephalogram_1995}
 produces a strong biphasic response (see Fig.~\ref{fig:sedation_sim_jr}),
 when increasing the inhibitory decay-time constant.
-Also a minor hysteresis can be observed, as the transitions in and out of the `unstable' state are not perfectly
-`symmetrical'. \todo{quantify}
-The biphasic effect occurs very quickly after increasing the IPSP duration, which may in part be due to the default
-parameters lying close to a region that produces what David and Friston call `hypersignals`\cite{david_neural_2003}.
-
+The same effect can be observed on the return path.
+There appears to be little difference in the spectral composition of the two instances of high-amplitude activity.
+A minor hysteresis of the model can also be observed, as the transitions in and out of the `unconscious' state are not
+perfectly `symmetrical' \iltodo{quantify}.
+Another interesting observation is that in the `unconscious` state, the frequency distribution stabilizes independent
+of further increasing decay-time.
+This invites a comparison with the real world effect of  slow-wave-activity
+saturation ~\cite{ni_mhuircheartaigh_slow_wave_2013}.
+In the JR model, the biphasic effect occurs very quickly after increasing the IPSP duration, which may in part be due
+to the default parameters lying close to a region that produces what David and Friston call
+`hypersignals`\cite{david_neural_2003}.
 \todo{maybe mention kuhlmann here, their criticism of JR limits}
 
 Given the basic model's inability to output realistic frequency distributions or a pronounced hysteresis,
 this motivated the next tier of model sophistication, namely the extension of David \&
 Friston\cite{david_neural_2003}.
 Their contribution of splitting the populations into subpopulations with different PSP properties,
-enables the model to produce signals with much richer frequency distributions.
+enables the model to produce signals with more realistic frequency distributions.
 Indeed, the spectra generated during simulated sedation sessions with the default David-Friston model
 (see Fig .\ref{fig:sedation_sim_df}) bear similarities to those observed in
 real EEG recordings during general anaesthesia~\cite{purdon_electroencephalogram_2013}.
-
-
 \todo{describe spectral features}
-\todo{describe difference between spectral features of LOC and ROC}
-\todo{draw comparison to real EEG spectra during anaesthesia~\cite{purdon_electroencephalogram_2013}}
-% comparison to other approaches (COALIA / Kuhlmann)
+The biphasic effect occurring in the DF model is slightly less prominent than its counterpart in the JR model,
+just like the signal in general lacks the higher amplitude of the basic model,
+but maintains all relevant characteristics.
+\todo{describe difference (or lack thereof) between spectral features of LOC and ROC}
 
-\subsection{draft: argumentation}
+More importantly for our hypothesis however,
+the extended model also produces a clearly visible counter-clockwise hysteresis.
+
 The fact that relatively simple computational models can predict the general frequency dynamics occurring during the
 drug-induced loss of consciousness,
 invites the speculation that effects such as hysteresis and the biphasic effect observed in real EEG recordings can at
 least in part be attributed to universally inherent brain-mechanics on population level.
-
 While the effects observed during these simulations provide little to no specific information about the factors
 involved in the emergence of consciousness,
 they suggest that abstract population dynamics might play a crucial role in modulating the necessary preconditions.
-% LIMITS OF THE MODEL!!!!
-While the results of the system are promising, it must always be kept in mind that the spatial abstractions of a
+
+Although the results of the system are enticing,
+there are clear limits to its realism.
+It must always be kept in mind that the spatial abstractions of a
 population model are not the only simplification in the system used in this thesis.
 Many key-concepts and parameters of the model are strictly rooted in neuro-biological evidence,
-but there has also been parameter tuning to match desired outputs (e.g.\ the choice of weights for the subpopulations
-in~\cite{david_neural_2003} was ultimately motivated by the resulting frequency-spectra).
-The chosen weights do lie well within the plausible ranges [citation-needed],
-but should not be considered a given.
-\todo{soften this harsh criticism...}
-Additionally, studying the generated signal of a single macro-column cannot be used to make dependable
+but there has also been parameter tuning to match desired outputs (e.g., the choice of time-constants and weights for
+the subpopulations in~\cite{david_neural_2003} was ultimately motivated by the resulting frequency-spectra).
+The chosen values do lie well within biologically plausible ranges \citationneeded,
+but should not be considered a given just because they cause "realistic" output.
+Obviously, studying the generated signal of a single macro-column cannot be used to make dependable
 general statements about processes as complex as the loss and emergence of consciousness.
-\todo{... the breakdown of stabilty in small columns is however a good indication for the loss of necessary
-conditions for consciousness in the system as a whole}
-\todo{maybe something like "despite severe limits [...], it is remarkable that the simple model can [...]"}
-Some of these concerns can be addressed by "whole-brain" network-models,
-which consist of many of these columns, ideally spatially realistically interconnected and with propagation delays
+The breakdown of stability in small columns is however a good indication for the loss of necessary
+conditions for consciousness in the system as a whole.
+Despite severe limits,
+it is remarkable that the simple model can capture many relevant aspects of anaesthesia dynamics.
+The goal of this thesis was to find a simplistic abstraction that can nonetheless reproduce specific phenomena
+associated with consciousness modulation.
+Improving realism, while preserving abstraction is naturally still a desirable extension.
+
+\section{Outlook}
+%Modeling the mechanisms related to consciousness remains a challenging task
+\todo{possible extension: modeling further dynamic effects of anaesthesia? (burst-supression, ...)}
+\todo{How could the model be extended: e.g., more realism by incorporation into a whole-brain system like COALIA, ...}
+Some of the concerns raised above are addressed in approaches like COALIA~\cite{bensaid_coalia_2019},
+where different neuron-type kinetics are modelled in a way that is similar to the subpopulation approach,
+but appears to be more biologically grounded.
+Additionally, their system connects dozens of individual NMMs into a "whole-brain" network-model,
+that even includes a dedicated thalamic module with specific kinetics.
+The interconnections are based on real brain-connectivity data and account for propagation delays
 between regions that are further apart.
 
-\subsection{draft: kuhlmann/coalia}
-\todo{reference COALIA}
-\todo{better lead into kuhlmann: something like `similar motivation with different angle`}
+The development of models that aim to simulate anaesthesia is not only valuable for consciousness research.
 \todo{describe kuhlmann paper in more detail}
 Kuhlmann et al.'s~\cite{kuhlmann_neural_2016} efforts to use the basic JR model for depth-of-anaesthesia tracking did
 produce encouraging results,
 even though they concluded that the model might be too simple for their approach.
 They experimented with a slight modification of adding self-inhibition to the IIN population without notable success.
-It would be interesting to validate this method with the subpopulation extension used in this thesis,
-as is appears to be able to model a rich palette of realistic signal states and frequency distributions.
-
-\section{Outlook}
-\incomplete{i'm not happy with this section yet...}
-%Modeling the mechanisms related to consciousness remains a challenging task
-\todo{possible extension: modeling further dynamic effects of anaesthesia? (which exactly?)}
-\todo{How could the model be extended: e.g. more realism by incorporation into a whole-brain system like COALIA, ...}
-\todo{Possible practical applications: Depth-Of-Anaesthesia-Tracking ~\cite{kuhlmann_neural_2016}, ...}
-
-The development of models that aim to simulate anaesthesia is not only valuable for consciousness research.
-An application like the Depth-Of-Anaesthesia-Tracking that Kuhlmann et al.~\cite{kuhlmann_neural_2016} proposed,
+It would be interesting to validate this method with the subpopulation extension used in this thesis.
+An application like the Depth-Of-Anaesthesia-Tracking that Kuhlmann et al. proposed,
 could estimate multiple clinically relevant physiological variables like the PSP amplitude and rate constant
-\todo{rephrase}.
+\iltodo{rephrase}.
 When matured, such a system could have advantages that would set it apart from current methods,
 which rely on algorithmic evaluation of extracted EEG features.
 In practice, anaesthetic agents like propofol are often administered in combination with analgesic (pain-reducing)
-agents (e.g.\ remifentanil).
+agents (e.g., remifentanil).
 This substantially lowers the concentration requirements for the anaesthetic agent to achieve the same level of
 sedative effect,
 while also helping to increase the quality of anaesthesia, stabilizing the blood pressure and improving recovery
-[citation needed].
+\citationneeded.
 \todo{note that current methods might not be able to correctly work with or disentangle the actions and interactions
 of multiple drugs }
 Being able to model and estimate physiological variables during general anaesthesia

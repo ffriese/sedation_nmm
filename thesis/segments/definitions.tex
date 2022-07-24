@@ -25,21 +25,6 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\documentclass[
-11pt, % The default document font size, options: 10pt, 11pt, 12pt
-%oneside, % Two side (alternating margins) for binding by default, uncomment to switch to one side
-english, % ngerman for German
-singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
-%draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
-%nolistspacing, % If the document is onehalfspacing or doublespacing, uncomment this to set spacing in lists to single
-%liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
-%toctotoc, % Uncomment to add the main table of contents to the table of contents
-%parskip, % Uncomment to add space between paragraphs
-%nohyperref, % Uncomment to not load the hyperref package
-headsepline, % Uncomment to get a line under the header
-%chapterinoneline, % Uncomment to place the chapter title next to the number on one line
-%consistentlayout, % Uncomment to change the layout of the declaration, abstract and acknowledgements pages to match the default layout
-]{MastersDoctoralThesis} % The class file specifying the document structure
 
 %\RequirePackage{standalone}
 \RequirePackage{sectsty}        % make section heading sans-serif
@@ -50,8 +35,14 @@ headsepline, % Uncomment to get a line under the header
 \RequirePackage[mathscr]{eucal}
 \RequirePackage{microtype}  % somehow make stuff look nicer
 \microtypesetup{nopatch=item} % somehow needed
-\RequirePackage[backend=bibtex,style=ieee,natbib=true,sorting=ynt]{biblatex} % Use the bibtex backend with the authoryear-comp citation style (which resembles APA)
+\RequirePackage[backend=bibtex,citestyle=numeric, bibstyle=ieee,natbib=true,sorting=ynt]{biblatex} % Use the bibtex backend
 \addbibresource{references.bib} % The filename of the bibliography
+
+\AtEveryBibitem{
+    \clearfield{urlyear}
+    \clearfield{urlmonth}
+    \clearfield{urldate}
+}
 
 \RequirePackage{comment}  % comment out sections
 % ------------------
@@ -197,23 +188,56 @@ BoldItalicFont=*-BoldItalic
 
 \RequirePackage{linegoal}
 
+\RequirePackage{import}
+\newcommand\iltodo[1]{
+\fcolorbox{orange}{orange!10}{
+    \fcolorbox{black}{yellow!70}{\small\faIcon{tasks}~ \texttt{Todo}}
+    \hspace{4pt} \texttt{#1}}
+}
 
-\newcommand\todo[1]{\\
-\fcolorbox{orange}{orange!10}{\parbox{\linegoal}{
+\newcommand\todo[1]{\par
+\noindent\fcolorbox{orange}{orange!10}{\parbox{\linegoal}{
     \fcolorbox{black}{yellow!70}{\small\faIcon{tasks}~ \texttt{Todo}}
     \hspace{4pt} \texttt{#1}}}~\\
 }
 
-
-\newcommand\question[1]{\\
-\fcolorbox{yellow}{yellow!10}{\parbox{\linegoal}{
+\newcommand\question[1]{\par
+\noindent\fcolorbox{yellow}{yellow!10}{\parbox{\linegoal}{
     \fcolorbox{black}{yellow!70}{\small\faIcon{question}~ \texttt{Question}}
     \hspace{4pt} \texttt{#1}}}~\\
 }
 
-\newcommand\incomplete[1]{\\
-\fcolorbox{red}{red!10}{\parbox{\linegoal}{
+\newcommand\incomplete[1]{\par
+\noindent\fcolorbox{red}{red!10}{\parbox{\linegoal}{
     \fcolorbox{black}{orange!70}{
         \small\faIcon{exclamation-triangle}~\texttt{Section Incomplete}
     }
 \texttt{#1}}}~\\[1em]}
+
+
+\newcommand{\newremark}[2]{
+
+    \vspace{1em}\par
+    \noindent\fcolorbox{yellow}{yellow!10}{
+       \begin{minipage}{\linewidth}
+        \textbf{Remark} (#1). \textit{ #2 }
+       \end{minipage}
+    }
+
+    \vspace{1em}\noindent
+}
+
+\newcommand{\newremarkimg}[3]{
+
+    \vspace{1em}
+    \noindent\fcolorbox{yellow}{yellow!10}{
+       \begin{minipage}{\linewidth}
+           #2
+        \textbf{Remark} (#1). \textit{ #3 }
+       \end{minipage}
+    }
+
+    \vspace{1em}\noindent
+}
+
+\newcommand\citationneeded{\textcolor{blue}{[citation-needed]}}

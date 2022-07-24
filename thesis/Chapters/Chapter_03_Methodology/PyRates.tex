@@ -1,7 +1,7 @@
 
 \section{Implementation Details}\label{sec:pyrates-framework}
 \incomplete{The whole PyRates section is still very much preliminary}
-The PyRates Framework is a Python software framework, written by Richard Gast and Daniel Rose at
+The PyRates Framework is a Python software framework written by Richard Gast and Daniel Rose at
 the Max-Plank-Institute in Leipzig.
 It can simulate a wide range of graph-representable neural models,
 while setting a focus on rate-based population models~\parencite{gast_pyratespython_2019}.
@@ -9,11 +9,11 @@ It wraps computational backends like Numpy and Tensorflow and offers predefined 
 edges (components that model units like cells or cell populations and the
 connections between them with mathematical equations) to be used,
 replaced or extended with custom equations.
-Furthermore it provides two simple ways to define these components and the derived network configurations:
-either by YAML-File or within Python code.
+Furthermore, it provides two simple ways to define these components and the derived network configurations:
+Either by YAML-File or within Python code.
 These configurations are then compiled into optimized executable code with respect to
 the chosen backend before being executed.
-It comes with pre-configured model-definitions for some of the most frequently used models, e.g.\ the basic
+It comes with pre-configured model-definitions for some of the most frequently used models, e.g., the basic
 Jansen-Rit Circuit \parencite{jansen_electroencephalogram_1995} and the
 Montbrio-Model \parencite{montbrio_macroscopic_2015}, as well as some variations thereof.
 It's ease of use, the fact that it could easily reproduce the characteristics of
@@ -47,12 +47,12 @@ the basic Jansen-Rit model out of the box, and the open-source character made it
 %\end{figure}
 
 \subsection{Implementation of the Basic Jansen-Rit Model}\label{subsec:implementation-of-the-jansen-rit-model}
-PyRates works with population models by compositing multiple operators,
+PyRates works with population models by compositing multiple operators
 like the PSP- (or Rate-To-Potential-) and Sigmoid- (or Potential-To-Rate) Block into nodes.
 These nodes represent populations that can then be connected via edges (synapses).
-For example one might combine two PSP-Blocks (for excitatory and inhibitory input respectively)
+For example, one might combine two PSP-Blocks (for excitatory and inhibitory input, respectively)
 with a Sigmoid Block to create a PC-Node.
-This node can then receive rate-input to each of it's PSP-Blocks and  produces rate-output from it's Sigmoid-Block.
+This node can then receive rate-input to each of it's PSP-Blocks and produce rate-output from it's Sigmoid-Block.
 The EIN- and IIN- nodes are functionally identical and just combine an excitatory PSP-Block with a Sigmoid Block.
 By connecting these Blocks (see Fig. \ref{fig:pyratesJRBlock})
 and adding random input to the excitatory PSP-Block of the PC-Node,

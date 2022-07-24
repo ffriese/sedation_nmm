@@ -1,27 +1,73 @@
 \section{EEG}\label{sec:eeg}
-\incomplete{this section is obviously not written yet. low priority.}
-\subsubsection{Measurement}\label{subsec:measurement}
-\qquad \todo{how the EEG is measured technically and which neuronal processes it actually
-observes (signal amplification, pyramidal cells, ...)}
+The electroencephalogram (EEG) is a technique to measure brain activity.
+It is obtained by placing electrodes on the scalp and measuring the voltage differences to a reference electrode.
 
+\subsubsection{Measurement}\label{subsubsec:measurement}
+There are multiple factors that hinder measuring brain-activity on the scalp;
+First, the activity of single neurons is far too weak to be measurable through the skull and brain-tissue.
+This means that there have to be many neurons producing more or less the same signal,
+enabling their voltage to add up to measurable amounts, instead of canceling out.
+A similar problem is posed by the spatial orientation of individual neurons.
+Many types of brain-cells are randomly oriented in the brain,
+which leads to their signals canceling out even if they produce synchronized activity.
+The fact that we can measure meaningful EEG activity is largely owed to a specific type of cell,
+called pyramidal cell,
+which happens to form populations that are mostly oriented perpendicular to the surface of the brain.
+A recorded EEG signal consists mainly of the summed postsynaptic potentials (PSPs) of pyramidal cell populations
+close to the surface of the cortex.
+\cite[9--20]{mecarelli_clinical_2019}
 
+\subsubsection{Advantages/Disadvantages}\label{subsubsec:advantages/disadvantages}
+The non-invasive nature of the EEG (compared to surgically inserting electrodes directly in the brain),
+as well as its cost-effectiveness and ease of use,
+make it one of the most useful and accessible neuroimaging tools.
+Additionally, the sub-millisecond temporal resolution enables observations that are impossible with techniques like
+the fMRI.
+However, it also comes with severe limitations;
+The indirect measurement through the skull leads to
+\qquad \todo{spatial/temporal resolution, invasiveness, noise, ...}
+\todo{removal of artifacts}
 
+\subsubsection{Analysis of EEG Signals}
+\begin{wraptable}{r}{5.5cm}
+    \centering
+    \begin{tabular}{ |c|c| }
+        \hline
+        \textbf{Band name} & \textbf{Range} \\
+        \hline
+        \hline
+        Alpha ($\alpha$) & $8-\SI{13}{\hertz}$ \\
+        \hline
+        Beta ($\beta$) & $13-\SI{30}{\hertz}$ \\
+        \hline
+        Gamma ($\gamma$) & $>\SI{30}{\hertz}$ \\
+        \hline
+        Theta ($\theta$) & $4-\SI{8}{\hertz}$ \\
+        \hline
+        Delta ($\delta$) & $0.5-\SI{4}{\hertz}$ \\
 
-\subsubsection{Advantages/Disadvantages}\label{subsec:advantages/disadvantages}
-\qquad \todo{spatial/temporal resolution, invasiveness, ...}
-\subsubsection{States of Consciousness in the EEG Signal}\label{subsec:states-of-consciousness-in-the-eeg-signal}
+        \hline
+    \end{tabular}
+    \caption{\textbf{EEG Frequency Bands}}
+    \label{table:freq-bands}
+\end{wraptable}
+EEG signals are typically analyzed with regard to their composition of frequencies over time.
+The resulting spectrograms are often discomposed into specific ranges, called frequency bands,
+which are associated with different functional relevance.
+The commonly used ranges and their names are summarized in Table~\ref{table:freq-bands}.
+One of the most common interpretations of the frequency-bands is their relation to states of consciousness.
+For instance, the $\alpha$-band is linked to an awake resting state,
+while the $\delta$-band is linked to deep sleep or coma.
+Usually, these measures become more meaningful when the frequency band powers are analyzed in relation to each other,
+rather than with respect to absolute values.
+\todo{explain spectrogram}
+
+\subsubsection{States of Consciousness in the EEG Signal}\label{subsubsec:states-of-consciousness-in-the-eeg-signal}
 \qquad \todo{how do the states differ in the signal}
 
 
 
 
-\subsubsection{Biphasic Effect}
-
-A biphasic effect (an initial increase of an effect, that decreases with higher concentrations) in the EEG can be
-observed for many sedatives \cite{kuizenga_quantitative_1998, kuizenga_biphasic_2001}.
-For propofol, a temporary steep increase in EEG amplitude in the 2--20 Hz ranges, loosely correlated with the onset of
-LOC, as well as ROC can be observed.
-% Stage-transition, unstable area between two stable states (consciousness/unconsciousness)
 
 
 

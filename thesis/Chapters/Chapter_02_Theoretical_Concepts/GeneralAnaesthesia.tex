@@ -2,24 +2,25 @@
 \incomplete{this section is currently just a collection of information. it needs transitions between subsections and
 improvements to the text}
 \subsubsection{Basics}
-General Anaesthesia is usually employed in surgical contexts to keep patients from experiencing the pain of the
-operation.
+General Anaesthesia is usually employed in surgical contexts to keep patients from experiencing pain during medical
+procedures, e.g., an operation.
 Sedative drugs are carefully administered to the patient by trained practitioners to induce loss of consciousness,
-without causing permanent damage to the brain or other parts of the body
+without causing permanent damage to the brain or other parts of the body.
+\todo{finish the introduction}
 
 
 
 \subsubsection{Units for propofol concentration}
-Some papers~\cite{iwakiri_individual_2005} cite propofol concentrations in $\SI{}{\frac{\micro\gram}{\milli\litre}}$,
-while others~\cite{kitamura_effects_2003, mcdougall_propofol_2008} use $\SI{}{\micro\molar}$ (micromolar =
+Some works~\cite{iwakiri_individual_2005} cite propofol concentrations in $\SI{}{\frac{\micro\gram}{\milli\litre}}$,
+while others~\cite{kitamura_effects_2003, mcdougall_propofol_2008} report values in $\SI{}{\micro\molar}$ (micromolar =
 $\SI{}{\frac{\micro\mol}{\litre}}$).
-To get comparable numbers, we first need to establish the following relation for Propofol (molar mass: $\SI{178
-.27}{\gram}$):
+To get comparable numbers, we first need to establish the following relation for Propofol
+(molar mass: $\SI{178.27}{\gram}$):
 \[ \SI{1}{\frac{\micro\gram\hspace{0.5em}\text{\tiny{Propofol}}}{\milli\litre}}  =
-\frac{ \SI{1}{\frac{\micro\gram}{\milli\litre}}}{\SI{178.27}{\frac{\gram}{\mol}}} = \SI{5.609}{\micro\molar} \]
-In this work, we will settle on $\SI{}{\micro\molar}$
+\frac{ \SI{1}{\frac{\micro\gram}{\milli\litre}}}{\SI{178.27}{\frac{\gram}{\mol}}} \approxeq \SI{5.609}{\micro\molar} \]
+In this work, we will use $\SI{}{\micro\molar}$
 and only mention values in $\SI{}{\frac{\micro\gram}{\milli\litre}}$ where they are taken from a source,
-but then provide the converted value as well.
+but also provide the converted value.
 
 
 \subsubsection{Realistic propofol concentrations during general anaesthesia (GA)}\label{subsec:realistic-prop-conc-during-ga}
@@ -36,8 +37,8 @@ LOC has a strong tendency to occur at higher concentrations than ROC~\cite{iwaki
     ferreira_patterns_2020}.
 Throughout GA, effect-site concentration is commonly derived from measured
 blood-plasma concentration ($c_p$) using more or less complex Pharmacokinetic (PK)-Models
-(e.g.\ ~\cite{eleveld_general_2014, liang_pharmacokinetics-neural_2015}),
-as direct measurement is impractical for obvious reasons.
+(e.g.,~\cite{eleveld_general_2014, liang_pharmacokinetics-neural_2015}),
+as direct measurement of $c_{e}$ in the brain is impractical for obvious reasons.
 Since our model will work with $c_{e}$ directly, we will disregard this for now - however, it should be kept in mind.
 
 
@@ -47,7 +48,7 @@ Research on the effect of propofol on the IPSC (Inhibitory Post-Synaptic Current
 has shown that propofol strongly affects the IPSP decay time \cite{kitamura_effects_2003, mcdougall_propofol_2008}.
 The EPSP and the amplitude of the IPSP are unaffected by propofol.
 Effect-site concentrations at clinically relevant levels increase the IPSP decay time
-significantly (e.g.\ around $\SI{10}{\micro\molar}$ the decay time roughly doubles)~\cite{kitamura_effects_2003}.
+significantly (e.g., around $\SI{10}{\micro\molar}$ the decay time roughly doubles)~\cite{kitamura_effects_2003}.
 
 \incomplete{the `manual fit' needs to be replaced with something `more scientific'}
 
@@ -111,14 +112,24 @@ the exact values do not matter as much as the order of magnitude.
         \end{axis}
     \end{tikzpicture}
 
-    \caption{very rough manual logarithmic fit of decay-time factor to measured values
+    \caption{Very rough manual logarithmic fit of decay-time factor to measured values
     from~\cite{kitamura_effects_2003}(x) and~\cite{mcdougall_propofol_2008}(o).}
     \label{fig:lambda_fit}
 \end{figure}
 
+
+\subsubsection{Biphasic Effect}
+\todo{obviously: extend this}
+A biphasic effect (an initial increase of an effect, that decreases with higher concentrations) in the EEG can be
+observed for many sedatives \cite{kuizenga_quantitative_1998, kuizenga_biphasic_2001}.
+For propofol, a temporary steep increase in EEG amplitude in the 2--20 Hz ranges, loosely correlated with the onset of
+LOC, as well as ROC can be observed.
+% Stage-transition, unstable area between two stable states (consciousness/unconsciousness)
+
+
 \subsubsection{Hysteresis of propofol}
 
-If the state of a system depends not only on its parameters, but also the system's history,
+If the state of a system depends not only on its parameters, but also the systems' history,
 this dependency is called hysteresis.
 The human body often reacts differently to the same concentration of a drug,
 depending on whether the concentration is rising or decaying.
