@@ -1,72 +1,61 @@
 \chapter{Results}\label{ch:results}
-To generate a signal with the desired effects, it is imperative to design the change of parameter values over the
-course of time.
-\todo{name goals of simulation, state that JR and DF will be simulated}
-\todo{explain reasoning behind linear increase (close to realistic sedation, but focus on structured exploration of the
-possible values)}
-% phasendiagram
-%propofol-region/vs nicht propofol region
-%yapunov kooefizienten, fractale dimension der attraktoren
-%chaotische regionen -> welche dimensionen werden ``gedehnt'' oder ``gestaucht''
-% hypothese -> dynamische rahmenbedingen, analyse können bewusstsein nicht erfassen, aber notwendige rahmenbedingungen
-% muster in wechsel zwischen rahmenbedingungen erkennen
-%
-%
-%\section{The finally used model}\label{sec:the-finally-used-model}
-%
-%\begin{figure}[H]
-%\input{Chapters/Chapter_02_Theoretical_Concepts/tikz/df_block_pyrates}
-%\caption{\textbf{David \& Friston Block Diagram as implemented in PyRates}}
-%\label{fig:pyratesDFBlock}
-%\end{figure}
-%
-%For the final analysis, we use the David \& Friston Model with 2 subpopulations for each PSP-Block.
-%The parameters for the subpopulations are defined as follows:
-%\begin{gather*}
-%    \text{slow subpopulations:}\quad \tau_{e_1}=10.8ms, \tau_{i_1}=22ms\\
-%    \text{fast subpopulations:}\quad \tau_{e_2}=4.6ms, \tau_{i_2}=2.9ms\\
-%\end{gather*}
-%
-\todo{CLARIFY ALL THE HEADINGS!!!!! APPLIES TO WHOLE THESIS!!!}
-\section{Exploring realistic parameter ranges}\label{sec:simulation-over-the-parameter-space}
+Having accomplished \textbf{Goals 1-3} by implementing the $\lambda$-parameter in our model,
+we can set our sights on \textbf{Goal 4} and run a simulation session that mimics GA for each of our two implementations.
+As established in Sec.~\ref{subsec:implementing-the-effects-of-propofol},
+$\lambda$ may vary between 1 and 3 to approximate the effects of clinically relevant propofol concentrations.
+A time-course that closely resembles a real concentration-progression during GA seems intuitively desirable,
+but this would complicate a structured analysis of the data, since induction, maintenance and emergence from anaesthesia
+have a highly asymmetrical concentration development.
+While a fully realistic parameter development might be interesting as a next step,
+the general properties of our model under the presence of specific
+concentrations of a GABA\textsubscript{A}-potentiating agent
+are arguably best explored in a systematic fashion, that still follows the general concept of induction and emergence:
+A linear rise to peak dosage, followed by a period of maintenance and a linear decay to the initial condition.
 
-When simulating a linear increase and subsequent decrease over the selected parameter space for
-$ \lambda \in \left[ 1, 3 \right] $ (see Fig~\ref{fig:sedation_sim_jr} \textbf{A}),
+%\section{Exploring realistic parameter ranges}\label{sec:simulation-over-the-parameter-space}
+
+When simulating this time-course over the selected parameter space
+$ \lambda \in \left[ 1, 3 \right] $ for $\SI{150}{\second}$ (see Fig~\ref{fig:sedation_sim_jr} \textbf{A}),
 the following phenomena can be observed:
 
 \newtoggle{drawLocRoc}
 
 \toggletrue{drawLocRoc}
-\def\simRunName{JR_LONGER_INIT}
+\def\simRunName{JR_SEDATION_150}
+\def\simRunTime{151}
 \def\locStart{1.1}
-\def\locST{6.61}
+\def\locST{10.07}%6.61
 \def\locEnd{2.07}
-\def\locET{18.89}
+\def\locET{40.38}%18.89
 \def\rocStart{2.0}
-\def\rocST{48.63}
+\def\rocST{112.88}%48.63
 \def\rocEnd{1.00}
-\def\rocET{62.0}
-\subsection{Phenomenology of the Basic JR Model}
-    In the baseline state ($\lambda = 1$), the model produces the expected well-defined alpha-activity
-    with a sharp frequency peak at $\SI{12}{\hertz}$.
+\def\rocET{144.46}%62.0
+\section{Phenomenology of the Basic JR Model}
+    In the baseline state ($\lambda = 1$), the JR model produces the expected well-defined alpha-activity
+    with a sharp frequency peak at $\SI{11}{\hertz}$ (Fig~\ref{fig:sedation_sim_jr} \textbf{C}).
 \newremark{Spectrogram Amplitude}{
     At this point, it should be noted
-    that even though the spectrogram (Fig~\ref{fig:sedation_sim_jr}b appears to contain a frequency range
+    that even though the spectrogram (Fig~\ref{fig:sedation_sim_jr} \textbf{C}) appears to contain a frequency range
     from roughly 6--18Hz at the beginning of the simulation,
     this is misleading.
     The extremely high-amplitude 12Hz peak has noisy flanks with low amplitudes
-    (compare to the spectrum in Fig.~\ref{fig:initial_oscilations}c \& d),
+    (compare to Fig.~\ref{fig:jr_psd}, Fig.~\ref{fig:jr_spec}
+    and the scaled plots Fig.~\ref{fig:jr_psd_rescaled}, Fig.~\ref{fig:jr_spec_rescaled}),
     which are highlighted by the chosen colormap and value range.
     Their relative contribution to the signal is close to insignificant in this case.
 }
-    Increasing the simulated propofol levels first leads to the single dominant frequency at $\SI{12}{\hertz} $
+    Increasing the simulated propofol levels first leads to the single dominant frequency at $\SI{11}{\hertz} $
     descending towards $\SI{10}{\hertz} $.
     When reaching $\lambda \approx \locStart $,
     there is an onset of heavy oscillations, characterized by dramatically increasing signal amplitude
-    with frequencies peaking at around $0--10, 12--20$ and $ \SI{30}{\hertz} $,
-    but extending up to $\sim \SI{35}{\hertz} $.
-    Further increase of the concentration shifts the frequency peaks of the disturbed signal slowly towards lower
-    values, also decreasing their distance to each other.
+    with frequencies peaking at around $5, 10, 15$ and $ \SI{20}{\hertz} $,
+    but extending up to $\approx \SI{35}{\hertz} $.
+    The frequency peaks appear at multiples of the `fundamental` frequency of $\SI{5}{\hertz}$,
+    which is a well-known phenomenon in spectral analysis called `harmonics`.
+    Further increase of the concentration shifts the base-frequency and its harmonic components' peaks
+    slowly towards lower values, preserving their harmonic nature by moving closer to each other.
+    This results in added peaks, always closing the gap to $\approx \SI{35}{\hertz} $.
     Additionally, higher values of $\lambda$ appear to linearly decrease the mean signal voltage.
     Another sudden change occurs around $\lambda \approx \locEnd $,
     where the disturbances disappear again,
@@ -89,19 +78,20 @@ the following phenomena can be observed:
 \end{figure}
 
 \toggletrue{drawLocRoc}
-\def\simRunName{DF_LONGER_INIT}
+\def\simRunName{DF_SEDATION_150}
+\def\simRunTime{151}
 \def\locStart{1.85}
-\def\locST{16.17}
+\def\locST{33.5} % 16.17
 \def\locEnd{2.05}
-\def\locET{18.72}
+\def\locET{39.75}%18.72
 \def\rocStart{1.95}
-\def\rocST{49.3}
+\def\rocST{114.72}%49.3
 \def\rocEnd{1.5}
-\def\rocET{55.03}
-\subsection{Phenomenology of the David Friston Extension}
-    Section~\ref{subsec:the-david-and-friston-model} introduces the David--Friston model and
+\def\rocET{128.81}%55.03
+\section{Phenomenology of the DF Extension}\label{subsec:phenomenology-of-the-df-extension}
+Section~\ref{subsec:the-david-and-friston-model} introduces the David--Friston model and
     the mixture of slow and fast kinetics within a population.
-    This results in an initial frequency spectrum,
+    This results in an initial frequency spectrum
     that lacks the distinct high-amplitude peak and instead has a wider distribution with far lower amplitude.
 
 \newremark{Spectrogram Amplitude}{
@@ -112,22 +102,24 @@ the following phenomena can be observed:
     as it makes up the whole baseline signal.
 }
     The DF model initially produces a dominant frequency range at $10-20 \SI{}{\hertz} $,
-    which slowly shifts towards $ 5-10 \SI{}{\hertz} $ (\textbf{C}) when $\lambda$ starts to increase.
+    which slowly shifts towards $ 5-10 \SI{}{\hertz} $ (Fig~\ref{fig:sedation_sim_df} \textbf{C}) when $\lambda$ starts to increase.
     The mean signal voltage concurrently decreases,
     while oscillation-amplitude is maintained (Fig~\ref{fig:sedation_sim_df} \textbf{B}).
     The system appears to be in a stable state until $ \lambda \approx \locStart $,
     where the sudden onset of dramatically
     increasing signal amplitude with strongly pronounced activity below $ \SI{25}{\hertz} $
-    creates multiple strong frequency peaks.
-    Unlike in the JR model, the oscillations do not exceed  $ \SI{30}{\hertz} $.
-    Further increasing $\lambda$ has the same minimal effects on the disturbed signal,
+    creates multiple strong harmonic frequency peaks.
+    Unlike in the JR model, the peaks do not exceed  $ \SI{30}{\hertz} $ and the fundamental frequency starts off
+    at roughly $\SI{3}{\hertz}$,
+    but otherwise the changes to the spectrum are similar to the JR model.
+    Further increasing $\lambda$ has the same minimal effects on the disturbed signal
     as the increase had before exiting the stable state.
     The heavy oscillations remain until $\lambda \approx \locEnd $,
     where the dominant frequencies move below $\SI{10}{\hertz}$.
     Continuing, the signal voltage slowly decreases as before,
-    however the frequency distribution appears to have settled.
+    however, the frequency distribution appears to have settled.
     Maintaining peak dosage has no further effects.
-    Decreasing the simulated propofol levels again first increases the mean signal voltage,
+    Decreasing the simulated propofol levels again first increases the mean signal voltage
     until the stable state dissolves into heavy oscillations around $\lambda \approx \rocStart$.
     The unstable state prevails until $\lambda$ reaches $\approx \rocEnd$.
 
@@ -139,15 +131,17 @@ the following phenomena can be observed:
 \end{figure}
 
 \section{Similarities and Differences}
-    Both models share some key features during these simulations:
-    Three, distinguishable states can be observed.
+    Both models share some key features during these simulations.
+    Three distinguishable states can be observed.
     The initial stable state is followed by a state that is defined by strong harmonic frequencies and dramatically
     increased signal amplitude.
     From there, the system transitions into a low-power state with low frequencies,
-    which seems to be mostly saturated and changes little to further increasing agent concentration.
+    which seems to be mostly saturated and changes little with further increase of decay-time.
+    On the return path the second state is visited again before reentering into the initial state.
     Induction and emergence are asymmetrical, even if only marginally so in the JR model.
+    The second state can be regarded as the phase transition between the two stable states.
     The system predicts that the frequency range below $\SI{25}{\hertz}$ receives a temporary amplitude boost during
-    the phase transitions, which disappears while the parameter changes continue in the same direction.
+    these phase transitions, which disappear while the parameter changes continue in the same direction.
 
 
 There are also a few striking differences between the two simulation sessions:
@@ -164,7 +158,7 @@ It also starts far higher ($1.85$) than the "ROC" ends ($1.5$).
 Consequently, the "LOC" value-range is far shorter ($\text{length}=0.2$) than the "ROC" range
 ($\text{length}=0.45$).
 In the JR model this effect is present as well, but hardly noticeable,
-since the differences are much smaller ($2.07$ vs $2.0$ and $1.1$ vs $1.0$).
+since the differences are much smaller ($2.07$ vs $2.0$ and $1.1$ vs $1.0$, range-lengths $1.06$ and $1.0$).
 
 
 \todo{transition into discussion}

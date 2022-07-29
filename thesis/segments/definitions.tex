@@ -35,7 +35,12 @@
 \RequirePackage[mathscr]{eucal}
 \RequirePackage{microtype}  % somehow make stuff look nicer
 \microtypesetup{nopatch=item} % somehow needed
-\RequirePackage[backend=bibtex,citestyle=numeric, bibstyle=ieee,natbib=true,sorting=ynt]{biblatex} % Use the bibtex backend
+\RequirePackage[backend=bibtex,
+    citestyle=numeric,
+    bibstyle=ieee,
+    natbib=true,
+    sorting=ynt %none
+]{biblatex} % Use the bibtex backend
 \addbibresource{references.bib} % The filename of the bibliography
 
 \AtEveryBibitem{
@@ -44,6 +49,7 @@
     \clearfield{urldate}
 }
 
+\RequirePackage{enumitem} % custom enumerations
 \RequirePackage{comment}  % comment out sections
 % ------------------
 % align equations
@@ -189,6 +195,7 @@ BoldItalicFont=*-BoldItalic
 \RequirePackage{linegoal}
 
 \RequirePackage{import}
+\RequirePackage{pdfpages}
 \newcommand\iltodo[1]{
 \fcolorbox{orange}{orange!10}{
     \fcolorbox{black}{yellow!70}{\small\faIcon{tasks}~ \texttt{Todo}}
@@ -200,6 +207,13 @@ BoldItalicFont=*-BoldItalic
     \fcolorbox{black}{yellow!70}{\small\faIcon{tasks}~ \texttt{Todo}}
     \hspace{4pt} \texttt{#1}}}~\\
 }
+
+\newcommand\todomaybe[1]{\par
+\noindent\fcolorbox{orange!70}{orange!5}{\parbox{\linegoal}{
+    \fcolorbox{black!15}{yellow!15}{\small\faIcon{tasks}~ \texttt{\textcolor{black!50}{Todo (maybe)}}}
+    \hspace{4pt} \texttt{\textcolor{black!40}{#1}}}}~\\
+}
+
 
 \newcommand\question[1]{\par
 \noindent\fcolorbox{yellow}{yellow!10}{\parbox{\linegoal}{

@@ -16,14 +16,21 @@
 
 \section{Neural Mass Models}\label{sec:neural-mass-models}
 
+As already covered in the introduction,
+neural mass models describe neuron populations and their interaction.
+Their level of abstraction matches the signal recorded by EEG electrodes (compare Sec.~\ref{sec:eeg}),
+as they generate summed PSPs of pyramidal cell populations.
+Since we are looking to implement the Jansen-Rit Model and its extension by David \& Friston
+for \ref{goal:jr_model} and \ref{goal:df_model}),
+we must first explore their theoretical background.
+
 \subsection{The Basic Jansen-Rit Model}\label{subsec:the-jansen-rit-model}
 
-The widely used Jansen-Rit Model~\cite{jansen_neurophysiologically-based_1993, jansen_electroencephalogram_1995}
-is based on earlier models by Wilson \& Cowan~\cite{wilson_excitatory_1972},
-Lopes da Silva et al.~\cite{lopes_da_silva_model_1974, lopes_da_silva_models_1976} and
-Zetterberg et al.~\cite{zetterberg_performance_1978}.
-It represents a cortical column in the brain, which is made up of three main components,
+The Jansen-Rit Model~\cite{jansen_neurophysiologically-based_1993, jansen_electroencephalogram_1995}
+represents a cortical column in the brain, which is made up of three main components,
 each modeling a population of neurons with distinct characteristics.
+This section introduces the model presented in~\cite{jansen_neurophysiologically-based_1993}
+and~\cite{jansen_electroencephalogram_1995}.
 
 The basic schema of the model is visualized in Fig.~\ref{fig:Jansen Rit Flowchart}, showing the connections
 \begin{wrapfigure}{r}{0.5\textwidth}
@@ -41,7 +48,7 @@ The Block Diagram (Fig.~\ref{fig:Jansen Rit Simple}) shows the individual module
 A population consists of two types of blocks:
 The \textit{PSP-Block} models the behavior of the synapses and neuronal somata.
 It can be either excitatory or inhibitory and converts the incoming average pre-synaptic pulse density to
-an average post-synaptic membrane potential by convolving it with an
+an average post-synaptic membrane potential by convolving it \iltodo{separate sentences} with an
 impulse response function ($h_e(t)$ and $h_i(t)$, for excitation and inhibition respectively).
 The second block (sometimes called \textit{Potential-To-Rate-Block} after it's functionality)
 calculates the populations response to this stimulation, transforming the incoming
@@ -51,16 +58,16 @@ and is usually implemented by a Sigmoid Function ($Sigm$).
 External input from other regions of the brain is represented by $p(t)$.
 The Connectivity Constants $C_1$, $C_2$, $C_3$ and $C_4$ proportionally represent the
 average number of synapses between the populations.
-The signal most closely related to the EEG and therefore the variable of interest,
+The signal most closely related to the EEG (and therefore the output variable)
 is the summed average membrane potential of the PC population ($y_1(t)-y_2(t)$ in Fig.~\ref{fig:Jansen Rit Simple}).
-In its basic configuration, the model is designed to produce sinusoidal $\alpha$-activity ($\sim \SI{12}{\hertz}$).
-
+In its basic configuration, the model is designed to produce sinusoidal $\alpha$-activity.
+The following subsections will introduce the main components of the model in detail.
 %\todo{explain neurophysiology why $EEG \approx y_1-y_2$, or reference back to explanation in EEG section}\\[1em]
 
 \begin{figure}[H]
     \centering
     \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_simple_block_bw_tikz}
-    \caption{\textbf{Simple Block Diagram after~\parencite{jansen_electroencephalogram_1995}:}
+    \caption{\textbf{Simple Block Diagram according to Jansen \& Rit~\cite{jansen_electroencephalogram_1995}:}
     The structure might be somewhat confusing when trying to visualize the biological analogy,
         where each population would have individual afferent PSP-Blocks.
         However, the fact that the two interneuron populations share a single excitatory PSP Block,
@@ -72,29 +79,31 @@ In its basic configuration, the model is designed to produce sinusoidal $\alpha$
 
 \subsubsection{Potential-To-Rate Block}
 For a neuron to fire an action potential, its membrane potential needs to surpass a certain threshold.
-Since we are modeling not a single neuron but a whole population, we need an operator that can transform
-the mean membrane potential, that the neurons of the population receive as input, into an average firing rate
-for the whole population.
-While neurons within the population may have individual firing-thresholds \citationneeded,
-it can be assumed, due to their sheer number,
-that these thresholds are normally distributed around some mean value $v_0$. \citationneeded
-An additional assumption that this approach rests on
-is that the number of afferent (i.e.\ incoming) connections to the individual neurons is sufficiently
-large to justify the assertion that all neurons receive roughly the same stimulation.
-This must be modeled by a monotonically increasing function.
-The Potential-To-Rate Block represents this process with a Sigmoid.
+In our population model, we need an operator that can transform
+the mean membrane potential of the whole population, into an average firing rate.
+%While neurons within the population may have individual firing-thresholds \citationneeded,
+%it can be assumed, due to their sheer number,
+%that these thresholds are normally distributed around some mean value $v_0$ \citationneeded.
+%An additional assumption that this approach rests on
+%is that the number of afferent (i.e.\ incoming) connections to the individual neurons is sufficiently
+%large to justify the assertion that all neurons receive roughly the same stimulation.
+The Potential-To-Rate Block represents this operator by a sigmoid function.
+This rests on two assumptions:
+1) that the sheer number of neurons justifies the representation of the population's
+firing threshold as a normal distribution and
+2) that the number of afferent (i.e.\ incoming) connections to the individual neuron is sufficiently large
+to assume roughly the same stimulation for each neuron.
 After multiple iterations by Zetterberg~\cite{zetterberg_performance_1978},
 Lopes da Silva~\cite{lopes_da_silva_models_1976} and others~\cite{van_rotterdam_model_1982},
-Jansen and Rit~\cite{jansen_neurophysiologically-based_1993,
-    jansen_electroencephalogram_1995} landed on the following equation:
+Jansen and Rit landed on the following equation:
 \begin{align}
     Sigm(v) = \frac{2e_0}{1+e^{r(v_0-v)}} \label{eq:SigmJansenRit}
 \end{align}
 The parameter values (Table~\ref{tab:sigmoid_params}) are empirically
 determined~\parencite{jansen_neurophysiologically-based_1993}.
-The maximum firing rate the population can achieve is set to $5 Hz$.
-A mean membrane potential of $6 mV$ (equal to the populations average firing threshold) elicits half
-of the maximum firing rate, while $\frac{0.56}{mV}$ defines the steepness.
+The maximum firing rate the population can achieve is set to $\SI{5}{\hertz}$.
+A mean membrane potential of $\SI{6}{\milli\volt}$ (equal to the populations average firing threshold) elicits half
+of the maximum firing rate, while $\frac{0.56}{\SI{}{\milli\volt}}$ defines the steepness.
 The plot in Fig.~\ref{fig:Sigmoid} visualizes these properties.
 %TODO: mention refractory period
 \begin{table}[H]
@@ -104,11 +113,11 @@ The plot in Fig.~\ref{fig:Sigmoid} visualizes these properties.
         \multicolumn{2}{|c|}{Parameter} & Default Value & Unit \\
         \hline
         \hline
-        half of maximum firing rate & \(e_0\) & \(2.5\)  & \(Hz\)      \\
+        half of maximum firing rate & \(e_0\) & \(2.5\)  & \(\SI{}{\hertz}\)      \\
         \hline
-        average firing threshold    & \(v_0\) & \(6.0\)  & \(mV\)      \\
+        average firing threshold    & \(v_0\) & \(6.0\)  & \(\SI{}{\milli\volt}\)      \\
         \hline
-        sigmoidal steepness         & \(r\)   & \(0.56\) & \(mV^{-1}\) \\
+        sigmoidal steepness         & \(r\)   & \(0.56\) & \(\SI{}{\milli\volt}^{-1}\) \\
         \hline
     \end{tabular}
     \caption{Parameters of the Sigmoid Function}
@@ -124,8 +133,8 @@ The plot in Fig.~\ref{fig:Sigmoid} visualizes these properties.
             [
             xmin = -5, xmax = 20,
             ymin = -0.1, ymax = 5.1,
-            xlabel = {v ($mV$)},
-            ylabel = {f ($Hz$)},
+            xlabel = {v ($\SI{}{\milli\volt}$)},
+            ylabel = {f ($\SI{}{\hertz}$)},
             legend pos=north west,
             legend style={nodes={scale=0.8, transform shape}},
             ],
@@ -138,10 +147,9 @@ The plot in Fig.~\ref{fig:Sigmoid} visualizes these properties.
             ] {5/(1+exp(0.56*(6-x)))};
             \legend{\( \frac{5}{1+e^{0.56(6-v)}} \)}
             \draw [dotted] ([xshift=0.0cm]axis cs:6,0) -- ([yshift=0.0cm]axis cs:6,2.5) node[near end,right,font=\tiny]{
-                Avg.\ Threshold 6.0 $mV$};
+                Avg.\ Threshold $\SI{6.0}{\milli\volt}$};
         \end{axis}
-    \end{tikzpicture}
-    \caption{Sigmoid (Eq.~\ref{eq:SigmJansenRit}) \parencite{jansen_neurophysiologically-based_1993}} \
+    \end{tikzpicture}~\caption{Sigmoid (Eq.~\ref{eq:SigmJansenRit}) \cite{jansen_neurophysiologically-based_1993}}
     \label{fig:Sigmoid}
 \end{figure}
 
@@ -154,8 +162,8 @@ The aforementioned PSP-Blocks are an LTI system fully represented by an impulse 
 relative to the onset of a pulse.
 Since the PSP differs depending on the type of cell (excitatory or inhibitory),
 there are two different impulse-response functions.
-The parameters for the EPSP (Eq.~\ref{eq:ExcImpResJansenRit}) and IPSP (Eq.~\ref{eq:InhImpResJansenRit})
-are given in Table~\ref{tab:psp_params}.
+The parameters Jansen \& Rit used for the EPSP (Eq.~\ref{eq:ExcImpResJansenRit}) and IPSP (Eq.~\ref{eq:InhImpResJansenRit})
+were based on results from van Rotterdam et al.~\cite{van_rotterdam_model_1982} and are given in Table~\ref{tab:psp_params}.
 The respective plots are visualized in Fig.~\ref{fig:PSPPlot}.
 %TODO: explain how the parameters can be tuned to achieve differnt results, and how that relatates to actual neurobiology
 \begin{table}[H]
@@ -165,14 +173,14 @@ The respective plots are visualized in Fig.~\ref{fig:PSPPlot}.
         \multicolumn{2}{|c|}{Parameter} & Default Value & Unit \\
         \hline
         \hline
-        Exc. max. amplitude / $e$          & \(A\) & \(3.25\) & \(mV\) \\
+        Exc. max. amplitude / $e$          & \(A\) & \(3.25\) & \(\SI{}{\milli\volt}\) \\
         \hline
         %TODO: EXPLAIN 'LUMPED'!!!!
-        Lumped repr. of sum of exc. delays & \(a\) & \(100\)  & \(Hz\) \\
+        Lumped repr. of sum of exc. delays & \(a\) & \(100\)  & \(\SI{}{\hertz}\) \\
         \hline
-        Inh. max. amplitude / $e$          & \(B\) & \(22\)   & \(mV\) \\
+        Inh. max. amplitude / $e$          & \(B\) & \(22\)   & \(\SI{}{\milli\volt}\) \\
         \hline
-        Lumped repr. of sum of inh. delays & \(b\) & \(50\)   & \(Hz\) \\
+        Lumped repr. of sum of inh. delays & \(b\) & \(50\)   & \(\SI{}{\hertz}\) \\
         \hline
     \end{tabular}
     \caption{Parameters of the PSP Blocks}
@@ -205,8 +213,8 @@ Inhibitory impulse response:
             [
             xmin = -1, xmax = 140,
             ymin = 0, ymax = 8.5,
-            xlabel = {$t$ ($ms$)},
-            ylabel = {$h$ ($mV$)},
+            xlabel = {$t$ ($\SI{}{\milli\second}$)},
+            ylabel = {$h$ ($\SI{}{\milli\volt}$)},
             legend pos=north east,
             legend style={nodes={scale=0.8, transform shape}},
             ],
@@ -226,8 +234,8 @@ Inhibitory impulse response:
             ] {22*0.05*x*e^(-0.05*x)};
 
             \legend{
-                $h_e(t)=0.325\frac{mV}{ms} te^{-\frac{0.1}{ms}t} $,
-                $ h_i(t)=1.1\frac{mV}{ms} te^{-\frac{0.05}{ms}t} $
+                $h_e(t)=0.325\frac{\SI{}{\milli\volt}}{\SI{}{\milli\second}} te^{-\frac{0.1}{\SI{}{\milli\second}}t} $,
+                $ h_i(t)=1.1\frac{\SI{}{\milli\volt}}{\SI{}{\milli\second}} te^{-\frac{0.05}{\SI{}{\milli\second}}t} $
             };
 
         \end{axis}
@@ -243,50 +251,17 @@ Jansen and Rit~\cite{jansen_neurophysiologically-based_1993} justify the differe
 referencing Lopes da Silva et al.~\cite{lopes_da_silva_models_1976} and stating that inhibitory neurons
 synapse closer to the somata of pyramidal cells (often on the cell body) than excitatory cells,
 increasing the effect of an inhibitory neuron about 10-fold.
-\todo{maybe go more into detail about the reasons for stronger inhibition}\\[2em]
+
 The output of the Linear System defined by the PSP-Blocks is calculated by a convolution (denoted by $\ast$) of the
-incoming impulse density $x(t)$ with the impulse response function $h(t)$:\\
+incoming impulse density $x(t)$ with the impulse response function $h(t)$.
+For the excitatory PSP this means:\\
 \begin{align}
     \overbrace{y(t)}^{\text{PSP}} = \overbrace{h_e(t)}^{\text{impulse response}} \ast \overbrace{x(t)}^{\text{impulse density}} \label{eq:convolution}
 \end{align}
 %%%%
 % REMARK: CONVOLUTION
 %%%%
-% \begin{figure}
-% \end{figure}
-%\begin{minipage}{0.6\textwidth}
-%\fcolorbox{yellow}{yellow!20}{
-%\begin{minipage}{\linewidth}
-%\begin{wrapfigure}[12]{r}{0.5\textwidth}
-%    \centering
-%    \includegraphics[width=0.45\textwidth]{Figures/convolution/wikipedia-convolution}
-%    \caption{\textbf{Convolution:} The area enclosed by $f(\tau)$ and $g(t-\tau)$ is the value of $(f\ast g)(t)$.\\
-%    \hrulefill \\
-%    \textit{By Cmglee - Own work, CC BY-SA 3.0  \url{https://commons.wikimedia.org/w/index.php?curid=20206883}}}
-%    \label{fig:Convolution}
-%\end{wrapfigure}
-%%\begin{remark}[Convolution]
-%\textbf{Remark} (Convolution).\textit{
-%    The convolution of two functions $f(t)$ and $g(t)$ is defined as the integral of their product after one function
-%    has been reversed and shifted\footnotemark (Fig.~\ref{fig:Convolution}):
-%    \[f(t) \ast g(t)= \int_{-\infty}^{+\infty}f(\tau)g(t-\tau) d\tau\]
-%    If $f(t)$ is a unit-impulse $\delta(t)$ (in our case, this would mean that each cell of the previous population
-%    is firing a single action potential at the same time) the result is just $g(t)$ - a
-%    single full-amplitude PSP:
-%    \[\delta(t) \ast g(t)= \int_{-\infty}^{+\infty}\delta(\tau)g(t-\tau) d\tau = g(t)\]
-%    In the general case, this process can be used to mathematically model the integration of
-%    incoming action potential densities in the soma.\\[1em]
-%    Importantly, the Convolution Theorem states that the convolution of $f(t)$ and $g(t)$ becomes a
-%    simple multiplication when applying the Laplace Transform:
-%    \[\mathscr{L}\{f(t) \ast g(t)\}= \mathscr{L}\{f(t)\}\mathscr{L}\{g(t)\} = F(s)G(s)\]
-%    That means you can calculate a convolution with the inverse Laplace-Transform of the multiplication of
-%    the functions' individual Laplace-Transforms:
-%    \[f(t) \ast g(t)= \mathscr{L}^{-1}\{F(s)G(s)\}\]
-%%\end{remark}
-%}
-%\end{minipage}}
-%
-%\vspace{2em}\noindent
+
 \newremarkimg{Convolution}{
 \begin{wrapfigure}[12]{r}{0.5\textwidth}
     \centering
@@ -299,7 +274,7 @@ incoming impulse density $x(t)$ with the impulse response function $h(t)$:\\
 }
 {
     The convolution of two functions $f(t)$ and $g(t)$ is defined as the integral of their product after one function
-    has been reversed and shifted\footnotemark (Fig.~\ref{fig:Convolution}):
+    has been reversed and shifted (Fig.~\ref{fig:Convolution}):
     \[f(t) \ast g(t)= \int_{-\infty}^{+\infty}f(\tau)g(t-\tau) d\tau\]
     If $f(t)$ is a unit-impulse $\delta(t)$ (in our case, this would mean that each cell of the previous population
     is firing a single action potential at the same time) the result is just $g(t)$ - a
@@ -321,7 +296,6 @@ apply the Convolution Theorem to perform the multiplication there,
 and transform the results back to the time-domain.
 This results in a second order differential equation (Eq.~\ref{eq:sec_ord_nmm}) that
 can be efficiently solved by numerical integration.
-\footnotetext{There is a very intuitive explanation of convolutions by Kalid Azad on his website \url{https://betterexplained.com/articles/intuitive-convolution/}}
 To obtain this form, we need the Laplace transform $H_e(s)$ (in this context also called \textit{Transfer Function})
 of our response function $h_e(t)$:
 \[H_e(s) =\mathscr{L}\{h_e(t)\}  = \mathscr{L}\{Aate^{-at} \} = \frac{Aa}{(s+a)^2} = \frac{Aa}{s^2+2as+a^2}\label{eq:laplace_h_e}\]
@@ -342,18 +316,6 @@ With that, we can start to transform our initial equation (Eq.~\ref{eq:convoluti
 \end{alignat}
 where $y(t)$ is the resulting PSP and $x(t)$ the incoming pulse density.
 This works analogously for the inhibitory case with $h_i(t)$.
-
-% \begin{remark}[General Form of Second Order Systems]
-%	Comparing (Eq. \ref{eq:sec_ord_nmm}) to the General Form of Second Order Systems (Eq. \ref{eq:gen_sec_order_sys}),
-%   we can see that this is a critically damped system ($\zeta = 1$) with gain $K=Aa$ and the natural frequency $\tau$
-%   of the system set at $a$.
-%	\begin{align}
-%		Kf(t) &= \ddot{y}(t)+ 2\zeta \tau\dot{y}(t) + \tau^2y(t) \nonumber \\ 
-%		\iff  \ddot{y}(t) &= Kf(t) - 2\zeta \tau\dot{y}(t) - \tau^2y(t)  \label{eq:gen_sec_order_sys}
-%	\end{align}
-% \end{remark}
-
-%\todo{maybe explain why $\mathscr{L}^{-1}\{sY(s)\} = \dot{y}(t)$ and $\mathscr{L}^{-1}\{s^{2}Y(s)\} = \ddot{y}(t)$}
 
 \subsubsection{Full Linear System}
 
@@ -377,28 +339,16 @@ both the EIN and IIN population, while $y_1(t)$ is the EPSP and $y_2(t)$ the IPS
 \begin{figure}[H]
     \centering
     \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_simple_block_colored_tikz}
-    \caption{Colored Block diagram, visualizing the components of (Eq. \ref{eq:jr_nmm_system})}
+    \caption{Colored Block diagram, visualizing the components of (Eq.~\ref{eq:jr_nmm_system})}
     \label{fig:JRBlockColored}
 \end{figure}
-
-\subsubsection{Connectivity Constants}
-
-A sensible choice for the Connectivity Constants $C_1$ to $C_4$ was determined by Jansen and Rit empirically by
-defining a histologically motivated relationship between them ($C = C_1 = \frac{C_2}{0.8} = \frac{C_3}{0.25} =
-\frac{C_4}{0.25}$) and varying $C$ until the system produced the desired natural alpha-like activity at $C=C_1=135
-\Rightarrow C_2=108; C_3=C_4=33.75$.
-Varying $C$ can account for common synaptic phenomena like
-neurotransmitter depletion~\parencite{jansen_electroencephalogram_1995}.
-
-\todo{go more into detail about the biological motivation and the effects of these constants on the generated signal}
 
 \subsubsection{Model Input}
 
 The model input $p(t)$ represents the average activity of populations outside the modeled
 column that synapse on the columns PC population.
-Since this activity's source is so diverse, it is modeled by white noise (120-320 $Hz$).
+Since this activity's source is so diverse, it is modeled by white noise ($120-\SI{320}{\hertz}$).
 
-\todo{go more into detail why the input is modeled like this}
 %\begin{wrapfigure}[5]{r}{0.32\textwidth}
 \begin{figure}[H]
     \centering
@@ -408,7 +358,7 @@ Since this activity's source is so diverse, it is modeled by white noise (120-32
             [
             xmin = 120, xmax = 320,
             ymin = 0, ymax = 0.02,
-            xlabel = {f ($Hz$)},
+            xlabel = {f ($\SI{}{\hertz}$)},
             legend pos=outer north east,
             legend style={nodes={scale=1.2, transform shape}},
             ],
@@ -431,12 +381,38 @@ Since this activity's source is so diverse, it is modeled by white noise (120-32
         %\end{wrapfigure}
 \end{figure}
 
+\subsubsection{Connectivity Constants}\label{subsubsec:connectivity_constants}
+
+A sensible choice for the Connectivity Constants $C_1$ to $C_4$ was determined by Jansen and Rit empirically by
+defining a histologically motivated relationship between them ($C = C_1 = \frac{C_2}{0.8} = \frac{C_3}{0.25} =
+\frac{C_4}{0.25}$) and varying $C$ until the system produced the desired natural alpha-like activity at $C=C_1=135
+\Rightarrow C_2=108; C_3=C_4=33.75$.
+Varying $C$ can account for common synaptic phenomena like
+neurotransmitter depletion~\parencite{jansen_electroencephalogram_1995}.
+
+
 \subsubsection{Model Output}
-The simulated data from $y_1-y_2$ while varying $C$ is plotted in Fig.~\ref{fig:jr_c_sweep}:
+Simulated data from $y_1-y_2$ while varying $C$ is plotted in Fig.~\ref{fig:jr_c_sweep},
+which is perfectly reproducing ~\cite[Fig. 3]{jansen_electroencephalogram_1995}.
+The desired alpha-activity is clearly visible for $C = 135$,
+which led Jansen \& Rit to their choice of default parameters mentioned in Sec.~\ref{subsubsec:connectivity_constants}.
+The other plots give an insight into the models capabilities of producing varying forms of activity,
+but in this work we will not further explore variations of $C$.
+An interesting phenomenon is, however,
+that very low and very high connectivity both leads to the system being entirely noise-driven,
+which produces signals with identical form, but different amplitude for different values of $C$ (compare $C=1350$ and $C=68$),
+as long as they are supplied with identical input.
+All signals in Fig.~\ref{fig:jr_c_sweep} were generated with the same pre-sampled random input.
+
+Fig.~\ref{fig:jr_psd} shows the Power Spectral Density (PSD) of the chosen signal and the corresponding spectrogram for a
+60 second simulation session is given in Fig.~\ref{fig:jr_spec}.
+It is clearly visible that the signal is mainly composed of a single sinusoidal component at  $\approx \SI{11}{\hertz}$.
 \begin{figure}[H]
     \centering
-    \subfloat[\textbf{JR Model Output for varying $C$.} Well defined alpha-activity is visible at $C=135$.]{\label{fig:jr_c_sweep}
-        \resizebox{!}{13cm}{
+    \subfloat[\textbf{JR Model Output for varying $C$.} \\
+    Well defined alpha-activity is visible at $C=135$.\\
+    ]{\label{fig:jr_c_sweep}
+        \resizebox{!}{10cm}{
             \begin{tikzpicture}
                 \pgfplotsset{
                 %% Axis
@@ -467,7 +443,7 @@ The simulated data from $y_1-y_2$ while varying $C$ is plotted in Fig.~\ref{fig:
                     },
                     legend style={nodes={scale=0.8, transform shape}, thin},
                     legend image post style={scale=0},
-                    xlabel=$t(s)$
+                    xlabel=$t (\SI{}{\second})$
                     ]
         %           \pgfplotsinvokeforeach{0,1,2,3,4,5}{
         %             \nextgroupplot
@@ -497,37 +473,53 @@ The simulated data from $y_1-y_2$ while varying $C$ is plotted in Fig.~\ref{fig:
         }
     }
     \hfill
-    \subfloat[\textbf{Spectrogram of JR Model Output} ($C=135$)]{\label{fig:jr_spec}
-        \resizebox{9.5cm}{!}{
+    \subfloat[\textbf{PSD of JR Model Output.} \\
+                     ($C=135$, Multitapered)]{\label{fig:jr_psd}
+        \resizebox{7cm}{5.3cm}{
+            \pgfplotsset{compat = newest}
+            \begin{tikzpicture}[scale=0.5]
+                \begin{axis}
+                    [
+                    ],
+                    \addplot [line width=.5pt,solid, cyan]
+                        table[x=x,y=y ,col sep=comma]{data/methodology/psd_multitaper_jr.csv};
+
+                \end{axis}
+            \end{tikzpicture}
+
+        }
+    }
+    \subfloat[\textbf{Spectrogram of JR Model Output.} \\
+                     ($C=135$)]{\label{fig:jr_spec}
+        \resizebox{7.5cm}{!}{
             \import{data/rest_sim}{JR_REST_60.pgf}
         }
     }
     %\hfill
-    \label{fig:jr_model_out_props}
     \caption{\textbf{Properties of JR Model Output}}
+    \label{fig:jr_model_out_props}
 \end{figure}
 
-\todo{Explain Graph, generally provide more information to the systems output}
 \pagebreak
 
 \subsection{The Sub-Population-Extension by David and Friston}\label{subsec:the-david-and-friston-model}
-While the Jansen-Rit model succeeds in generating realistic alpha activity,
+While the JR model succeeds in generating realistic alpha activity,
 real EEG Signals contain much richer spectra~\parencite{steriade_impact_2001}.
-David and Friston~\cite{david_neural_2003} proposed a modification to the Jansen-Rit model,
-that could produce a more realistic frequency spectrum by introducing sub-populations to the model.
+David and Friston~\cite{david_neural_2003} proposed a modification to the JR model,
+that could produce a more realistic frequency spectrum by adding sub-populations to the model.
 They can be tuned individually to produce oscillations in different frequencies.
 
 \subsubsection{Introducing sub-populations}
 
-David and Friston slightly redefine the impulse response function $h(t)$ in the PSP-Blocks by introducing the
-parameters $H$ and $\tau$ (see Table~\ref{tab:davidfriston}),
+David and Friston slightly redefine the impulse response function $h(t)$ (Eq.~\ref{eq:ExcImpResJansenRit})
+in the PSP-Blocks by introducing the parameters $H$ and $\tau$ (see Table~\ref{tab:davidfriston}),
 which are just a minor alteration of $A$ and $a$.
 \[ h(t)=Aate^{-at} => h(t)=\frac{H}{\tau}te^{-\frac{1}{\tau}} \]
-Furthermore, as they are tweaking these parameters to produce slower or faster subpopulations,
-they define the products $H_e\tau_e=0.0325mVs$ and $H_i\tau_i=0.44mVs$ as constants.
+Before tweaking these parameters to produce slower or faster kinetics,
+they define the products $H_e\tau_e=\SI{0.0325}{\milli\volt\second}$ and $H_i\tau_i=\SI{0.44}{\milli\volt\second}$ as constants.
 This is done to preserve the oscillatory behavior of each population~\parencite{david_neural_2003}.
 When varying $\tau$, $H$ is therefore adjusted
-accordingly ($H_e=\frac{0.0325mVs}{\tau_e}$, $H_i=\frac{0.44mVs}{\tau_i}$).
+accordingly ($H_e=\frac{\SI{0.0325}{\milli\volt\second}}{\tau_e}$, $H_i=\frac{\SI{0.44}{\milli\volt\second}}{\tau_i}$).
 \begin{table}[H]
     \centering
     \begin{tabular}{ |c|c|c|c|c| }
@@ -535,16 +527,16 @@ accordingly ($H_e=\frac{0.0325mVs}{\tau_e}$, $H_i=\frac{0.44mVs}{\tau_i}$).
         \multicolumn{2}{|c|}{Parameter} & Value & Unit & Relation to \parencite{jansen_electroencephalogram_1995} \\
         \hline
         \hline
-        \rule{0pt}{3ex}Excitatory delays        & \(\tau_e\) & \(0.01\) & $s$  & $ \tau_e = \frac{1}{a} $ \\[1.2ex]
+        \rule{0pt}{3ex}Excitatory delays        & \(\tau_e\) & \(10\) & $\SI{}{\milli\second}$  & $ \tau_e = \frac{1}{a} $ \\[1.2ex]
         \hline
-        \rule{0pt}{3ex}Inhibitory delays        & \(\tau_i\) & \(0.02\) & $s$  & $ \tau_i = \frac{1}{b} $\\[1.2ex]
+        \rule{0pt}{3ex}Inhibitory delays        & \(\tau_i\) & \(20\) & $\SI{}{\milli\second}$  & $ \tau_i = \frac{1}{b} $\\[1.2ex]
         \hline
-        \rule{0pt}{3ex}Excitatory synaptic gain & \(H_e\)    & \(3.25\) & $mV$ & $ H_e = A $ \\[1.2ex]
+        \rule{0pt}{3ex}Excitatory synaptic gain & \(H_e\)    & \(3.25\) & $\SI{}{\milli\volt}$ & $ H_e = A $ \\[1.2ex]
         \hline
-        \rule{0pt}{3ex}Inhibitory synaptic gain & \(H_i\)    & \(22\)   & $mV$ & $ H_i = B $ \\[1.2ex]
+        \rule{0pt}{3ex}Inhibitory synaptic gain & \(H_i\)    & \(22\)   & $\SI{}{\milli\volt}$ & $ H_i = B $ \\[1.2ex]
         \hline
     \end{tabular}
-    \caption{Parameters of the PSP Blocks after \parencite{david_neural_2003}}
+    \caption{Parameters of the PSP Blocks after David \& Friston~\cite{david_neural_2003}}
     \label{tab:davidfriston}
 \end{table}
 \fcolorbox{red}{red!10}{\parbox{\textwidth}{
@@ -552,16 +544,13 @@ accordingly ($H_e=\frac{0.0325mVs}{\tau_e}$, $H_i=\frac{0.44mVs}{\tau_i}$).
     the subpopulations within a single population.
     The indices used above in the formulation for the Simple Jansen-Rit Model (and the Block Diagram) should not
     be confused with these.
-    However, $e$ and $i$ as indices still denote excitatory and inhibitory populations respectively.}} \\[2em]
-\begin{figure}[H]
-    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/exc_subpop_tikz}
-    \caption{Example of subpopulations ($h_{e_0}(t), \dots, h_{e_N}(t)$) forming an excitatory population $h_e(t)$}
-    \label{fig:exc_subpops}
-\end{figure}
-By introducing subpopulations, we split up the general impulse response function $h(t)$ in $N$ individual
-sub-functions:
-\[h_n(t) = \frac{H_n}{\tau_n}te^{-\frac{1}{\tau_n}}\] \\[1em]
+    However, $e$ and $i$ as indices still denote excitatory and inhibitory populations respectively.}} \\[1em]
 
+\noindent
+To introduce subpopulations, they split up the general impulse response function $h(t)$ in $N$ individual
+sub-functions:
+\[h_n(t) = \frac{H_n}{\tau_n}te^{-\frac{1}{\tau_n}}\]\\
+\noindent
 The previously defined general PSP-Block Equation:
 \[y(t)=h(t)\ast x(t)\]
 then becomes:
@@ -586,17 +575,22 @@ which produces the following differential equations for a single PSP Block:
     \end{aligned}\label{eq:davidfriston_subpops}
 \end{equation}
 
+\begin{figure}[H]
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/exc_subpop_tikz}
+    \caption{Example of subpopulations ($h_{e_0}(t), \dots, h_{e_N}(t)$) forming an excitatory population $h_e(t)$}
+    \label{fig:exc_subpops}
+\end{figure}
 
-%\subsection{möglicherweise auch vorangegangene Paper (Lopez da Silva '76, ...) zur Erklärung heranziehen}
-
-
-David and Friston further propose an example with two subpopulations for each population with
-the following parameters: $\tau_{e_1}=10.8ms$, $\tau_{i_1}=22ms$, $\tau_{e_2}=4.6ms$, $\tau_{i_2}=2.9ms$.
-While the kinetics for the first subpopulation were still close
+\vspace{1em}
+\noindent
+David and Friston further propose an example with two subpopulations for each population.
+The parameters are listed in Fig.~\ref{fig:PSPPlotDavidFriston}.
+While the kinetics for the first subpopulation ($\tau_{e_0}, \tau_{i_0}$) in each population are still close
 to those of the original populations ($\tau_e=10ms, \tau_i=20ms$, which produce alpha activity),
-the second population's parameters were chosen to produce gamma activity.
-
-\todo{put the values in a table}
+each of the second subpopulation's  ($\tau_{e_1}, \tau_{i_1}$) parameters were chosen to produce gamma activity.
+The associated weights are  $w_0=0.8$ and $w_1=0.2$ for both populations,
+favouring the original slower kinetics,
+as this combination results in the most realistic frequency distribution according to the authors (compare Fig.~\ref{fig:df_psd}).
 
 \begin{figure}[H]
     \centering
@@ -604,10 +598,10 @@ the second population's parameters were chosen to produce gamma activity.
     \begin{tikzpicture}
         \begin{axis}
             [
-            xmin = -1, xmax = 140,
+            xmin = 0, xmax = 140,
             ymin = 0, ymax = 55.1,
-            xlabel = {$t$ ($ms$)},
-            ylabel = {$h$ ($mV$)},
+            xlabel = {$t$ ($\SI{}{\milli\second}$)},
+            ylabel = {$h$ ($\SI{}{\milli\volt}$)},
             legend pos=north east,
             legend style={nodes={scale=0.8, transform shape}},
             domain = 0:140,
@@ -616,23 +610,9 @@ the second population's parameters were chosen to produce gamma activity.
             thick,
             ],
             \addplot[green] {(3.01/10.8)*x*e^(-(1/10.8)*x)};\label{plot:line1}
-            \addplot[lime] {(7.07/4.6)*x*e^(-(1/4.6)*x)};\label{plot:line2}
+            \addplot[blue] {(7.07/4.6)*x*e^(-(1/4.6)*x)};\label{plot:line2}
             \addplot[red] {(20/22)*x*e^(-(1/22)*x)};\label{plot:line3}
-            \addplot[magenta] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:line4}
-%
-%            \addplot[red, dashed] {(20/22)*x*e^(-(1/22)*x)};\label{plot:line5}
-%            \addplot[red, dashed] {(20/24.2)*x*e^(-(1/24.2)*x)};\label{plot:line5.1}
-%            \addplot[red, dashed] {(20/26.4)*x*e^(-(1/26.4)*x)};\label{plot:line5.2}
-%            \addplot[red, dashed] {(20/28.6)*x*e^(-(1/28.6)*x)};\label{plot:line5.3}
-%            \addplot[red, dashed] {(20/30.8)*x*e^(-(1/30.8)*x)};\label{plot:line5.4}
-%            \addplot[red, dashed] {(20/33)*x*e^(-(1/33)*x)};\label{plot:line5.5}
-%
-%            \addplot[magenta, dashed] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:line6.1}
-%            \addplot[magenta, dashed] {(151.72/3.19)*x*e^(-(1/3.19)*x)};\label{plot:line6.2}
-%            \addplot[magenta, dashed] {(151.72/3.48)*x*e^(-(1/3.48)*x)};\label{plot:line6.3}
-%            \addplot[magenta, dashed] {(151.72/3.77)*x*e^(-(1/3.77)*x)};\label{plot:line6.4}
-%            \addplot[magenta, dashed] {(151.72/4.06)*x*e^(-(1/4.06)*x)};\label{plot:line6.5}
-%            \addplot[magenta, dashed] {(151.72/4.35)*x*e^(-(1/4.35)*x)};\label{plot:line6.6}
+            \addplot[orange] {(151.72/2.9)*x*e^(-(1/2.9)*x)};\label{plot:line4}
             \coordinate (legend) at (axis description cs:0.97,0.97);
         \end{axis}
         \tiny
@@ -643,33 +623,77 @@ the second population's parameters were chosen to produce gamma activity.
         ] at (legend) {
 
             & $\tau$ &    $H$  \\
-            $h_{e_1}(t)$~\ref{plot:line1} & 10.8ms &   3.0mV \\
-            $h_{e_2}(t)$~\ref{plot:line2} &  4.6ms &   7.0mV \\
-            $h_{i_1}(t)$~\ref{plot:line3} & 22.0ms &  20.0mV \\
-            $h_{i_2}(t)$~\ref{plot:line4} &  2.9ms & 151.7mV \\
+            \ref{plot:line1}$h_{e_0}(t)$ & 10.8ms &   3.0mV \\
+            \ref{plot:line2}$h_{e_1}(t)$ &  4.6ms &   7.0mV \\
+            \ref{plot:line3}$h_{i_0}(t)$ & 22.0ms &  20.0mV \\
+            \ref{plot:line4}$h_{i_1}(t)$ &  2.9ms & 151.7mV \\
         };
     \end{tikzpicture}
 
-    \caption{\textbf{PSP functions for Subpopulations:}~\ref{plot:line2} and~\ref{plot:line4} are faster
-    subpopulations. They contribute to activity with higher frequencies}
+    \caption{\textbf{PSP functions for subpopulations as proposed by David \& Friston~\cite{david_neural_2003}:} \\
+        The subpopulations $h_{e_1}$ and $h_{i_1}$ are faster
+        than the original populations and their slower variations in $h_{e_0}$ and $h_{i_0}$ and
+        elicit activity with higher frequencies.
+    }
     \label{fig:PSPPlotDavidFriston}
 \end{figure}
 
 \subsubsection{Model Output}
-\todo{explain output of DF model!}
+The values chosen by David \& Friston indeed produce a frequency distribution more
+typical for EEG recordings \citationneeded,
+with a broad distribution over the alpha and beta bands (Fig.~\ref{fig:df_psd}).
+On average, the frequencies peak in alpha ($~\SI{12}{\hertz}$), as visible in the PSD plot,
+however, the spectrogram (Fig.~\ref{fig:df_spec}) reveals fluctuations of the peak frequency
+between the alpha and beta band over time.
+The average frequency amplitude is harshly reduced compared to the JR model,
+which becomes clear when scaling the JR model's PSD (Fig.~\ref{fig:jr_psd_rescaled})
+and spectrogram (Fig.~\ref{fig:jr_spec_rescaled}) to the same value ranges.
+
 \begin{figure}[H]
     \centering
-    \subfloat[\textbf{Spectrogram of DF Model Output}]{\label{fig:df_spec}
-        \resizebox{9.5cm}{!}{
+    \subfloat[\textbf{PSD of DF Model Output.} (Multitapered)]{\label{fig:df_psd}
+        \resizebox{7cm}{5.3cm}{
+            \pgfplotsset{compat = newest}
+            \begin{tikzpicture}[scale=0.5]
+                \begin{axis}
+                    [ymax=0.000000003
+                    ],
+                    \addplot [line width=.5pt,solid, cyan]
+                        table[x=x,y=y ,col sep=comma]{data/methodology/psd_multitaper_df_35.csv};
+
+                \end{axis}
+            \end{tikzpicture}
+        }
+    }
+    \subfloat[\textbf{Spectrogram of DF Model Output.}]{\label{fig:df_spec}
+        \resizebox{7.5cm}{!}{
             \import{data/rest_sim}{DF_REST_60.pgf}
         }
     }
     \hfill
-    \subfloat[\textbf{Spectrogram of JR Model Output.} Scaled to match intensity for comparison]{\label{fig:jr_spec_rescaled}
-        \resizebox{9.5cm}{!}{
+    \subfloat[\textbf{PSD of JR Model Output.} \\
+              (see Fig.~\ref{fig:jr_psd})\\
+              Scaled to match intensity for comparison]{\label{fig:jr_psd_rescaled}
+        \resizebox{7cm}{5.3cm}{
+            \pgfplotsset{compat = newest}
+            \begin{tikzpicture}[scale=0.5]
+                \begin{axis}
+                    [ymax=0.000000003
+                    ],
+                    \addplot [line width=.5pt,solid, cyan]
+                        table[x=x,y=y ,col sep=comma]{data/methodology/psd_multitaper_jr.csv};
+
+                \end{axis}
+            \end{tikzpicture}
+        }
+    }
+    \subfloat[\textbf{Spectrogram of JR Model Output.}\\
+              (see Fig.~\ref{fig:jr_spec})\\
+              Scaled to match intensity for comparison]{\label{fig:jr_spec_rescaled}
+        \resizebox{7.5cm}{!}{
             \import{data/rest_sim}{JR_REST_60_dfscale.pgf}
         }
     }
+    \caption{\textbf{Properties of DF Model Output in comparison to JR model}}
     \label{fig:df_model_out_props}
-    \caption{\textbf{Properties of DF Model Output}}
 \end{figure}

@@ -1,28 +1,18 @@
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-\todo{This is old! Re-write the abstract to match the new hypothesis! (very last thing to do)}
-\textcolor{gray}{\textit{Patients with severe Traumatic Brain Injuries (TBI) often remain in a state of unresponsive
-wakefulness.
-Brain-Computer-Interface (BCI)-based systems promise to improve the state assessment and to open a
-communication channel for patients to express their intent while in conscious states.
-Developing such a BCI-System (e.g., with EEG), including the necessary algorithms to assess a patients current
-wakefulness or consciousness state from EEG data is a challenging task.
-Development, testing and evaluation of these algorithms requires labeled data (ground truth),
-which is almost impossible to obtain given the patients' lack of communication capabilities.
-Therefore, it would be desirable to generate a synthetic signal, which should ideally resemble
-real EEG data in all relevant features.
-We previously developed a simple ICA-based model, which generates a multichannel EEG from base-signals with
-configurable spectral features.
-While this proved useful for testing numerous components of our signal-analysis framework,
-it lacks biological plausibility and explanatory power to model the changes in the signal's
-properties given an altered state of consciousness.
-In this thesis, we propose an approach towards overcoming these issues while sticking with the original goal of
-generating realistic, practically useful surrogate data.
-A biologically motivated Neural Mass Model (NMM) on cortical-column level is implemented,
-which is able to approximate the effects of sedation-induced unconsciousness on the generated signal.
-The model is then shown to be able to reproduce the characteristic effects
-that sedation has on the EEG-Signals of real subjects.
-This is a first step to a model of consciousness-altering processes in the brain,
-which could ultimately be extended to realistically simulate other processes like sleep and trauma-induced DoC,
-facilitating better detection algorithms and furthering the goal to develop working BCI-Systems in the given context.}}
+    Understanding the mechanisms behind emergence, modulation and loss of consciousness in the brain
+    is still within the bounds of fundamental research.
+    Simulation of predictable processes like general anaesthesia in computer models can help to uncover
+    which mechanisms play a role in inducing these state-changes.
+    Neural-field models have been shown to be able to reproduce the phenomena of drug-hysteresis and
+    temporal EEG power-surges during induction and emergence of anaesthesia.
+    To find the simplest possible model capable of producing these effects,
+    the basic Jansen-Rit model was implemented alongside its subpopulation-extension by David \& Friston.
+    Propofol anaesthesia was simulated in both model variants by modulating IPSP decay-time.
+    The David-Friston extension was able to reproduce both key phenomena,
+    while the basic Jansen-Rit model reproduced the biphasic effect.
+    The results substantiate the theory that these effects might be at least partially caused by inherent brain-dynamics
+    on population level,
+    and further suggest that these dynamics might modulate the preconditions for the emergence of consciousness.
+    Additionally, the existence of hysteresis in computer models reinforces the concept of neural inertia.
 \end{abstract}

@@ -11,7 +11,7 @@
                 tick style={line width=0.8pt},
             },
             %% X-Axis
-            xmin=1.0, xmax=66.0,
+            xmin=1.0, xmax=\simRunTime,
         }
         \begin{groupplot} [
                 group style={
@@ -26,12 +26,12 @@
                 },
                 legend style={nodes={scale=0.8, transform shape}, thin},
                 legend image post style={scale=0},
-                xlabel=$t(s)$
+                xlabel=$\SI{}{\second}$
             ]
             \nextgroupplot[ylabel style={align=center}, ylabel=\begin{tiny}decay-time factor\end{tiny}\\ $\lambda$,
                            ymin=0.6, ymax=3.1, grid style={dashed,black!20}, grid=major]
             \addplot [name path=factors,line width=.5pt,solid, cyan]
-            table[x=x, y=y ,col sep=comma, each nth point=100]{data/full_sedation_sim/\simRunName _factors.csv};
+            table[x=x, y=y ,col sep=comma, each nth point=100]{data/sedation_sim/\simRunName _factors.csv};
 
             \legend{\textbf{(a) Propofol concentration}};
         \iftoggle{drawLocRoc}{
@@ -42,46 +42,54 @@
                 \draw [red, dotted] ([xshift=0.0cm]axis cs:\locET,0) -- ([yshift=0.0cm]axis cs:\locET,\locEnd);
                 \draw [red, dotted] ([xshift=0.0cm]axis cs:\locST,0) -- ([yshift=0.0cm]axis cs:\locST,\locStart);
 
-                \draw [green, dotted] ([xshift=0.0cm]axis cs:66.0,\rocEnd) -- ([yshift=0.0cm]axis cs:\rocET,\rocEnd) ;
-                \draw [green, dotted] ([xshift=0.0cm]axis cs:66.0,\rocStart) -- ([yshift=0.0cm]axis cs:\rocST,\rocStart)
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:\simRunTime,\rocEnd) -- ([yshift=0.0cm]axis cs:\rocET,\rocEnd) ;
+                \draw [green, dotted] ([xshift=0.0cm]axis cs:\simRunTime,\rocStart) -- ([yshift=0.0cm]axis cs:\rocST,\rocStart)
             node[near
                        end,above,font=\tiny]{ROC $\approx [\rocStart,\rocEnd]$};
                 \draw [green, dotted] ([xshift=0.0cm]axis cs:\rocST,0) -- ([yshift=0.0cm]axis cs:\rocST,\rocStart);
                 \draw [green, dotted,line width=.5pt] ([xshift=0.0cm]axis cs:\rocET,0) -- ([yshift=0.0cm]axis cs:\rocET,\rocEnd);
         }
 
-            \nextgroupplot[ylabel=$mV$]
+            \nextgroupplot[ylabel=$\SI{}{\milli\volt}$]
             \addplot [line width=.5pt,solid, cyan]
             table[x=x, y=y ,col sep=comma, each nth point=2]
-            {data/full_sedation_sim/\simRunName .csv};
+            {data/sedation_sim/\simRunName .csv};
 
             \legend{\textbf{(b) Signal}};
 
             \nextgroupplot[ymin=0, ymax=40,
-                            ylabel=$Hz$,
+                            ylabel=$\SI{}{\hertz}$,
                             height=5cm
             ]
               \addplot graphics [includegraphics cmd=\pgfimage,
         xmin=1.0,%xmin=0.899,
-        xmax=66.0,% xmax=38.899,
+        xmax=\simRunTime,% xmax=38.899,
         ymin=0, ymax=40]
-            {data/full_sedation_sim/\simRunName -img0.png};
+            {data/sedation_sim/\simRunName -img0.png};
             \legend{\textbf{(c) Spectrogram}};
 
         \end{groupplot}
      \begin{groupplot} [group style={group size=1 by 3,vertical sep=2mm}]
             \nextgroupplot[axis y line=right, axis line style={-}, ymin=0.6, ymax=3.1, ylabel=$\sim c_e
             (\SI{}{\micro\molar})$,
-            yticklabels ={0,5,10,20,30}, ytick={1,1.81,2.164,2.558,2.8},
+            yticklabels ={0,
+            %5,
+            10,
+            %20,30
+            }, ytick={1,
+            %1.81,
+            1.9%2.164,
+            %2.558,2.8
+            },
             axis x line=none]
             \nextgroupplot[axis y line=none, axis x line=none]
             \nextgroupplot[axis y line=right, axis line style={-}, xshift=0.5cm, ymin=0, ymax=40,
-                ylabel=$dB$,
+                ylabel=$\SI{}{\deci\bel}$,
                 yticklabels ={-110,-85,-40}, ytick={0, 20, 40},
                 height=5cm,axis x line=none]
         \end{groupplot}
 
               \node [above right] at (12.8cm, -8.53cm) {
             \includegraphics[width=0.35cm, height=5cm]
-            {data/full_sedation_sim/\simRunName -img1.png}};
+            {data/sedation_sim/\simRunName -img1.png}};
 \end{tikzpicture}

@@ -1,17 +1,17 @@
-\chapter{Introduction}\label{ch:introduction}
+\chapter{Motivation \& Introduction}\label{ch:introduction}
 
 
 
 
-\todo{either remove this section and call chapter `Intro \& Motivation` or add more sections}
-\section{Motivation}\label{sec:motivation}
+%\todo{either remove this section and call chapter `Intro \& Motivation` or add more sections}
+%\section{Motivation}\label{sec:motivation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % How do states of consciousness change? How are they defined %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The highly complex processes of changing states of consciousness in the human brain are still barely understood.
 States of consciousness have historically been defined based on behavioral observations such as responsiveness to
 stimuli.
-As no other indications, save simple physiological measurements such as pulse and respiration rate,
+As no other indications, save simple physiological measurements such as pulse and respiration rate
 were available, the concept of awareness was tightly linked to observable behavior.
 While the great majority of medical applications to determine levels of consciousness,
 even in practical clinical contexts~\cite{jain_glasgow_2022},
@@ -32,8 +32,8 @@ level of brain-activity -- to fully understand the mechanisms that lead to its d
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Brain-activity can be measured directly or indirectly.
 Direct measurement with electrodes in the brain, while more accurate,
-poses the obvious problem of its invasive nature and faces the challenge of realistically \iltodo{rephrase} only
-allowing very localized measurements \citationneeded.
+poses the obvious problems of its invasive nature and realistically only
+allows very localized measurements \citationneeded.
 Various neuroimaging techniques, which indirectly measure brain-activity, have been used to study levels of
 awareness since their emergence.
 Already in the 1880`s, Angelo Mosso measured scalp-pulse variations in subjects
@@ -47,43 +47,60 @@ consciousness-modulation, e.g., to induce sleep, have been identified and are we
 \citationneeded.
 Techniques to measure levels of consciousness via neuroimaging have been proposed~\cite{sigl_introduction_1994,
     casali_theoretically_2013} and used in practise~\cite{mathur_bispectral_2022}.
-However, exact mechanisms behind state-changes are still object of fundamental research.
+However, exact mechanisms behind state-changes are still object of fundamental research~\cite{tantirigama_perspective_2020}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % How to study state-changes most efficently? %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% controlled conditions -> anaesthesia
 Controlled state-changes, like inducing loss-of-consciousness with anaesthetic drugs,
 are exceptionally well-suited for studying the underlying mechanisms of consciousness,
-as they allow for repeatable conditions.
+as they allow for repeatable conditions~\cite{bonhomme_general_2019}.
+% propofol as a well-understood agent
 Furthermore, the neuro-chemical mechanisms of the drugs provide a good starting-point for modeling these processes.
 The sedative propofol is the most commonly used drug to induce controlled loss of consciousness
-during general anaesthesia.
-Propofol's neuro-chemical mode of action and its specific effects on synaptic receptors are well understood,
+during general anaesthesia (GA)\citationneeded.
+Propofol's neuro-chemical mode of action and its specific effects on synaptic receptors are well understood \citationneeded,
 which lays a solid foundation to study the brain-dynamics associated with loss of consciousness.
-\todo{clarify/establish what exactly we simulate (``behavior'' is unspecific)}
-A promising approach to further our insights step by step, is to simulate controlled state-changes
-(such as anaesthesia) in computer-models to develop an understanding of the dynamics of brain-activity and its
+When it comes to monitoring the brain-activity during anaesthesia,
+the EEG stands out due to its practicability, low cost, and high temporal resolution.
+As a result, there is already a vast body of research in this area.
+Studying the origins and mechanisms behind the measured activity remains immensely challenging, nonetheless,
+largely due to the highly complex interconnected brain itself. \citationneeded
+
+A promising approach to further our insights step by step, is to simulate state-changes
+like anaesthesia in computer-models to develop an understanding of the dynamics of brain-activity and its
 effects on consciousness. %% controlled induction/loss of consciousness to directly test hypothesis experimentally
+Simulations enable testing of specific hypotheses by modelling the proposed conditions and analysing the outcome.
 Computer-models of the brain (or parts of it) exist on different levels~\cite{panahi_generative_2021},
 including simulations of individual neurons and population-based approaches.
 Neural-Mass-Models (NMMs), members of the latter, model synaptic connections between populations of different types
-of neurons and have proven to replicate multiple abstract phenomena of brain-dynamics\cite{bojak_neural_2014,
-    knösche_jansen-rit_2014} within a small cortical
-column.
+of neurons and have proven to replicate multiple abstract phenomena of brain-dynamics~\cite{bojak_neural_2014,
+    knösche_jansen-rit_2014} within a small cortical column.
 The simplifications they provide allow efficient real-time simulation of signals,
 while preserving many important characteristics of EEG or MEG signals.
-\todo{maybe work in Steyn-Ross' argumentation, that loss of consciousness is a phenomenon global to the cortex which
-further justifies the choice of population models in contrast to single neuron simulation}
-\todo{WHY EEG \& NMM? What are the alternatives?}
-\todo{improve explanation of NMMs}
+Population models generate output resembling EEG recordings,
+as they are designed to operate on the same level of abstraction
+from the underlying single-cell-activity~\cite{deco_dynamic_2008}.
+While a computationally highly expensive model that simulates all neurons of a population individually might
+be technically more accurate,
+it can be argued that it would add unnecessary complexity
+when studying the abstract phenomena observable in the EEG.
+Additionally, population models can easily be scaled to whole-brain models
+that accomplish near-real-time performance on conventional hardware (e.g,~\cite{bensaid_coalia_2019}).
+Simulating every neuron in the brain on the other hand, is an enormous task,
+which to date even supercomputers are unable to solve (although it is actively pursued)~\cite{jordan_extremely_2018}.
 
-By combining the well-known properties of propofol with an NMM, we can hope to gain insights into the mechanisms that
+By combining the well-known properties of propofol with an NMM, we can expect to gain insights into the mechanisms that
 govern changes of brain-dynamics in the presence of consciousness-altering drugs.
 While the abstract nature of NMMs, along with its limitations must always be
 considered~\cite{deschle_validity_2021},
 the results of simulated experiments can provide valuable research indications.
-\todo{start section `contribution of this thesis:` to lead into the following}
-
+%\todo{start section `contribution of this thesis:` to lead into the following}
+\section{Related Work and Goals}\label{sec:related-work-and-goals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAYBE STOP HERE, REWRITE CONTRIBUTION AND GOALS PART, MOVE OTHER TEXT TO NMM INTRO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 One of the most commonly used models in the area of neural population models is the
 Jansen-Rit~\cite{jansen_electroencephalogram_1995} (JR) NMM,
 which is based on efforts by Wilson \& Cowan~\cite{wilson_excitatory_1972},
@@ -91,11 +108,11 @@ Lopes da Silva et al.~\cite{lopes_da_silva_model_1974, lopes_da_silva_models_197
 Zetterberg et al.~\cite{zetterberg_performance_1978}.
 It is one of the most simple and basic population models,
 while retaining `a considerable degree of biological realism` and
-`producing a surprisingly rich repertoire of dynamic behaviors`~\cite{knösche_jansen-rit_2014}.
-Many efforts in the field are based on the JR NMM, e.g.,~\cite{wendling_relevance_2000, david_neural_2003,
-    moran_dynamic_2009, spiegler_bifurcation_2010, cona_thalamo-cortical_2014, bensaid_coalia_2019} and others.
+`producing a surprisingly rich repertoire of dynamic behaviors`~\cite{knösche_jansen-rit_2014, spiegler_bifurcation_2010}.
+Many efforts in the field are based on the JR NMM (e.g.,~\cite{wendling_relevance_2000, david_neural_2003,
+    moran_dynamic_2009, cona_thalamo-cortical_2014, bensaid_coalia_2019} and others).
 
-Neural-Mass models have been widely used to simulate the properties \todo{maybe specify} of different states of
+Neural-Mass models have been widely used to simulate the properties of different states of
 consciousness.
 Cona et al.~\cite{cona_thalamo-cortical_2014} adapted multiple interconnected JR NMM modules to simulate effects
 of different stages of sleep.
@@ -117,7 +134,6 @@ Neural field models are similar to neural mass models,
 but also take into account the continuity of the cortex and the spatial distribution of
 neurons~\cite{glomb_computational_2022}, adding complexity to the model.
 
-
 %\section{Goal}\label{sec:goal}
 The JR model has its greatest advantages in its simplicity (even including extensions) and serves as 'Occam's Razor'
 for many applications in the field~\cite{kuhlmann_neural_2016}.
@@ -125,35 +141,27 @@ As its fundamental structures have proven to be a working local basis for sophis
 framework,
 it appears desirable to evaluate its ability to simulate the effects of anaesthesia and serve as a simple tool to
 further consciousness research in that area.
-This work aims to reproduce the behavior observed in Steyn-Ross et al.'s neural field model ~\cite{hutt_progress_2011}
+
+This work aims to reproduce the behavior observed in Steyn-Ross et al.'s neural field model~\cite{hutt_progress_2011}
 using a neural mass approach based on the JR model,
 thus helping to investigate the prerequisites for the emergence of the phenomena in brain-dynamics typical to
-anaesthesia -
-specifically the existence of propofol hysteresis and a biphasic effect as reported by ~\cite{hutt_progress_2011}.
-While the basic JR model is able to produce rich patterns of dynamic behavior~\cite{spiegler_bifurcation_2010},
-large regions of its parameter-space generate sinusoidal signals with a single pronounced frequency,
-which might limit its ability to reproduce the expected phenomena (as noted by~\cite{kuhlmann_neural_2016}).
+anaesthesia - specifically the existence of propofol hysteresis
+and a biphasic effect as reported by~\cite{hutt_progress_2011}.
+While the basic JR model is able to produce rich patterns of dynamic behavior,
+large regions of its parameter-space generate sinusoidal signals with a single pronounced frequency by design,
+which might limit its ability to reproduce the expected phenomena.
 Therefore, the subpopulation-extension proposed by David \& Friston~\cite{david_neural_2003} is also employed to
-produce a more realistic baseline frequency spectrum.
+produce a more realistic baseline frequency spectrum and provide a broader parameter space.
 
+\vspace{1em}
+\noindent In summmary, this thesis aims to accomplish the following:
+\begin{enumerate}[label=\textbf{Goal \arabic*}:, ref=\textbf{Goal~\arabic*}, align=left, leftmargin=*]
+    \item Implement the basic Jansen-Rit model and validate for correct output\label{goal:jr_model}
+    \item Extend the model by adding subpopulations as proposed by David-Friston and validate the implementation\label{goal:df_model}
+    \item Include a parameterizable representation of the effects of propofol in the model \label{goal:implement_propofol}
+    \item Simulate a session of general anaesthesia with the implemented models \label{goal:sim_ga}
+    \item Evaluate if either or both of the models can reproduce the effects described by Steyn-Ross et al. \label{goal:evaluate}
+\end{enumerate}
 
-
-%\cite{luppi_paths_2021}}
-%
-%Liang et al.~\cite{liang_pharmacokinetics-neural_2015} focussed on relating propofol-induction to effect-site
-%concentration, which is an important parameter in any model for anaesthesia-simulation.
-
-%
-%\section{Collection of Quotes}
-%
-%'Although our understanding of the actions of propofol at the molecular level is quite extensive,
-%we do not entirely understand how these molecular effects translate into alterations in cellular,
-%synaptic and neural network function, and in turn cause unconsciousness [88].
-%This knowledge gap is, at least in part, the result of a lack of a generally accepted theory of consciousness.
-%In recent years, cognitive neuroscience has seen a resurgence of interest in this topic,
-%with attempts to integrate anaesthesia and sleep research in order to address this deficiency.
-%This resurgence has revealed several brain areas that play a crucial role in generation of consciousness,
-%and which are extensively influenced by hypnotic drugs.'
-%\cite{sahinovic_clinical_2018}\\[1em]
 
 

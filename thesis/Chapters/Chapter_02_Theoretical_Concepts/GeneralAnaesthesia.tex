@@ -1,180 +1,87 @@
 \section{General Anaesthesia}\label{sec:general-anaesthesia}
-\incomplete{this section is currently just a collection of information. it needs transitions between subsections and
-improvements to the text}
-\subsubsection{Basics}
-General Anaesthesia is usually employed in surgical contexts to keep patients from experiencing pain during medical
+Having established the theoretical background for our models,
+we can approach \ref{goal:implement_propofol} by investigating the effects of propofol in the context of anaesthesia.
+GA is usually employed in surgical contexts to keep patients from experiencing pain during medical
 procedures, e.g., an operation.
 Sedative drugs are carefully administered to the patient by trained practitioners to induce loss of consciousness,
 without causing permanent damage to the brain or other parts of the body.
-\todo{finish the introduction}
+Propofol is the most popular sedative for GA ~\cite{miner_clinical_2007, sahinovic_clinical_2018}
+and its effects on the brain have been extensively studied,
+which makes it a good candidate for our simulation goals.
 
-
-
-\subsubsection{Units for propofol concentration}
-Some works~\cite{iwakiri_individual_2005} cite propofol concentrations in $\SI{}{\frac{\micro\gram}{\milli\litre}}$,
-while others~\cite{kitamura_effects_2003, mcdougall_propofol_2008} report values in $\SI{}{\micro\molar}$ (micromolar =
+\subsubsection{Realistic propofol concentrations during GA}\label{subsubsec:realistic-prop-conc-during-ga}
+To estimate sensible parameter ranges for our model,
+it is helpful to establish realistic dosages of propofol in clinical practise.
+Some works (e.g,~\cite{iwakiri_individual_2005, ferreira_patterns_2020}) state propofol concentrations in $\SI{}{\frac{\micro\gram}{\milli\litre}}$,
+while others (e.g.,~\cite{kitamura_effects_2003, mcdougall_propofol_2008}) report values in $\SI{}{\micro\molar}$ (micromolar =
 $\SI{}{\frac{\micro\mol}{\litre}}$).
-To get comparable numbers, we first need to establish the following relation for Propofol
+To get comparable numbers, we first need to establish the following relation for propofol
 (molar mass: $\SI{178.27}{\gram}$):
 \[ \SI{1}{\frac{\micro\gram\hspace{0.5em}\text{\tiny{Propofol}}}{\milli\litre}}  =
 \frac{ \SI{1}{\frac{\micro\gram}{\milli\litre}}}{\SI{178.27}{\frac{\gram}{\mol}}} \approxeq \SI{5.609}{\micro\molar} \]
-In this work, we will use $\SI{}{\micro\molar}$
-and only mention values in $\SI{}{\frac{\micro\gram}{\milli\litre}}$ where they are taken from a source,
-but also provide the converted value.
+In this work, we will use $\SI{}{\micro\molar}$ as our default unit
+but additionally provide original values in $\SI{}{\frac{\micro\gram}{\milli\litre}}$ where they are taken from a source.
 
-
-\subsubsection{Realistic propofol concentrations during general anaesthesia (GA)}\label{subsec:realistic-prop-conc-during-ga}
-
-During GA, effect-site concentrations ($c_{e}$, concentration near the synaptic receptors) of propofol may easily range
-up to
-$\SI{5}{\frac{\micro\gram}{\milli\litre}} (\approx\SI{28}{\micro\molar})$.
-Loss of Consciousness (LOC) occurs on average at $c_e \sim\SI{2.0}{\frac{\micro\gram}{\milli\litre}} (\approx\SI{11
+Effect-site concentrations ($c_{e}$, concentration near the synaptic receptors) of propofol may easily range
+up to $\SI{5}{\frac{\micro\gram}{\milli\litre}} (\approx\SI{28}{\micro\molar})$.
+Loss of consciousness (LOC) occurs on average at $c_e \sim\SI{2.0}{\frac{\micro\gram}{\milli\litre}} (\approx\SI{11
 .2}{\micro\molar})$,
-while the Recovery of Consciousness (ROC) averages at $c_e \sim\SI{1.8}{\frac{\micro\gram}{\milli\litre}}
+while the recovery of consciousness (ROC) averages at $c_e \sim\SI{1.8}{\frac{\micro\gram}{\milli\litre}}
 (\approx\SI{10.1}{\micro\molar})$.
 Both values may vary substantially for individual subjects.
-LOC has a strong tendency to occur at higher concentrations than ROC~\cite{iwakiri_individual_2005,
-    ferreira_patterns_2020}.
+LOC has a strong tendency to occur at higher concentrations than ROC.~\cite{iwakiri_individual_2005,
+    ferreira_patterns_2020}
 Throughout GA, effect-site concentration is commonly derived from measured
 blood-plasma concentration ($c_p$) using more or less complex Pharmacokinetic (PK)-Models
 (e.g.,~\cite{eleveld_general_2014, liang_pharmacokinetics-neural_2015}),
 as direct measurement of $c_{e}$ in the brain is impractical for obvious reasons.
-Since our model will work with $c_{e}$ directly, we will disregard this for now - however, it should be kept in mind.
+As our model requires the concentration at the receptors, it will use $c_{e}$ directly, however,
+the role of PK-Models with respect to reported effect-site concentrations in many works is crucial
+and important to acknowledge.
 
 
-\subsubsection{Effects of propofol on the IPSP}
-
+\subsubsection{Effects of propofol on the inhibitory PSP}
+Propofol is a GABA\textsubscript{A} receptor agonist, i.e, it potentiates the effect of inhibitory
+GABA neurotransmitters at GABA\textsubscript{A} receptors and thereby modulates
+the IPSP~\cite{sahinovic_clinical_2018}.
 Research on the effect of propofol on the IPSC (Inhibitory Post-Synaptic Current) and EPSC
-has shown that propofol strongly affects the IPSP decay time \cite{kitamura_effects_2003, mcdougall_propofol_2008}.
-The EPSP and the amplitude of the IPSP are unaffected by propofol.
+of cortical neurons has shown that propofol strongly affects the IPSP decay time.
+The EPSP and the amplitude of the IPSP of these neurons are unaffected by propofol.
 Effect-site concentrations at clinically relevant levels increase the IPSP decay time
-significantly (e.g., around $\SI{10}{\micro\molar}$ the decay time roughly doubles)~\cite{kitamura_effects_2003}.
-
-\incomplete{the `manual fit' needs to be replaced with something `more scientific'}
-
-Using the data-points from~\cite{kitamura_effects_2003}
-and assuming a very rough manual logarithmic fit (see Fig.~\ref{fig:lambda_fit}),
-the function
-        \[ \mathscr{D}(c_{e}) = 0.65*ln((c_{e}/2)+1)+1 \]
-will be used to calculate the decay-time factor $\lambda$ from a given
-effect-site concentration in $\SI{}{\micro\molar}$.
-
-As there unfortunately were only a few data-points (and none above $\SI{10}{\micro\molar}$,
-leaving a large part of the relevant parameter space empty),
-a computational model-fit might have over-valued those points.
-\todo{mention that there ARE points over 10 uM~ \cite{mcdougall_propofol_2008},
-    which may not be directly comparable. generally check~\cite{hutt_progress_2011} and others for their sources}
-A visually fitted logarithmic function (assuming eventual effect saturation) seemed like a sensible choice
-for this use-case.
-However, since inter-subject variations are substantial in any case,
-the exact values do not matter as much as the order of magnitude.
+significantly (e.g., around $\SI{10}{\micro\molar}$ the decay time roughly doubles).
+\cite{kitamura_effects_2003, mcdougall_propofol_2008}
 
 
-\begin{figure}[H]
-    \centering
-    \pgfplotsset{compat = newest}
-    \begin{tikzpicture}
-        \begin{axis}
-            [
-            xmin = 0, xmax = 32,
-            ymin = 1, ymax = 5.2,
-            xlabel = {$c_{e} (\SI{}{\micro\molar})$},
-            ylabel = {$\lambda$},
-            legend pos=north west,
-            domain = 0:32,
-            samples = 50,
-            smooth,
-            thick,
-            scatter/classes={a={mark=o,draw=gray}, b={mark=x,draw=black}}
-            ],
-            %\addplot[dashed, gray]{3.8*ln((x/18)+1)+1};
-            %\addplot[gray       ]{0.5*ln((x)+1)+1};
-            \addplot[dashed,gray]{0.65*ln((x/2)+1)+1};
-            \legend{\small$\mathscr{D}(c_{e})$};
-            %\addplot[green]{0.9*ln((x/4)+1)+1};
-            %\addplot[red]{1.15*ln((x/4)+1)+1};
-            \addplot[scatter,only marks,scatter src=explicit symbolic] table[meta=label] {
-                x y label
-                0 1 a
-                0.3 1.1 a
-                1 1.5 a
-                3 1.8 a
-                10 2.8 a
-                30 5.0 a
-                0.1 1.1 b
-                0.3 1.2 b
-                1 1.4 b
-                3 1.5 b
-                10 2 b
-                };
-
-                %\draw [gray, dotted] (axis cs:0,2.5) -- (axis cs:18.1,2.5)-- (axis cs:18.1,0);
-        \end{axis}
-    \end{tikzpicture}
-
-    \caption{Very rough manual logarithmic fit of decay-time factor to measured values
-    from~\cite{kitamura_effects_2003}(x) and~\cite{mcdougall_propofol_2008}(o).}
-    \label{fig:lambda_fit}
-\end{figure}
-
-
-\subsubsection{Biphasic Effect}
-\todo{obviously: extend this}
+\subsubsection{Biphasic Effect}\label{subsubsec:biphasic-effect}
 A biphasic effect (an initial increase of an effect, that decreases with higher concentrations) in the EEG can be
-observed for many sedatives \cite{kuizenga_quantitative_1998, kuizenga_biphasic_2001}.
-For propofol, a temporary steep increase in EEG amplitude in the 2--20 Hz ranges, loosely correlated with the onset of
-LOC, as well as ROC can be observed.
+observed for many sedatives.
+At low drug-concentrations during induction (and roughly during loss of consciousness)
+there are surges of brain-activity,
+which disappear with further increase of the dosage and the onset of the comatose state.
+Similar observations have been made during the recovery of consciousness,
+when the steadily declining levels of the anaesthetic agent temporarily cause pronounced brain-activity before the
+subject fully regains consciousness.
+For propofol, a temporary steep increase in EEG amplitude,
+loosely correlated with the onset of LOC, as well as ROC can be observed.
+\cite{kuizenga_quantitative_1998, kuizenga_biphasic_2001}
 % Stage-transition, unstable area between two stable states (consciousness/unconsciousness)
 
 
-\subsubsection{Hysteresis of propofol}
+\subsubsection{Hysteresis of propofol}\label{subsubsec:hysteresis}
 
 If the state of a system depends not only on its parameters, but also the systems' history,
 this dependency is called hysteresis.
 The human body often reacts differently to the same concentration of a drug,
 depending on whether the concentration is rising or decaying.
 Hysteresis is well documented during propofol-induced GA~\cite{kuizenga_quantitative_1998,
-    iwakiri_individual_2005,
-    sepulveda_evidence_2018,ferreira_patterns_2020, su_hysteresis_2020}.
-The most prominent effect being a counter-clockwise hysteresis for LOC and ROC (as mentioned
-in~\ref{subsec:realistic-prop-conc-during-ga}).
-The effects on responsiveness of subjects usually start at higher concentrations than they end.
+    iwakiri_individual_2005,sepulveda_evidence_2018,ferreira_patterns_2020, su_hysteresis_2020}.
+The most prominent effect is a counter-clockwise hysteresis for LOC and ROC (as mentioned
+in~\ref{subsubsec:realistic-prop-conc-during-ga});
+The loss on responsiveness of subjects usually start at higher concentrations than its return.
 While some of that effect might be caused by inaccurate PK-Models,
 misgauging the actual effect-site concentration,
-there is a growing body of research that supports the notion that the observed effect is independent of
-pharmacokinetic interference~\cite{hutt_progress_2011, su_hysteresis_2020}.
+there is a growing body of research supporting the notion of neural inertia
+(the brain's resistance to state changes)~\cite{su_hysteresis_2020, ferreira_patterns_2020, luppi_inert_2021}.
+Nonetheless, doubts remain with respect to the origin
+of the observed time-lag~\cite{mckay_pharmacokinetic_pharmacodynamic_2006, sepulveda_evidence_2018}.
 % Therories of reasons: - re-initiation more complex than shutdown, phase-transitions
-\todo{possibly delete the following exemplary graphic:}
-\begin{figure}[H]
-    \centering
-    \pgfplotsset{compat = newest}
-    \begin{tikzpicture}
-        \begin{axis}
-            [
-            xmin = 0, xmax = 1,
-            ymin = 0, ymax = 1,
-            xlabel = {drug concentration},
-            ylabel = {observed effect},
-            ],
-            \node[circle, scale=0.4, draw=red] (I1) at (axis cs:0.3,0.2) {};
-            \node[circle, scale=0.4, draw=red] (I2) at (axis cs:0.6,0.4) {};
-            \node[circle, scale=0.4, draw=black] (I3) at (axis cs:0.8,0.8) {};
-
-            \node[circle, scale=0.4, draw=green] (E1) at (axis cs:0.6,0.7) {};
-            \node[circle, scale=0.4, draw=green] (E2) at (axis cs:0.3,0.4) {};
-
-            \draw [ dotted, -stealth] (axis cs:0,0) -- (I1) ;
-            \draw [ dotted, -stealth] (I1) -- (I2)
-            node[midway, right,font=\tiny]{induction};
-            \draw [dotted, -stealth] (I2) -- (I3);
-
-            \draw [dashed, -stealth] (I3) -- (E1) ;
-            \draw [dashed, -stealth] (E1) -- (E2)
-            node[midway, left, font=\tiny]{emergence};
-            \draw [dashed, -stealth] (E2) -- (axis cs:0.0,0.0);
-        \end{axis}
-    \end{tikzpicture}
-
-    \caption{Hypothetical example of counter-clockwise drug hysteresis}
-    \label{fig:hystersis_in_general}
-\end{figure}

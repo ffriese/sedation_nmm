@@ -1,5 +1,18 @@
 \chapter{Methodology}\label{ch:methodology}
+After establishing the theory required to address our goals,
+the next step is the actual implementation of the two models,
+the validation of their output (\ref{goal:jr_model},~\ref{goal:df_model}),
+and the introduction of a decay-time parameter, which enables modulation of the IPSP (\ref{goal:implement_propofol}).
 
+Instead of implementing the NMMs from scratch,
+multiple existing simulation frameworks were considered as a base for this thesis.
+The PyRates Framework~\cite{gast_pyratespython_2019} was quickly identified as a flexible and powerful choice
+for building custom NMMs.
+The following section introduces the PyRates simulation framework
+and provides examples of the specific implementation of the JR and DF model.
+The implementations are also validated for correctness.
+Furthermore, it discusses how the decay-time parameter is added to the implementation.
+Lastly, it provides some details on the methodology of analysing the generated data.
 
 \input{Chapters/Chapter_03_Methodology/PyRates.tex}
 \input{Chapters/Chapter_03_Methodology/SedationSim.tex}

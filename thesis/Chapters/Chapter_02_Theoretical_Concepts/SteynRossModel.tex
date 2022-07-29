@@ -1,44 +1,30 @@
 \section{Effects observed in the Neural-Field-Model by Steyn-Ross}\label{sec:effects-observed-in-the-neural-field-model-by-steyn-ross}
-\question{should this section maybe be the FIRST instead of the LAST in this chapter?}
-\todo{MAKE THINGS MORE SPECIFIC (frequency ranges, concentrations, etc) WHERE APPLICABLE}
-Steyn-Ross et al.\ \cite{steyn_ross_modelling_2004, steyn_ross_sleep_2005, hutt_progress_2011} developed their
-model of general anaesthesia based on Liley's\cite{liley_continuum_1999} equations for a mean field model of the cortex.
-%\todo{phase-transitions (inherent to the model?)}
-They demonstrated that phase-transitions in the model can account for the abrupt change
+Steyn-Ross et al.~\cite{steyn_ross_modelling_2004, steyn_ross_sleep_2005, hutt_progress_2011} developed their
+model of general anaesthesia based on equations by Liley at al.~\cite{liley_continuum_1999} for a mean field model of the cortex.
+
+They demonstrated that phase-transitions in their model can account for the abrupt change
 in brain-state that occurs during induction of anaesthesia~\cite{steyn_ross_modelling_2004}.
 The transitions in their model occur due to the existence of multiple stable-states for certain ranges of the
 parameters that model the level of anaesthetic agent in the system.
-%\todo{biphasic effect}
-
-An interesting finding of their research was the emergence of high-amplitude oscillations during the phase-transitions
+In general, they report two key-effects that resemble real EEG phenomena observed during GA:
+The first is the emergence of high-amplitude oscillations during the phase-transitions
 of the model.
-They correlated this behavior to the `biphasic` effect occurring in general anaesthesia;
-at low drug-concentrations during induction (and roughly during loss of consciousness)
-there are surges of brain-activity,
-which disappear with further increase of the dosage and the onset of the comatose state.
-Similar observations have been made during the recovery of consciousness,
-when the steadily declining levels of the anaesthetic agent temporarily cause pronounced brain-activity before the
-subject fully regains consciousness.
-%\todo{hysteresis}
-
-Furthermore, the aforementioned effects are not ``symmetrical'',
-meaning the phase-transition on the return path from the ``comatose'' state is not just the reversal of the transition
+They correlated this behavior to the \textbf{biphasic effect} occurring in
+general anaesthesia (see Sec.~\ref{subsubsec:biphasic-effect}).
+Second, the aforementioned effects are not ``symmetrical'',
+meaning the phase-transition on the return trajectory from the ``comatose'' state is not just the reversal of the transition
 during induction.
 Their model predicts that the transition to the comatose state occurs at higher levels of drug concentration than
 the return to the initial state.
-Steyn-Ross et al.\ draw parallels to the real effect of drug-hysteresis (see section ~\ref{sec:general-anaesthesia}).
-\todo{why do these effects emerge? (partially answered in the beginning of the section, we won't go into mathematical
-details like bifurcation analysis here, so i'm not sure yet what to put here...)}
-\todo{what can we conclude from the findings?}
-These findings are especially intriguing, as the causes of observed hysteresis during induction of general
-anaesthesia are yet to be definitively determined~\cite{kuizenga_test_2018, sepulveda_evidence_2018}.
-While there is mounting evidence for neural inertia~\cite{ferreira_patterns_2020},
-the observed time-lag might be sufficiently explained by pharmacokinetics.
-The existence of hysteresis loops in simulated models furthers the theory of neural inertia during loss and recovery
+Steyn-Ross et al.\ draw parallels to the real effect of \textbf{hysteresis},
+described in Sec.~\ref{subsubsec:hysteresis}.
+
+These findings are especially intriguing,
+as the causes of observed hysteresis are yet to be definitively determined (Sec.~\ref{subsubsec:hysteresis}).
+The existence of hysteresis loops in simulated models reinforces the theory of neural inertia during loss and recovery
 of consciousness.
-\todo{can we reproduce these effects with another model?}
-As has been stated before, one of the simplest approaches to population based modeling is the Jansen-Rit Model,
-which has already been described in detail in section ~\ref{subsec:the-jansen-rit-model}.
-Trying to use it as Occam's Razor, it would be interesting to see if it can reproduce the these effects as well.
-\todo{improvement idea: `it might be interesting to find the simplest possible model, which we will delve into in the
-following section...`}
+
+With these effects linked to the models intrinsic dynamics,
+it is desirable to find the simplest possible model to further understand the prerequisites of their emergence.
+In the following sections, we will delve into this experiment,
+by trying to reproduce these findings with the basic JR model and the DF extension (\ref{goal:evaluate}).

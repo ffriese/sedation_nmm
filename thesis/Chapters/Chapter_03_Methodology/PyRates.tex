@@ -1,10 +1,10 @@
 
 \section{Implementation Details}\label{sec:pyrates-framework}
-\incomplete{The whole PyRates section is still very much preliminary}
+
 The PyRates Framework is a Python software framework written by Richard Gast and Daniel Rose at
 the Max-Plank-Institute in Leipzig.
 It can simulate a wide range of graph-representable neural models,
-while setting a focus on rate-based population models~\parencite{gast_pyratespython_2019}.
+while setting a focus on rate-based population models~\cite{gast_pyratespython_2019}.
 It wraps computational backends like Numpy and Tensorflow and offers predefined nodes and
 edges (components that model units like cells or cell populations and the
 connections between them with mathematical equations) to be used,
@@ -14,10 +14,11 @@ Either by YAML-File or within Python code.
 These configurations are then compiled into optimized executable code with respect to
 the chosen backend before being executed.
 It comes with pre-configured model-definitions for some of the most frequently used models, e.g., the basic
-Jansen-Rit Circuit \parencite{jansen_electroencephalogram_1995} and the
-Montbrio-Model \parencite{montbrio_macroscopic_2015}, as well as some variations thereof.
+Jansen-Rit Circuit~\cite{jansen_electroencephalogram_1995} and the
+Montbrio-Model~\cite{montbrio_macroscopic_2015}, as well as some variations thereof.
 It's ease of use, the fact that it could easily reproduce the characteristics of
-the basic Jansen-Rit model out of the box, and the open-source character made it a sensible choice for this thesis.
+the basic Jansen-Rit model out of the box,
+and the open-source character made it a sensible choice for this thesis.
 %\subsection{Network Representations}\label{subsec:network-representations}
 %
 %\subsubsection{YAML Representation}
@@ -38,25 +39,35 @@ the basic Jansen-Rit model out of the box, and the open-source character made it
 %\end{figure}
 %\subsubsection{Python Representation}
 %
-%\begin{figure}[H]
-%	\inputminted[mathescape, frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2,
-%        bgcolor=LightGray, tabsize=4]
-%	{python3}{Chapters/Chapter_02_Theoretical_Concepts/code/python_example.py}
-%
-%	\caption{Python Example for the relevant Operators}\label{fig:figure2}
-%\end{figure}
 
 \subsection{Implementation of the Basic Jansen-Rit Model}\label{subsec:implementation-of-the-jansen-rit-model}
-PyRates works with population models by compositing multiple operators
-like the PSP- (or Rate-To-Potential-) and Sigmoid- (or Potential-To-Rate) Block into nodes.
+PyRates works with population models by compositing multiple basic operators
+(see Fig.~\ref{fig:pyrates_ops_jr} for the definition of all necessary operators)
+like the PSP-Block and Sigmoid-Block into nodes.
 These nodes represent populations that can then be connected via edges (synapses).
 For example, one might combine two PSP-Blocks (for excitatory and inhibitory input, respectively)
 with a Sigmoid Block to create a PC-Node.
-This node can then receive rate-input to each of it's PSP-Blocks and produce rate-output from it's Sigmoid-Block.
+This node can then receive rate-input to each of its PSP-Blocks and produce rate-output from its Sigmoid-Block.
 The EIN- and IIN- nodes are functionally identical and just combine an excitatory PSP-Block with a Sigmoid Block.
-By connecting these Blocks (see Fig. \ref{fig:pyratesJRBlock})
-and adding random input to the excitatory PSP-Block of the PC-Node,
+By connecting these Blocks and adding random input to the excitatory PSP-Block of the PC-Node,
 the simple Jansen-Rit Circuit is already complete.
+Eq.~\ref{eq:pyrates_ode_jr} shows the differential equations that are defined by the implementation,
+while Fig.~\ref{fig:pyratesJRBlock} shows the corresponding Block Diagram.
+The results of Fig.~\ref{fig:jr_c_sweep},
+which perfectly replicate~\cite[Fig. 3]{jansen_electroencephalogram_1995},
+validated the implementation of the model and completed \textbf{Goal 1}.
+
+\begin{figure}[H]
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_block_pyrates}
+    \caption{\textbf{Jansen-Rit Block Diagram as implemented in PyRates:} Each population can be
+    clearly identified by one or more afferent PSP-Blocks and a
+    single Sigmoid that calculates the populations output.
+    This approach is more modular and simplifies conceptual understanding while staying mathematically equivalent.
+    However, due to the explicit fourth PSP-Block it gives up the performance boost.
+    }
+    \label{fig:pyratesJRBlock}
+\end{figure}
+
 \begin{equation}
 	\begin{aligned}
 		\frac{d}{dt}PSP_{EIN} &= PSP_{t_{EIN}} \\
@@ -68,45 +79,56 @@ the simple Jansen-Rit Circuit is already complete.
 		\frac{d}{dt}PSP_{PC_I} &= PSP_{t_{PC_I}} \\
 		\frac{d}{dt}PSP_{t_{PC_I}} &= \fcolorbox{pyratesorange!80}{pyratesorange!10}{$ \color{pyratesorange}\frac{H_i}{\tau_i} \cdot C_4 Sigm[PSP_{IIN}])  -\frac{2}{\tau_i} \cdot PSP_{t_{PC_I}} - \left(\frac{1}{\tau_i}\right)^2 \cdot PSP_{PC_I} $}\\
 		PSP_{PC} &= PSP_{PC_E} - PSP_{PC_I}
-	\end{aligned}\label{eq:equation}
-\end{equation}    
+	\end{aligned}\label{eq:pyrates_ode_jr}
+\end{equation}
 
 \begin{figure}[H]
-\input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_block_pyrates}
-\caption{\textbf{Jansen-Rit Block Diagram as implemented in PyRates:} Each population can be
-clearly identified by one or more afferent PSP-Blocks and a
-single Sigmoid that calculates the populations output.
-This approach is more modular and simplifies conceptual understanding while staying mathematically equivalent.
-However, due to the explicit fourth PSP-Block it gives up the performance boost.
-}
-\label{fig:pyratesJRBlock}
+
+        \inputminted[mathescape, frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2,
+            bgcolor=LightGray, tabsize=4]
+        {python3}{Chapters/Chapter_02_Theoretical_Concepts/code/python_example.py}
+
+	\caption{\textbf{Implementation of all relevant operators.}\\
+    Fig.~\ref{fig:pyratesJRBlock} contains three instances of \texttt{rpo\_e},
+        a single instance of \texttt{rpo\_i} and three instances of \texttt{pro}.}\label{fig:pyrates_ops_jr}
 \end{figure}
 
 \subsection{Implementation of Subpopulations}\label{subsec:implementation-of-subpopulations}
-The subpopulation concept proposed by David and Friston can be easily implemented in PyRates.
-Fig.~\ref{fig:subpop_pyrates} shows the necessary adjustments to the operator template.
+Once the coupled differential equations (Eq.~\ref{eq:davidfriston_subpops}) are properly defined,
+the subpopulation concept proposed by David and Friston can be seamlessly implemented in PyRates.
+Fig.~\ref{fig:subpop_pyrates} shows the necessary adjustments to a generic \texttt{rpo}-operator template
+with two subpopulations,
+which can be used with values for $h_e$ or $h_i$ respectively.
+To ensure correct implementation,
+multiple results from the original work of David \& Friston ~\cite[Fig. 4, Fig. 5, Fig. 6]{david_neural_2003}
+were successfully reproduced and concluded \textbf{Goal 2}.
+As errors in implementation caused crucial (but without direct comparison hardly detectable) derivations in model behavior
+multiple times, this proved to be an invaluable feedback step.
 
 \begin{figure}[H]
-	\inputminted[mathescape, frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2,
-        bgcolor=LightGray, tabsize=4]
-	{python3}{Chapters/Chapter_02_Theoretical_Concepts/code/psp_subpop.py}
-	
+
+        \inputminted[mathescape, frame=lines, linenos, fontsize=\footnotesize, baselinestretch=1.2,
+            bgcolor=LightGray, tabsize=4]
+        {python3}{Chapters/Chapter_02_Theoretical_Concepts/code/psp_subpop.py}
+
 	\caption{PSP Block with two subpopulations in PyRates}\label{fig:subpop_pyrates}
 \end{figure}
 
 
 \subsection{Implementing the Effects of Propofol}\label{subsec:implementing-the-effects-of-propofol}
 
-\subsubsection{Implementing decay-time modulation}
-
-To simulate the effects of propofol on the GABA\textsubscript{A}  receptors,
-the IPSP (inhibitory response function $h_i$) time-constant $\tau_i$ is increased by a factor
-$\lambda$~\cite{hutt_effects_2010}:
-
+As described in Sec.~\ref{sec:general-anaesthesia},
+propofol modulates the GABA\textsubscript{A} receptors and prolongs the decay-time of the IPSP.
+In our model, the inhibitory response function $h_i$ is a direct correlate of the IPSP.
+To simulate the effects of propofol on $h_i$, the time-constant $\tau_i$ is simply increased by a factor
+$\lambda$:
 
 \[ h_i(t)=\frac{H_i}{\lambda \cdot \tau_i}te^{-\frac{1}{\lambda \cdot \tau_i}} \]
-The effect of increasing $\lambda$ for $h_{i_1}$ and $h_{i_2}$ is visualized in Fig.~\ref{fig:PSPInhibLongPlot}.
-
+For the subpopulation model, this applies to $h_{i_0}$ and $h_{i_1}$
+Varying $\lambda$ between $1$ and $3$ appears to be a sensible choice for the clinically relevant range,
+given that $\SI{10}{\micro\molar}$ doubles the decay-time and roughly corresponds with LOC.
+Additionally, Steyn-Ross et al.\ use the same range in their model~\cite{hutt_progress_2011}.
+The effect of increasing $\lambda$ for $h_{i_0}$ and $h_{i_1}$ is visualized in Fig.~\ref{fig:PSPInhibLongPlot}.
 
 \begin{figure}[H]
     \centering
@@ -116,8 +138,8 @@ The effect of increasing $\lambda$ for $h_{i_1}$ and $h_{i_2}$ is visualized in 
             [
             xmin = -1, xmax = 280,
             ymin = 0, ymax = 58.1,
-            xlabel = {$t$ ($ms$)},
-            ylabel = {$h$ ($mV$)},
+            xlabel = {$t$ ($\SI{}{\milli\second}$)},
+            ylabel = {$h$ ($\SI{}{\milli\volt}$)},
             legend pos=north east,
             legend style={nodes={scale=0.8, transform shape}},
             domain = 0:280,
@@ -142,12 +164,12 @@ The effect of increasing $\lambda$ for $h_{i_1}$ and $h_{i_2}$ is visualized in 
         ] at (legend) {
 
             & $\tau$ &    $H$  \\
-            $h_{i_1}(t)$~\ref{plot:psp3} & 22.0ms &  20.0mV \\
-            $h_{i_1}(t)$~\ref{plot:psp5.10} & 44.0ms &  20.0mV \\
-            $h_{i_1}(t)$~\ref{plot:psp5.15} & 66.0ms &  20.0mV \\
-            $h_{i_2}(t)$~\ref{plot:psp4} &  2.9ms & 151.7mV \\
-            $h_{i_2}(t)$~\ref{plot:psp6.10} &  5.8ms & 151.7mV \\
-            $h_{i_2}(t)$~\ref{plot:psp6.15} &  8.7ms & 151.7mV \\
+            $h_{i_0}(t)$~\ref{plot:psp3} & 22.0ms &  20.0mV \\
+            $h_{i_0}(t)$~\ref{plot:psp5.10} & 44.0ms &  20.0mV \\
+            $h_{i_0}(t)$~\ref{plot:psp5.15} & 66.0ms &  20.0mV \\
+            $h_{i_1}(t)$~\ref{plot:psp4} &  2.9ms & 151.7mV \\
+            $h_{i_1}(t)$~\ref{plot:psp6.10} &  5.8ms & 151.7mV \\
+            $h_{i_1}(t)$~\ref{plot:psp6.15} &  8.7ms & 151.7mV \\
         };
     \end{tikzpicture}
 
@@ -158,5 +180,3 @@ The effect of increasing $\lambda$ for $h_{i_1}$ and $h_{i_2}$ is visualized in 
     }
     \label{fig:PSPInhibLongPlot}
 \end{figure}
-Varying $\lambda$ between $1$ ($\SI{0}{\micro\molar}$) and $3.0$ ($\sim\SI{30}{\micro\molar}$) appears to be a
-sensible choice for the clinically relevant range, given Fig.~\ref{fig:lambda_fit}.

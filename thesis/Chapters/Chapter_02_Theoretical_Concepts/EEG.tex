@@ -1,34 +1,4 @@
 \section{EEG}\label{sec:eeg}
-The electroencephalogram (EEG) is a technique to measure brain activity.
-It is obtained by placing electrodes on the scalp and measuring the voltage differences to a reference electrode.
-
-\subsubsection{Measurement}\label{subsubsec:measurement}
-There are multiple factors that hinder measuring brain-activity on the scalp;
-First, the activity of single neurons is far too weak to be measurable through the skull and brain-tissue.
-This means that there have to be many neurons producing more or less the same signal,
-enabling their voltage to add up to measurable amounts, instead of canceling out.
-A similar problem is posed by the spatial orientation of individual neurons.
-Many types of brain-cells are randomly oriented in the brain,
-which leads to their signals canceling out even if they produce synchronized activity.
-The fact that we can measure meaningful EEG activity is largely owed to a specific type of cell,
-called pyramidal cell,
-which happens to form populations that are mostly oriented perpendicular to the surface of the brain.
-A recorded EEG signal consists mainly of the summed postsynaptic potentials (PSPs) of pyramidal cell populations
-close to the surface of the cortex.
-\cite[9--20]{mecarelli_clinical_2019}
-
-\subsubsection{Advantages/Disadvantages}\label{subsubsec:advantages/disadvantages}
-The non-invasive nature of the EEG (compared to surgically inserting electrodes directly in the brain),
-as well as its cost-effectiveness and ease of use,
-make it one of the most useful and accessible neuroimaging tools.
-Additionally, the sub-millisecond temporal resolution enables observations that are impossible with techniques like
-the fMRI.
-However, it also comes with severe limitations;
-The indirect measurement through the skull leads to
-\qquad \todo{spatial/temporal resolution, invasiveness, noise, ...}
-\todo{removal of artifacts}
-
-\subsubsection{Analysis of EEG Signals}
 \begin{wraptable}{r}{5.5cm}
     \centering
     \begin{tabular}{ |c|c| }
@@ -51,43 +21,37 @@ The indirect measurement through the skull leads to
     \caption{\textbf{EEG Frequency Bands}}
     \label{table:freq-bands}
 \end{wraptable}
-EEG signals are typically analyzed with regard to their composition of frequencies over time.
-The resulting spectrograms are often discomposed into specific ranges, called frequency bands,
+The electroencephalogram (EEG) is obtained by placing electrodes on the scalp and
+measuring the voltage differences to a reference electrode.
+%\subsubsection{Measurement}\label{subsubsec:measurement}
+When recording or analyzing EEG signals,
+it is important to understand their origin.
+There are multiple factors that complicate measuring brain-activity on the scalp:
+First, the activity of single neurons is far too weak to be measurable through the skull and brain-tissue.
+This means that there have to be many neurons producing more or less the same signal,
+enabling their voltage to add up to measurable amounts, instead of canceling out.
+A similar problem is posed by the spatial orientation of individual neurons;
+Many types of brain-cells are randomly oriented in the brain,
+which leads to their signals canceling out even if they produce synchronized activity.
+The fact that we can measure meaningful EEG activity is largely owed to a specific type of cell,
+called pyramidal cell,
+which happens to form populations that are mostly oriented perpendicular to the surface of the brain.
+A recorded EEG signal therefore consists mainly of the summed postsynaptic potentials (PSPs) of pyramidal cell populations
+close to the surface of the cortex.
+\cite[9--20]{mecarelli_clinical_2019}
+
+
+\subsubsection{Analysis of EEG Signals}
+EEG signals are typically analysed with regard to their composition of frequencies over time.
+The resulting spectrograms are often grouped into specific ranges, called frequency bands,
 which are associated with different functional relevance.
-The commonly used ranges and their names are summarized in Table~\ref{table:freq-bands}.
+The commonly used ranges and their names \citationneeded are summarized in Table~\ref{table:freq-bands}.
 One of the most common interpretations of the frequency-bands is their relation to states of consciousness.
 For instance, the $\alpha$-band is linked to an awake resting state,
-while the $\delta$-band is linked to deep sleep or coma.
-Usually, these measures become more meaningful when the frequency band powers are analyzed in relation to each other,
-rather than with respect to absolute values.
-\todo{explain spectrogram}
+while the $\delta$-band is linked to deep sleep or coma. \citationneeded
+In many cases, these measures become more meaningful when the frequency band powers are analysed in relation to each
+other,
+rather than with respect to absolute values. \citationneeded
 
-\subsubsection{States of Consciousness in the EEG Signal}\label{subsubsec:states-of-consciousness-in-the-eeg-signal}
-\qquad \todo{how do the states differ in the signal}
+%\todo{explain spectrogram}
 
-
-
-
-
-
-
-
-\subsubsection{Simulation}\label{subsec:simulation}
-
- \qquad \qquad \todo{what can we hope to achieve by simulating an EEG signal}
- \qquad \qquad \todo{which tools are at our disposal (naive frequency mixing,
-    population models, simulating individual neurons, ...)}
- \qquad \qquad \todo{argue about models => why did we land on NMMs/population models?}
- 
-% \begin{itemize}
-%	\item What does the EEG measure?
-%	\item Which advantages and disadvantages come with this measuring method?
-%	\item How do different states of consciousness, especially sedation, appear in the EEG signal?
-%	\item How can these states be detected automatically?
-%	\begin{itemize}
-%		\item How well does that work, where does it fail?
-%		\begin{itemize}
-%			\item Why is automatic detection hard in subjects with DOC?
-%		\end{itemize}
-%	\end{itemize}
-% \end{itemize}
