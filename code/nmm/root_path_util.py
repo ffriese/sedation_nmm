@@ -4,6 +4,12 @@ import sys
 from inspect import FrameInfo
 from pathlib import Path
 
+"""
+credit: https://stackoverflow.com/users/267719/daveoncode
+
+https://stackoverflow.com/a/62510836
+"""
+
 
 def get_project_root_dir() -> Path:
     """
