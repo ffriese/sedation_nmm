@@ -1,11 +1,86 @@
-\chapter{Source Code}\label{ch:source_code}
-
-All Source Code is available on GitHub: \\
-\faIcon{github} \url{https://github.com/ffriese/sedation_nmm}
-\begin{itemize}
-    \item \textcolor{pyratesdarkred}{\faIcon{file-pdf}} Thesis Source Code \textcolor{modernblue}{\LaTeX{}} \\
-        \url{https://github.com/ffriese/sedation_nmm/tree/main/thesis}
-    \item \textcolor{pyratesdarkred}{\faIcon{bezier-curve}} NMM Source Code \textcolor{modernblue}{\faIcon{python}} \\
-        \url{https://github.com/ffriese/sedation_nmm/tree/main/code/nmm}
-\end{itemize}
-
+\chapter{Bandpower Plots}\label{ch:bandpower_plots}
+\pgfplotsset{
+            ymin=0, ymax=1,
+            xmin=0, xmax=1,
+width=7cm}
+\section{Absolute Bandpower Plots}\label{sec:absolute-bandpower-plots}
+Top row: Jansen-Rit model\\
+Bottom row: David-Friston model
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{groupplot}[group style={group size=3 by 2, vertical sep=0mm, horizontal sep=0mm},
+        axis y line=none, axis x line=none]
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/abs_bands/jr_all_bands.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/abs_bands/jr_alpha_delta.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/abs_bands/jr_beta_theta.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/abs_bands/df_all_bands.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/abs_bands/df_alpha_delta.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/abs_bands/df_beta_theta.png};
+        \end{groupplot}
+    \end{tikzpicture}\label{fig:figure2}
+\end{figure}
+\pagebreak
+\section{Relative Bandpower Plots}\label{sec:relative-bandpower-plots}
+Top row: Jansen-Rit model\\
+Bottom row: David-Friston model
+\begin{figure}[H]
+    \begin{tikzpicture}
+        \begin{groupplot}[group style={group size=3 by 2, vertical sep=0mm, horizontal sep=0mm},
+        axis y line=none, axis x line=none]
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/rel_bands/jr_all_bands.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/rel_bands/jr_alpha_delta.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/rel_bands/jr_beta_theta.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/rel_bands/df_all_bands.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/rel_bands/df_alpha_delta.png};
+            \nextgroupplot[]
+                \addplot graphics[includegraphics cmd=\pgfimage,
+            ymin=0, ymax=1,
+            xmin=0, xmax=1]
+                {Figures/appendix/rel_bands/df_beta_theta.png};
+        \end{groupplot}
+    \end{tikzpicture}\label{fig:figure}
+\end{figure}

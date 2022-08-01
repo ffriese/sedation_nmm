@@ -99,6 +99,7 @@ the subpopulation concept proposed by David and Friston can be seamlessly implem
 Fig.~\ref{fig:subpop_pyrates} shows the necessary adjustments to a generic \texttt{rpo}-operator template
 with two subpopulations,
 which can be used with values for $h_e$ or $h_i$ respectively.
+The final block diagram for the DF model in pictured in Fig.~\ref{fig:pyratesDFBlock}.
 To ensure correct implementation,
 multiple results from the original work of David \& Friston ~\cite[Fig. 4, Fig. 5, Fig. 6]{david_neural_2003}
 were successfully reproduced and concluded \textbf{Goal 2}.
@@ -112,6 +113,14 @@ multiple times, this proved to be an invaluable feedback step.
         {python3}{Chapters/Chapter_02_Theoretical_Concepts/code/psp_subpop.py}
 
 	\caption{PSP Block with two subpopulations in PyRates}\label{fig:subpop_pyrates}
+\end{figure}
+
+\begin{figure}[H]
+    \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/df_block_pyrates}
+    \caption{\textbf{David-Friston Block Diagram as implemented in PyRates:}\\
+        Each PSP-Block now consists of a slow and a fast subpopulation.
+    }
+    \label{fig:pyratesDFBlock}
 \end{figure}
 
 

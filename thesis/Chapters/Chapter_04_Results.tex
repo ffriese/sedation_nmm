@@ -10,13 +10,21 @@ While a fully realistic parameter development might be interesting as a next ste
 the general properties of our model under the presence of specific
 concentrations of a GABA\textsubscript{A}-potentiating agent
 are arguably best explored in a systematic fashion, that still follows the general concept of induction and emergence:
-A linear rise to peak dosage, followed by a period of maintenance and a linear decay to the initial condition.
+A short baseline phase, followed by a linear rise to peak dosage,
+a period of maintenance, and a linear decay to the initial condition,
+which is again shortly maintained.
 
 %\section{Exploring realistic parameter ranges}\label{sec:simulation-over-the-parameter-space}
 
-When simulating this time-course over the selected parameter space
-$ \lambda \in \left[ 1, 3 \right] $ for $\SI{150}{\second}$ (see Fig~\ref{fig:sedation_sim_jr} \textbf{A}),
-the following phenomena can be observed:
+Simulating this time-course over the selected parameter space
+$ \lambda \in \left[ 1, 3 \right] $ for $\SI{151}{\second}$ (see Fig~\ref{fig:sedation_sim_jr}a),
+yields a $\SI{1000}{\hertz}$ signal that includes the expected transients described in Sec.~\ref{sec:data-analysis},
+which are consequently removed before continuing.
+This circumstance is naturally regarded in the generation of the time-course,
+that pads the start of the simulation with an additional second of the baseline state.
+The resulting $\SI{150}{\second}$ signal is used to calculate a time-frequency spectrogram
+using the python library function \texttt{matplotlib.pyplot.specgram} with a window-size of \texttt{2048}
+and overlap of \texttt{1798} (\texttt{window\_size-(0.25*freq\_hz)}).
 
 \newtoggle{drawLocRoc}
 
@@ -31,18 +39,17 @@ the following phenomena can be observed:
 \def\rocST{112.88}%48.63
 \def\rocEnd{1.00}
 \def\rocET{144.46}%62.0
-\section{Phenomenology of the Basic JR Model}
-    In the baseline state ($\lambda = 1$), the JR model produces the expected well-defined alpha-activity
-    with a sharp frequency peak at $\SI{11}{\hertz}$ (Fig~\ref{fig:sedation_sim_jr} \textbf{C}).
+\section{Phenomenology of the Basic JR Model}\label{sec:phenomenology-of-the-basic-jr-model}
+In the baseline state ($\lambda = 1$), the JR model produces the expected well-defined alpha-activity
+    with a sharp frequency peak at $\SI{11}{\hertz}$ (Fig~\ref{fig:sedation_sim_jr}c).
 \newremark{Spectrogram Amplitude}{
     At this point, it should be noted
-    that even though the spectrogram (Fig~\ref{fig:sedation_sim_jr} \textbf{C}) appears to contain a frequency range
+    that even though the spectrogram (Fig~\ref{fig:sedation_sim_jr}c) appears to contain a frequency range
     from roughly 6--18Hz at the beginning of the simulation,
     this is misleading.
-    The extremely high-amplitude 12Hz peak has noisy flanks with low amplitudes
-    (compare to Fig.~\ref{fig:jr_psd}, Fig.~\ref{fig:jr_spec}
-    and the scaled plots Fig.~\ref{fig:jr_psd_rescaled}, Fig.~\ref{fig:jr_spec_rescaled}),
-    which are highlighted by the chosen colormap and value range.
+    The extremely high-amplitude 12Hz peak in the calculated spectrum has noisy flanks with low amplitudes,
+    which are highlighted by the chosen colormap and value range (compare to Fig.~\ref{fig:jr_psd}, Fig.~\ref{fig:jr_spec}
+    and the scaled plots Fig.~\ref{fig:jr_psd_rescaled}, Fig.~\ref{fig:jr_spec_rescaled}).
     Their relative contribution to the signal is close to insignificant in this case.
 }
     Increasing the simulated propofol levels first leads to the single dominant frequency at $\SI{11}{\hertz} $
@@ -102,9 +109,9 @@ Section~\ref{subsec:the-david-and-friston-model} introduces the David--Friston m
     as it makes up the whole baseline signal.
 }
     The DF model initially produces a dominant frequency range at $10-20 \SI{}{\hertz} $,
-    which slowly shifts towards $ 5-10 \SI{}{\hertz} $ (Fig~\ref{fig:sedation_sim_df} \textbf{C}) when $\lambda$ starts to increase.
+    which slowly shifts towards $ 5-10 \SI{}{\hertz} $ (Fig~\ref{fig:sedation_sim_df}c) when $\lambda$ starts to increase.
     The mean signal voltage concurrently decreases,
-    while oscillation-amplitude is maintained (Fig~\ref{fig:sedation_sim_df} \textbf{B}).
+    while oscillation-amplitude is maintained (Fig~\ref{fig:sedation_sim_df}b).
     The system appears to be in a stable state until $ \lambda \approx \locStart $,
     where the sudden onset of dramatically
     increasing signal amplitude with strongly pronounced activity below $ \SI{25}{\hertz} $
@@ -159,7 +166,3 @@ Consequently, the "LOC" value-range is far shorter ($\text{length}=0.2$) than th
 ($\text{length}=0.45$).
 In the JR model this effect is present as well, but hardly noticeable,
 since the differences are much smaller ($2.07$ vs $2.0$ and $1.1$ vs $1.0$, range-lengths $1.06$ and $1.0$).
-
-
-\todo{transition into discussion}
-

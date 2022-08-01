@@ -46,9 +46,10 @@ Additionally, there is external excitatory input to the PC population from other
 
 The Block Diagram (Fig.~\ref{fig:Jansen Rit Simple}) shows the individual modules of the model.
 A population consists of two types of blocks:
-The \textit{PSP-Block} models the behavior of the synapses and neuronal somata.
-It can be either excitatory or inhibitory and converts the incoming average pre-synaptic pulse density to
-an average post-synaptic membrane potential by convolving it \iltodo{separate sentences} with an
+The \textit{PSP-Block} models the behavior of the synapses and neuronal somata
+and can be either excitatory or inhibitory.
+It converts the incoming average pre-synaptic pulse density to
+an average post-synaptic membrane potential by convolving it with an
 impulse response function ($h_e(t)$ and $h_i(t)$, for excitation and inhibition respectively).
 The second block (sometimes called \textit{Potential-To-Rate-Block} after it's functionality)
 calculates the populations response to this stimulation, transforming the incoming
@@ -479,7 +480,7 @@ It is clearly visible that the signal is mainly composed of a single sinusoidal 
             \pgfplotsset{compat = newest}
             \begin{tikzpicture}[scale=0.5]
                 \begin{axis}
-                    [
+                    [ylabel=$\SI{}{\volt/\hertz}$
                     ],
                     \addplot [line width=.5pt,solid, cyan]
                         table[x=x,y=y ,col sep=comma]{data/methodology/psd_multitaper_jr.csv};
@@ -639,8 +640,7 @@ as this combination results in the most realistic frequency distribution accordi
 \end{figure}
 
 \subsubsection{Model Output}
-The values chosen by David \& Friston indeed produce a frequency distribution more
-typical for EEG recordings \citationneeded,
+The values chosen by David \& Friston indeed produce a frequency distribution
 with a broad distribution over the alpha and beta bands (Fig.~\ref{fig:df_psd}).
 On average, the frequencies peak in alpha ($~\SI{12}{\hertz}$), as visible in the PSD plot,
 however, the spectrogram (Fig.~\ref{fig:df_spec}) reveals fluctuations of the peak frequency

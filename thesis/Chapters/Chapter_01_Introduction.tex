@@ -32,8 +32,7 @@ level of brain-activity -- to fully understand the mechanisms that lead to its d
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Brain-activity can be measured directly or indirectly.
 Direct measurement with electrodes in the brain, while more accurate,
-poses the obvious problems of its invasive nature and realistically only
-allows very localized measurements \citationneeded.
+poses the obvious problems of its invasive nature.
 Various neuroimaging techniques, which indirectly measure brain-activity, have been used to study levels of
 awareness since their emergence.
 Already in the 1880`s, Angelo Mosso measured scalp-pulse variations in subjects
@@ -41,12 +40,13 @@ with skull-injuries during challenging tasks,
 and concluded an increased blood-flow to the brain~\cite{mosso_ueber_1881}.
 Improved techniques like the fMRI and the EEG allow for non-invasive observation of brain-activity and have been
 used extensively to study the dynamics of the brain during sleep and loss and return of consciousness
-\citationneeded.
+(e.g., ~\cite{murphy_propofol_2011, lee_classification_2017, kuizenga_biphasic_2001, boly_connectivity_2012}
+and many others).
 Some phenomena, like predictable changes in signal-frequencies and some critical brain regions involved in
-consciousness-modulation, e.g., to induce sleep, have been identified and are well documented
-\citationneeded.
+consciousness-modulation, e.g., to induce sleep,
+have been identified and are well documented~\cite{tantirigama_perspective_2020, wu_neuroscience_2018}.
 Techniques to measure levels of consciousness via neuroimaging have been proposed~\cite{sigl_introduction_1994,
-    casali_theoretically_2013} and used in practise~\cite{mathur_bispectral_2022}.
+    casali_theoretically_2013} and used in practice~\cite{mathur_bispectral_2022}.
 However, exact mechanisms behind state-changes are still object of fundamental research~\cite{tantirigama_perspective_2020}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,14 +59,15 @@ as they allow for repeatable conditions~\cite{bonhomme_general_2019}.
 % propofol as a well-understood agent
 Furthermore, the neuro-chemical mechanisms of the drugs provide a good starting-point for modeling these processes.
 The sedative propofol is the most commonly used drug to induce controlled loss of consciousness
-during general anaesthesia (GA)\citationneeded.
-Propofol's neuro-chemical mode of action and its specific effects on synaptic receptors are well understood \citationneeded,
+during general anaesthesia (GA)~\cite{miner_clinical_2007}.
+Propofol's neuro-chemical mode of action and its specific effects on synaptic receptors
+are well understood~\cite{sahinovic_clinical_2018, kitamura_effects_2003},
 which lays a solid foundation to study the brain-dynamics associated with loss of consciousness.
 When it comes to monitoring the brain-activity during anaesthesia,
 the EEG stands out due to its practicability, low cost, and high temporal resolution.
 As a result, there is already a vast body of research in this area.
-Studying the origins and mechanisms behind the measured activity remains immensely challenging, nonetheless,
-largely due to the highly complex interconnected brain itself. \citationneeded
+Studying the origins and mechanisms behind the measured activity remains immensely challenging nonetheless,
+largely due to the highly complex interconnected brain itself.
 
 A promising approach to further our insights step by step, is to simulate state-changes
 like anaesthesia in computer-models to develop an understanding of the dynamics of brain-activity and its
@@ -97,7 +98,7 @@ While the abstract nature of NMMs, along with its limitations must always be
 considered~\cite{deschle_validity_2021},
 the results of simulated experiments can provide valuable research indications.
 %\todo{start section `contribution of this thesis:` to lead into the following}
-\section{Related Work and Goals}\label{sec:related-work-and-goals}
+\section{Related Work \& Goals}\label{sec:related-work-and-goals}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAYBE STOP HERE, REWRITE CONTRIBUTION AND GOALS PART, MOVE OTHER TEXT TO NMM INTRO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,7 +109,8 @@ Lopes da Silva et al.~\cite{lopes_da_silva_model_1974, lopes_da_silva_models_197
 Zetterberg et al.~\cite{zetterberg_performance_1978}.
 It is one of the most simple and basic population models,
 while retaining `a considerable degree of biological realism` and
-`producing a surprisingly rich repertoire of dynamic behaviors`~\cite{knösche_jansen-rit_2014, spiegler_bifurcation_2010}.
+`producing a surprisingly rich repertoire of dynamic behaviors`~\cite{knösche_jansen-rit_2014}.
+~\cite{spiegler_bifurcation_2010}.
 Many efforts in the field are based on the JR NMM (e.g.,~\cite{wendling_relevance_2000, david_neural_2003,
     moran_dynamic_2009, cona_thalamo-cortical_2014, bensaid_coalia_2019} and others).
 
@@ -145,7 +147,7 @@ further consciousness research in that area.
 This work aims to reproduce the behavior observed in Steyn-Ross et al.'s neural field model~\cite{hutt_progress_2011}
 using a neural mass approach based on the JR model,
 thus helping to investigate the prerequisites for the emergence of the phenomena in brain-dynamics typical to
-anaesthesia - specifically the existence of propofol hysteresis
+anaesthesia -- specifically the existence of propofol hysteresis
 and a biphasic effect as reported by~\cite{hutt_progress_2011}.
 While the basic JR model is able to produce rich patterns of dynamic behavior,
 large regions of its parameter-space generate sinusoidal signals with a single pronounced frequency by design,
@@ -154,7 +156,7 @@ Therefore, the subpopulation-extension proposed by David \& Friston~\cite{david_
 produce a more realistic baseline frequency spectrum and provide a broader parameter space.
 
 \vspace{1em}
-\noindent In summmary, this thesis aims to accomplish the following:
+\noindent In summary, this thesis aims to accomplish the following:
 \begin{enumerate}[label=\textbf{Goal \arabic*}:, ref=\textbf{Goal~\arabic*}, align=left, leftmargin=*]
     \item Implement the basic Jansen-Rit model and validate for correct output\label{goal:jr_model}
     \item Extend the model by adding subpopulations as proposed by David-Friston and validate the implementation\label{goal:df_model}
