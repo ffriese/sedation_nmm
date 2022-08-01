@@ -35,12 +35,12 @@ and~\cite{jansen_electroencephalogram_1995}.
 The basic schema of the model is visualized in Fig.~\ref{fig:Jansen Rit Flowchart}, showing the connections
 \begin{wrapfigure}{r}{0.5\textwidth}
     \input{Chapters/Chapter_02_Theoretical_Concepts/tikz/jr_basic_schema_tikz}
-    \caption{\textbf{Basic Schema of the Jansen-Rit Model:} Three populations of neurons}
+    \caption{\textbf{Basic Schema of the Jansen-Rit Model:} Three populations of neurons.}
     \label{fig:Jansen Rit Flowchart}
 \end{wrapfigure}
 between the main components.
-There is a population of Pyramidal Cells which receives input from two populations of inter-neurons,
-one of which is excitatory while the other is inhibitory.
+There is a population of Pyramidal Cells, which receives input from two populations of inter-neurons,
+one of which is excitatory, while the other is inhibitory.
 Each of the inter-neuron-populations receives the output of the PC population.
 Additionally, there is external excitatory input to the PC population from other regions of the brain.
 
@@ -81,7 +81,7 @@ The following subsections will introduce the main components of the model in det
 \subsubsection{Potential-To-Rate Block}
 For a neuron to fire an action potential, its membrane potential needs to surpass a certain threshold.
 In our population model, we need an operator that can transform
-the mean membrane potential of the whole population, into an average firing rate.
+the mean membrane potential of the whole population into an average firing rate.
 %While neurons within the population may have individual firing-thresholds \citationneeded,
 %it can be assumed, due to their sheer number,
 %that these thresholds are normally distributed around some mean value $v_0$ \citationneeded.
@@ -394,7 +394,7 @@ neurotransmitter depletion~\parencite{jansen_electroencephalogram_1995}.
 
 \subsubsection{Model Output}
 Simulated data from $y_1-y_2$ while varying $C$ is plotted in Fig.~\ref{fig:jr_c_sweep},
-which is perfectly reproducing ~\cite[Fig. 3]{jansen_electroencephalogram_1995}.
+which is perfectly reproducing~\cite[Fig. 3]{jansen_electroencephalogram_1995}.
 The desired alpha-activity is clearly visible for $C = 135$,
 which led Jansen \& Rit to their choice of default parameters mentioned in Sec.~\ref{subsubsec:connectivity_constants}.
 The other plots give an insight into the models capabilities of producing varying forms of activity,

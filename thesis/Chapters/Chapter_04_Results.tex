@@ -4,7 +4,8 @@ we can set our sights on \textbf{Goal 4} and run a simulation session that mimic
 As established in Sec.~\ref{subsec:implementing-the-effects-of-propofol},
 $\lambda$ may vary between 1 and 3 to approximate the effects of clinically relevant propofol concentrations.
 A time-course that closely resembles a real concentration-progression during GA seems intuitively desirable,
-but this would complicate a structured analysis of the data, since induction, maintenance and emergence from anaesthesia
+but this would complicate a structured analysis of the data,
+since induction, maintenance, and emergence from anaesthesia
 have a highly asymmetrical concentration development.
 While a fully realistic parameter development might be interesting as a next step,
 the general properties of our model under the presence of specific
@@ -25,7 +26,8 @@ that pads the start of the simulation with an additional second of the baseline 
 The resulting $\SI{150}{\second}$ signal is used to calculate a time-frequency spectrogram
 using the python library function \texttt{matplotlib.pyplot.specgram} with a window-size of \texttt{2048}
 and overlap of \texttt{1798} (\texttt{window\_size-(0.25*freq\_hz)}).
-
+Supporting data in the form of absolute and relative band-power plots can be found in the appendix
+(Fig.~\ref{fig:abs_bands}, Fig.~\ref{fig:rel_bands}).
 \newtoggle{drawLocRoc}
 
 \toggletrue{drawLocRoc}
@@ -56,7 +58,7 @@ In the baseline state ($\lambda = 1$), the JR model produces the expected well-d
     descending towards $\SI{10}{\hertz} $.
     When reaching $\lambda \approx \locStart $,
     there is an onset of heavy oscillations, characterized by dramatically increasing signal amplitude
-    with frequencies peaking at around $5, 10, 15$ and $ \SI{20}{\hertz} $,
+    with frequencies peaking at around $5, 10, 15$, and $ \SI{20}{\hertz} $,
     but extending up to $\approx \SI{35}{\hertz} $.
     The frequency peaks appear at multiples of the `fundamental` frequency of $\SI{5}{\hertz}$,
     which is a well-known phenomenon in spectral analysis called `harmonics`.
@@ -69,8 +71,8 @@ In the baseline state ($\lambda = 1$), the JR model produces the expected well-d
     with the system having apparently reached a different stable state with very low activity.
     Signal amplitude is drastically reduced, with remaining activity mostly below $\SI{10}{\hertz}$.
     The single dominant frequency has disappeared completely.
-    From there on, the mean signal voltage slowly continues to slightly decrease as before,
-    however, the frequency distribution appears to have settled.
+    From there on, the mean signal voltage slowly continues to slightly decrease as before.
+    However, the frequency distribution appears to have settled.
     After reaching peak dosage at $\lambda = 3.0$, maintaining it for a few seconds has no further effects.
     Subsequent concentration decrease has the expected reverse effects:
     At first only the signal voltage slightly increases,
@@ -117,10 +119,10 @@ Section~\ref{subsec:the-david-and-friston-model} introduces the David--Friston m
     increasing signal amplitude with strongly pronounced activity below $ \SI{25}{\hertz} $
     creates multiple strong harmonic frequency peaks.
     Unlike in the JR model, the peaks do not exceed  $ \SI{30}{\hertz} $ and the fundamental frequency starts off
-    at roughly $\SI{3}{\hertz}$,
-    but otherwise the changes to the spectrum are similar to the JR model.
-    Further increasing $\lambda$ has the same minimal effects on the disturbed signal
-    as the increase had before exiting the stable state.
+    at roughly $\SI{3}{\hertz}$.
+    Otherwise, the changes to the spectrum are similar to the JR model.
+    Further increasing $\lambda$ keeps shifting the fundamental frequency and its harmonics down
+    and decreases mean signal voltage.
     The heavy oscillations remain until $\lambda \approx \locEnd $,
     where the dominant frequencies move below $\SI{10}{\hertz}$.
     Continuing, the signal voltage slowly decreases as before,
@@ -139,7 +141,7 @@ Section~\ref{subsec:the-david-and-friston-model} introduces the David--Friston m
 
 \section{Similarities and Differences}
     Both models share some key features during these simulations.
-    Three distinguishable states can be observed.
+    Three distinguishable states can be observed in both models;
     The initial stable state is followed by a state that is defined by strong harmonic frequencies and dramatically
     increased signal amplitude.
     From there, the system transitions into a low-power state with low frequencies,
@@ -166,3 +168,5 @@ Consequently, the "LOC" value-range is far shorter ($\text{length}=0.2$) than th
 ($\text{length}=0.45$).
 In the JR model this effect is present as well, but hardly noticeable,
 since the differences are much smaller ($2.07$ vs $2.0$ and $1.1$ vs $1.0$, range-lengths $1.06$ and $1.0$).
+Overall, the models differ especially in their frequency composition in the baseline-state
+and in their prevalence and symmetry of the transition state.

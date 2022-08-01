@@ -1,7 +1,7 @@
 \chapter{Discussion}
 
 The shared objective of Steyn-Ross et al.\ and this thesis
-is to further understanding of the loss and emergence of consciousness
+is to further the understanding of loss and emergence of consciousness
 by capturing anaesthetic effects in an abstract model of brain activity.
 Steyn-Ross at al.\ were able to show
 that their model produces hysteresis and a biphasic effect~\cite{hutt_progress_2011}.
@@ -23,7 +23,7 @@ occur at slightly different concentrations.
 In the JR model, the biphasic effect occurs very quickly after increasing the IPSP duration, which may in part be due
 to the vicinity of the default values for $\tau_e$ and $\tau_i$ to a parameter-region that produces what David and Friston call
 `hypersignals`~\cite{david_neural_2003}.
-In fact, their exploration of different synaptic kinetics ~\cite[Fig. 4]{david_neural_2003}
+In fact, their exploration of different synaptic kinetics~\cite[Fig. 4]{david_neural_2003}
 is not unlike our modulation of the inhibitory decay-time,
 but differs in the detail that they simultaneously adjust the PSP amplitude to enforce oscillatory behavior.
 This appears to prevent their exploration from encountering a biphasic effect.
@@ -34,7 +34,7 @@ Friston~\cite{david_neural_2003}.
 Their contribution of splitting the populations into subpopulations with different PSP properties
 enables the model to produce signals with more realistic frequency distributions.
 Indeed, the spectra generated during simulated sedation sessions with the default David-Friston model
-(see Fig .\ref{fig:sedation_sim_df}) bear similarities to those observed in
+(see Fig.~\ref{fig:sedation_sim_df}) bear similarities to those observed in
 real EEG recordings during general anaesthesia~\cite{purdon_electroencephalogram_2013}.
 The biphasic effect occurring in the DF model is slightly less prominent than its counterpart in the JR model
 (just like the signal in general lacks the higher amplitude of the basic model)
@@ -55,8 +55,11 @@ provide a good general match to the $\lambda$ values close to $2$.
 Another interesting observation, is that in both models during the `unconscious` state,
 the frequency distribution stabilizes independent of further increasing decay-time.
 This invites a comparison with the real world effect of slow-wave-activity
-saturation ~\cite{ni_mhuircheartaigh_slow_wave_2013}.
-
+saturation~\cite{ni_mhuircheartaigh_slow_wave_2013}.
+The analysis of common EEG frequency bands (see Appendix~\ref{ch:bandpower_plots}) reveals
+some expected developments, e.g., in the baseline-state, alpha (and beta in the DF-model) dominates,
+while in the `unconscious` state there is a prevalence of delta activity.
+This is especially visible in the relative band-power plots (Fig.~\ref{fig:rel_bands}).
 
 The fact that relatively simple computational models can predict the general frequency dynamics occurring during the
 drug-induced loss of consciousness,
@@ -102,7 +105,7 @@ Extending the system into a whole-brain model like COALIA is an obvious step tow
 study anaesthesia dynamics in further detail.
 But even a smaller step in that direction,
 like extending the model to use more than one macro-column could be an improvement and allow exploring other
-dynamics effects of anaesthesia (e.g., burst-supression~\cite{bojak_emergence_2015}).
+dynamic effects of anaesthesia (e.g., burst-supression~\cite{bojak_emergence_2015}).
 
 However, the development of models that aim to simulate anaesthesia is not only valuable for consciousness research.
 Kuhlmann et al.'s~\cite{kuhlmann_neural_2016} efforts to use the JR model for depth-of-anaesthesia tracking
@@ -123,9 +126,9 @@ while also helping to increase the quality of anaesthesia, stabilizing the blood
 Additionally, different anaesthetics have different modes of action that
 lead to unconsciousness~\cite{tantirigama_perspective_2020},
 and produce different EEG signatures.
-This may render current approaches like the Bispectral Index~\cite{mathur_bispectral_2022},
-that have a single (and proprietary) evaluation algorithm based on predetermined EEG features,
-unreliable, as they may struggle to regard the effects of different agents~\cite{avidan_prevention_2011}
+This may render current approaches like the Bispectral Index unreliable~\cite{mathur_bispectral_2022},
+which have a single (and proprietary) evaluation algorithm based on predetermined EEG features,
+as they may struggle to regard the effects of different agents~\cite{avidan_prevention_2011}
 or disentangle interactions of multiple drugs~\cite{kuhlmann_neural_2016}.
 Incorporating knowledge about the modes of action of specific drugs into a population model
 and estimating these parameters might promise more nuanced evaluation of brain states.
