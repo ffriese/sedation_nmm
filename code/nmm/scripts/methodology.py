@@ -38,7 +38,7 @@ class Methodology:
             raise Exception(f'{model} is not allowed. must be either `df` or `jr`')
         results = runner.run(seconds, cut=5.0)
         idx, sig = write_results_to_file(results=results, path=Path(ROOT_DIR, 'thesis', 'data', 'methodology',
-                                                                    f'psd_data_{model}.csv'),
+                                                                    f'psd_data_{model}_{seconds}.csv'),
                                          down_sample_factor=10)
         plt.figure('signal')
         plt.plot(idx, sig)
@@ -48,7 +48,7 @@ class Methodology:
             frequencies, filtered = func(results, None, fs=1000, freq_range=(0, 30))
             write_signal_to_file(index=frequencies, signal=filtered,
                                  path=Path(ROOT_DIR, 'thesis', 'data',  'methodology',
-                                           f'psd_{method}_{model}.csv'))
+                                           f'psd_{method}_{model}_{seconds}.csv'))
             plt.figure(method)
             plt.plot(frequencies, filtered)
             plt.show()
@@ -56,6 +56,6 @@ class Methodology:
 
 if __name__ == '__main__':
     methodology = Methodology()
-    # methodology.initial_oscillations()
-    # methodology.psd_plot_('jr', 20)
-    methodology.psd_plot_('df', 120)
+    methodology.initial_oscillations()
+    methodology.psd_plot_('jr', 35)
+    methodology.psd_plot_('df', 35)

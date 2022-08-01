@@ -108,10 +108,12 @@ class ModelBuilder:
 
     @staticmethod
     def build_jansen_rit_default() -> ExtendedTemplate:
-        # default taus
-        tau_e = 10e-3
-        tau_i = 20e-3
+        return ModelBuilder.build_jansen_rit()
 
+    @staticmethod
+    def build_jansen_rit(tau_e=None, tau_i=None):
+        tau_e = 10e-3 if tau_e is None else tau_e
+        tau_i = 20e-3 if tau_i is None else tau_i
         return ModelBuilder.build_david_friston(
             [Subpopulation(h=ModelBuilder.h_e_from_tau(tau_e), tau=tau_e, w=1.0)],
             [Subpopulation(h=ModelBuilder.h_i_from_tau(tau_i), tau=tau_i, w=1.0)]
